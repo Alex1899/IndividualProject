@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e5b26441-6cca-4d47-a112-54812bf35421" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1WwBhmULVJjVyJU31SzysHZGlZk" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="iproject" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="iproject" />
+      </console-settings>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Parser" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="iproject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Parser.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Parser" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e5b26441-6cca-4d47-a112-54812bf35421" name="Default Changelist" comment="" />
+      <created>1580050897705</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1580050897705</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1949" y="531" width="1092" height="707" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580053665807">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state x="1949" y="531" width="1092" height="707" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.3840.1560@0.0.3840.1560" timestamp="1580053665807" />
+    <state x="1987" y="708" key="FileChooserDialogImpl" timestamp="1580051425964">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state x="1987" y="708" key="FileChooserDialogImpl/0.0.3840.1560@0.0.3840.1560" timestamp="1580051425964" />
+    <state width="1362" height="269" key="GridCell.Tab.0.bottom" timestamp="1580060444321">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1362" height="269" key="GridCell.Tab.0.bottom/0.0.3840.1560@0.0.3840.1560" timestamp="1580060444321" />
+    <state width="1362" height="269" key="GridCell.Tab.0.center" timestamp="1580060444321">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1362" height="269" key="GridCell.Tab.0.center/0.0.3840.1560@0.0.3840.1560" timestamp="1580060444321" />
+    <state width="1362" height="269" key="GridCell.Tab.0.left" timestamp="1580060444321">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1362" height="269" key="GridCell.Tab.0.left/0.0.3840.1560@0.0.3840.1560" timestamp="1580060444321" />
+    <state width="1362" height="269" key="GridCell.Tab.0.right" timestamp="1580060444321">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1362" height="269" key="GridCell.Tab.0.right/0.0.3840.1560@0.0.3840.1560" timestamp="1580060444321" />
+    <state x="1709" y="599" width="998" height="708" key="SettingsEditor" timestamp="1580051440242">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state x="1709" y="599" width="998" height="708" key="SettingsEditor/0.0.3840.1560@0.0.3840.1560" timestamp="1580051440242" />
+    <state x="2335" y="799" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580051718114">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state x="2335" y="799" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3840.1560@0.0.3840.1560" timestamp="1580051718114" />
+    <state x="2376" y="627" width="672" height="678" key="search.everywhere.popup" timestamp="1580051333363">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state x="2376" y="627" width="672" height="678" key="search.everywhere.popup/0.0.3840.1560@0.0.3840.1560" timestamp="1580051333363" />
+  </component>
+</project>
