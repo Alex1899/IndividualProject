@@ -25,6 +25,7 @@ def parse_frames(path_to_jsons, output_folder):
             all_points[num] = keypoints.reshape((25, 3))
 
     print(path_to_jsons)
+    print(all_points[0])
     output = os.path.join(output_folder, os.path.basename(path_to_jsons))
     np.save(output, all_points)
 
