@@ -14,15 +14,4 @@ class FramePose:
 
 
 
-"""
-class Joint:
-    def __init__(self, keypoints):
-        self.x = keypoints[0]
-        self.y = keypoints[1]
-        self.c = keypoints[2]
-        self.exists = self.c != 0
-"""
-
-
-
 

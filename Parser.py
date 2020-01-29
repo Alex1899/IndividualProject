@@ -4,12 +4,6 @@ import os
 import numpy
 from Frame import FramePose
 
-input_folder = "C:\\Users\\AK5U16\\Downloads\\openpose\\bicepvid"
-
-
-def main():
-    parse_frames(input_folder)
-
 
 def parse_frames(path_to_jsons):
     """
@@ -17,6 +11,8 @@ def parse_frames(path_to_jsons):
     :param path_to_jsons: path to the folder where json files extracted using OpenPose are located.
     :return: a list containing FramePose objects where all keypoints for each frame are saved
     """
+    print("Processing..." + "\nVideos from folder: " + os.path.basename(path_to_jsons))
+
     json_files = glob.glob(os.path.join(path_to_jsons, "*.json"))
     num_json_files = len(json_files)
     frame_poses = []
@@ -33,7 +29,7 @@ def parse_frames(path_to_jsons):
 
     for pose in frame_poses:
         normalise(pose, numpy.mean(torso_values))
-        print(numpy.mean(torso_values))
+        #print(numpy.mean(torso_values))
 
     return frame_poses
 
@@ -57,16 +53,15 @@ def normalise(pose, torso_mean):
     """
     new_joint_keypoints = pose.joint_keypoints
     for key, value in new_joint_keypoints.items():
-        print("old value x " + key + " " + str(value[0]) + " " + str(value[1]))
+        # print("old value x " + key + " " + str(value[0]) + " " + str(value[1]))
         # x value
         value[0] = value[0] / torso_mean
         # y value
         value[1] = value[1] / torso_mean
         setattr(pose, "new_joint_keypoints", new_joint_keypoints)
 
+
+"""
     for key, value in new_joint_keypoints.items():
         print("new value x " + key + " " + str(value[0]) + " " + str(value[1]))
-
-
-if __name__ == '__main__':
-    main()
+"""
