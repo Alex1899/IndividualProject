@@ -2596,7 +2596,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/bin" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -2656,10 +2656,10 @@
       <screen x="0" y="0" width="3840" height="1560" />
     </state>
     <state x="1949" y="531" width="1092" height="707" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.3840.1560@0.0.3840.1560" timestamp="1580053665807" />
-    <state x="1027" y="505" width="424" height="480" key="FileChooserDialogImpl" timestamp="1580313280535">
-      <screen x="70" y="27" width="1850" height="1053" />
+    <state x="1987" y="708" width="424" height="480" key="FileChooserDialogImpl" timestamp="1580479251244">
+      <screen x="0" y="0" width="3840" height="1560" />
     </state>
-    <state x="1987" y="708" key="FileChooserDialogImpl/0.0.3840.1560@0.0.3840.1560" timestamp="1580051425964" />
+    <state x="1987" y="708" key="FileChooserDialogImpl/0.0.3840.1560@0.0.3840.1560" timestamp="1580479251244" />
     <state x="1027" y="505" width="424" height="480" key="FileChooserDialogImpl/70.27.1850.1053@70.27.1850.1053" timestamp="1580313280535" />
     <state width="902" height="279" key="GridCell.Tab.0.bottom" timestamp="1580318970337">
       <screen x="70" y="27" width="1850" height="1053" />
@@ -2681,10 +2681,10 @@
     </state>
     <state width="1441" height="235" key="GridCell.Tab.0.right/0.0.3840.1560@0.0.3840.1560" timestamp="1580225510066" />
     <state width="902" height="279" key="GridCell.Tab.0.right/70.27.1850.1053@70.27.1850.1053" timestamp="1580318970337" />
-    <state x="619" y="230" width="900" height="726" key="SettingsEditor" timestamp="1580313352613">
-      <screen x="70" y="27" width="1850" height="1053" />
+    <state x="1585" y="564" width="998" height="713" key="SettingsEditor" timestamp="1580479280824">
+      <screen x="0" y="0" width="3840" height="1560" />
     </state>
-    <state x="1709" y="599" width="998" height="708" key="SettingsEditor/0.0.3840.1560@0.0.3840.1560" timestamp="1580145121539" />
+    <state x="1585" y="564" width="998" height="713" key="SettingsEditor/0.0.3840.1560@0.0.3840.1560" timestamp="1580479280824" />
     <state x="619" y="230" width="900" height="726" key="SettingsEditor/70.27.1850.1053@70.27.1850.1053" timestamp="1580313352613" />
     <state x="1042" y="483" key="com.intellij.ide.util.TipDialog" timestamp="1580319209328">
       <screen x="70" y="27" width="1850" height="1053" />

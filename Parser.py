@@ -11,7 +11,7 @@ def parse_frames(path_to_jsons):
     :param path_to_jsons: path to the folder where json files extracted using OpenPose are located.
     :return: a list containing FramePose objects where all keypoints for each frame are saved
     """
-    print("Processing..." + "\nVideos from folder: " + os.path.basename(path_to_jsons))
+    print("Processing..." + "\nVideo from folder: " + os.path.basename(path_to_jsons))
 
     json_files = glob.glob(os.path.join(path_to_jsons, "*.json"))
     num_json_files = len(json_files)
@@ -29,7 +29,7 @@ def parse_frames(path_to_jsons):
 
     for pose in frame_poses:
         normalise(pose, numpy.mean(torso_values))
-        #print(numpy.mean(torso_values))
+        # print(numpy.mean(torso_values))
 
     return frame_poses
 
