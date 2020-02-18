@@ -1,3 +1,8 @@
+NEW IDEA:
+1) count repetitions, identified minima points
+2) provide analysis of each repetition, of the whole movement 
+
+
 TODO
 BICEP:
 1) can detect if traps are shrugged excessively. (measure angle between shoulder vectors neck vectors)
