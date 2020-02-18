@@ -6,3 +6,26 @@ BICEP:
 New Idea:
 could film exercise from the front , but at some point keypoints are  not visible ...
 
+film bicep curl from 45 degree angle, so that both arms can be detected
+
+TRICEPS:
+1) detect angle between forearm and upperarm
+2) detect angle between upperarm and trunk
+3) detect angle between trunk and knee vector (hips forward) 
+
+film from the side
+
+
+SEATED SHOULDER PRESS:
+1) detect angles between forearms and upperarms
+2) detect angles between upperarms and trunk
+
+film from the front
+
+FRONT RAISE:
+1) angle between forearms and upperarms
+2) angle between upperarms and trunk
+
+could film at 45 degree angle to detect both arms 
+
+
