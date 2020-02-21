@@ -32,5 +32,13 @@ FRONT RAISE:
 2) angle between upperarms and trunk
 
 could film at 45 degree angle to detect both arms 
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Machine Learning Model: Knn Dtw
+
+1) Dataset of 1 reps for each exercise 
+
+save each rep as np array
+
 
 
