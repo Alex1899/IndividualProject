@@ -40,5 +40,40 @@ Machine Learning Model: Knn Dtw
 
 save each rep as np array
 
+IDEA: 
+could have one dataset for each exercises
+pandas Dataframe: 
+Bicep | Label       Front Raise | Label        Shoulders | Label      Triceps | Label
+
+a function that takes folder with video keypoints 
+
+for each video:
+    get y_label for each video from video name (correct, incorrect) 
+    store each angle array untill local max (extract each rep) 
+    create a dictionary (angle array : y_label) 
+    
+    
+-1 video : 
+- 3 arrays of angles; each array has y_label (correct:0, or incorrect:1) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
