@@ -14,22 +14,24 @@ could film exercise from the front , but at some point keypoints are  not visibl
 film bicep curl from 45 degree angle, so that both arms can be detected
 
 TRICEPS:
-1) detect angle between forearm and upperarm
-2) detect angle between upperarm and trunk
-3) detect angle between trunk and knee vector (hips forward) 
+1) detect angle between forearm and upperarm (upArm_forearm_angles)
+2) detect angle between upperarm and trunk (upArm_trunk_angles)
+3) detect angle between trunk and knee vector (trunk_knee_angles) 
+
+
 
 film from the side
 
 
 SEATED SHOULDER PRESS:
-1) detect angles between forearms and upperarms
-2) detect angles between upperarms and trunk
+1) detect angles between forearms and upperarms (upArm_forearm_angles)
+2) detect angles between upperarms and trunk (upArm_trunk_angles)
 
 film from the front
 
 FRONT RAISE:
-1) angle between forearms and upperarms
-2) angle between upperarms and trunk
+1) angle between forearms and upperarms (upArm_forearm_angleS)
+2) angle between upperarms and trunk (upArm_trunk_angles)
 
 could film at 45 degree angle to detect both arms 
 ----------------------------------------------------------------------------------------------------------------------------------------
@@ -51,11 +53,69 @@ for each video:
     get y_label for each video from video name (correct, incorrect) 
     store each angle array untill local max (extract each rep) 
     create a dictionary (angle array : y_label) 
+    add angle arrays to dataframe(ex: Bicep | Label)
     
     
 -1 video : 
 - 3 arrays of angles; each array has y_label (correct:0, or incorrect:1) 
 
+
+
+
+
+----------------------------------------------------------------------------------------
+
+Create joint-angles.py 
+
+def upArm_trunk_angles(video):
+    ...
+    retun upArm_trunk_angles_filtered
+    
+def ...
+
+
+
+
+TEST:
+
+Starting...
+Keypoints from folder: output_points_bicep_correct2
+Detected arm: left
+Largest angles between upper arm and trunk: [4.97587166 3.05899109 0.9839318  4.63095509 6.74689794 4.20127955
+ 1.29454054 0.91715868 4.30186262]
+Largest angles between trunk and knee: [120.01348919 124.82923178 125.04615919 120.01179094 120.82959434
+ 120.10639393 120.21050221 120.75603123 121.00389389]
+Number of maxima points between Upper Arm and Forearm: 1
+[170.00216374]
+Number of reps performed: 2
+[54.49657773 55.47503239]
+
+--------------------------------------------------------------------------------------
+saved code:
+
+
+    # Find upper arm and trunk maximum angles to detect wrong form
+    upArm_trunk_maximas, indexesmax1 = find_extremas(upArm_trunk_angles_filtered)
+    print("Largest angles between upper arm and trunk: " + str(upArm_trunk_maximas))
+
+    # Find trunk and knee maximum angles to detect wrong form
+    trunk_knee_maximas, indexesmax2 = find_extremas(trunk_knee_angles_filtered)
+    print("Largest angles between trunk and knee: " + str(trunk_knee_maximas))
+
+ # Count repetitions
+    upArm_forearm_maximas, indexesmax3 = find_extremas(upArm_forearm_angles_filtered)
+    print("Number of maxima points between Upper Arm and Forearm: " + str(upArm_forearm_maximas.size))
+    print(upArm_forearm_maximas)
+
+    # Find upper arm and forearm minimum points to count reps
+    upArm_forearm_minimas, indexesmin = find_extremas(upArm_forearm_angles_filtered, maxima=False)
+    print("Number of reps performed: " + str(upArm_forearm_minimas.size))
+    print(upArm_forearm_minimas)
+
+
+
+------------------------------------------------------------------------------------
+Correct chaotic output, probably some keypoint error check again 
 
 
 

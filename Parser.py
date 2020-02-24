@@ -3,6 +3,7 @@ import json
 import os
 import numpy
 from Frame import FramePose
+from JointAngles import JointAngles
 
 
 def parse_frames(path_to_jsons):
@@ -25,13 +26,25 @@ def parse_frames(path_to_jsons):
 
     torso_values = numpy.array([])
     for pose in frame_poses:
-        torso_values = numpy.append(torso_values, [distance(pose.joint_keypoints['NECK'], pose.joint_keypoints['MIDHIP'])])
+        torso_values = numpy.append(torso_values,
+                                    [distance(pose.joint_keypoints['NECK'], pose.joint_keypoints['MIDHIP'])])
 
     for pose in frame_poses:
         normalise(pose, numpy.mean(torso_values))
         # print(numpy.mean(torso_values))
 
     return frame_poses
+
+
+# Calculates joint angles in each video frame
+def get_video_joint_angles(folder_paths, string):
+    video_joint_angles = []
+    for folder in folder_paths:
+        video_name = os.path.basename(folder).replace('output_points_', '')
+        frame_poses = parse_frames(folder)
+        joint_angles = JointAngles(string, frame_poses, video_name)
+        video_joint_angles.append(joint_angles)
+    return video_joint_angles
 
 
 def distance(joint1, joint2):
