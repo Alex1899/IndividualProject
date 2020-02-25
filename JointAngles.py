@@ -5,12 +5,9 @@ from Functions import detect_side
 
 
 class JointAngles:
-    def __init__(self, string, frame_poses, video_name):
+    def __init__(self, string, frame_poses):
         if string == 'bicep curl' or string == 'front raise' or string == 'triceps pushdown':
             self.side = detect_side(frame_poses)
-            self.video_name = video_name
-            print('Detected arm: ' + self.side)
-
             self.forearm_vects, self.upArm_vects = [], []
             self.trunk_vects, self.knee_vects = [], []
             self.upArm_forearm_angles, self.upArm_trunk_angles = [], []
@@ -44,7 +41,6 @@ class JointAngles:
 
         elif string == 'shoulder press':
             self.side = 'front'
-            self.video_name = video_name
             print('Detected arm: ' + self.side)
 
             self.left_upArm_vects, self.right_upArm_vects = [], []
@@ -147,7 +143,7 @@ def get_upper_arm_trunk_angles(trunk_vects, upper_arm_vects1, upper_arm_vects2=N
 
 
 def get_upper_arm_forearm_angles(upper_arm_vects1, forearm_vects1, upper_arm_vects2=None, forearm_vects2=None):
-    if upper_arm_vects2 is None:
+    if upper_arm_vects2 is None and forearm_vects2 is None:
         upArm_forearm_angle = calc_angle(upper_arm_vects1, forearm_vects1)
         # might use Kalman filter or something later instead
         return upArm_forearm_angle

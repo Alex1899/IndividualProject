@@ -5,33 +5,19 @@ import math
 # Detecting sides (left or right) on videos
 # can use this method for other exercises
 def detect_side(frame_poses):
-    side = ''
-    rside_joints = [
-        pose.joint_keypoints['RSHOULDER'] + pose.joint_keypoints['RELBOW'] + pose.joint_keypoints['RWRIST'] +
-        pose.joint_keypoints['RHIP'] + pose.joint_keypoints['RKNEE'] for pose in frame_poses
-        if pose.joint_keypoints['RSHOULDER'][2] != 0 and pose.joint_keypoints['RELBOW'][2] != 0 and
-        pose.joint_keypoints['RWRIST'][2] != 0 and pose.joint_keypoints['RHIP'][2] != 0 and
-        pose.joint_keypoints['RKNEE'][2] != 0]
-
-    lside_joints = [
-        pose.joint_keypoints['LSHOULDER'] + pose.joint_keypoints['LELBOW'] + pose.joint_keypoints['LWRIST'] +
-        pose.joint_keypoints['LHIP'] + pose.joint_keypoints['LKNEE'] for pose in frame_poses
-        if pose.joint_keypoints['LSHOULDER'][2] != 0 and pose.joint_keypoints['LELBOW'][2] != 0 and
-        pose.joint_keypoints['LWRIST'][2] != 0 and pose.joint_keypoints['LHIP'][2] != 0 and
-        pose.joint_keypoints['LKNEE'][2] != 0]
-
+    rside_joints = [pose.joint_keypoints['RSHOULDER'] + pose.joint_keypoints['RELBOW'] + pose.joint_keypoints['RWRIST'] + pose.joint_keypoints['RHIP'] + pose.joint_keypoints['RKNEE'] for pose in frame_poses 
+                    if pose.joint_keypoints['RSHOULDER'][2]!=0 and pose.joint_keypoints['RELBOW'][2]!=0 and pose.joint_keypoints['RWRIST'][2]!=0 and pose.joint_keypoints['RHIP'][2]!=0 and pose.joint_keypoints['RKNEE'][2]!=0]
+    
+    lside_joints = [pose.joint_keypoints['LSHOULDER'] + pose.joint_keypoints['LELBOW'] +  pose.joint_keypoints['LWRIST'] + pose.joint_keypoints['LHIP'] + pose.joint_keypoints['LKNEE'] for pose in frame_poses 
+                    if pose.joint_keypoints['LSHOULDER'][2]!=0 and pose.joint_keypoints['LELBOW'][2]!=0 and pose.joint_keypoints['LWRIST'][2]!=0 and pose.joint_keypoints['LHIP'][2]!=0 and pose.joint_keypoints['LKNEE'][2]!=0]
+    
     # think about the case when they are equal
-    rcount, lcount = 0, 0
-    for r, l in zip(rside_joints, lside_joints):
-        rcount += len(r)
-        lcount += len(l)
-
-    if rcount > lcount:
+    if len(rside_joints) > len(lside_joints): 
         side = 'right'
-        return side
-    else:
+    else: 
         side = 'left'
-        return side
+    
+    return side
 
 
 # Finds extrema points in numpy arrray
@@ -80,8 +66,9 @@ def _boolrelextrema(data, comparator, axis=0, order=1, mode='clip'):
 # local minima points are minimum angles in each rep, no need to calc again
 def analyse_each_rep(angles1, angles2, angles3, maximas):
     if maximas.size == 0:
-        return 0
+        return None
     list_maxs, uf_points, ut_points, tk_points = [], [], [], []
+    angles_each_rep = []
     rep_count = 0
     max_counter = 0
     for (tk_p, uf_p, ut_p) in zip(angles1, angles2, angles3):
@@ -102,17 +89,25 @@ def analyse_each_rep(angles1, angles2, angles3, maximas):
                 list_maxs.append(uf_p)
                 rep_count += 1
                 max_counter += 1
+                """
                 print('Repetition: ' + str(rep_count))
                 print("Minimum angle between upper arm and forearm: " + str(min(uf_points)))
                 print("Maximum angle between upper arm and trunk: " + str(max(ut_points)))
                 print("Maximum angle between trunk and knee: " + str(max(tk_points)))
                 print('\n')
+                """
                 # then do if statements to check if angles above/below threshold
-                ut_points, tk_points = [], []
+                angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
+                # erase lists 
+                uf_points, ut_points, tk_points = [], [], []
 
     # Last rep analysis
+    """
     print('Repetition: ' + str(rep_count + 1))
     print("Minimum angle between upper arm and forearm: " + str(min(uf_points)))
     print("Maximum angle between upper arm and trunk: " + str(max(ut_points)))
     print("Maximum angle between trunk and knee: " + str(max(tk_points)))
-    return 1
+    """
+    
+    angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
+    return angles_each_rep
