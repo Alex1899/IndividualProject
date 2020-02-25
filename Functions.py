@@ -89,25 +89,25 @@ def analyse_each_rep(angles1, angles2, angles3, maximas):
                 list_maxs.append(uf_p)
                 rep_count += 1
                 max_counter += 1
-                """
+                
                 print('Repetition: ' + str(rep_count))
                 print("Minimum angle between upper arm and forearm: " + str(min(uf_points)))
                 print("Maximum angle between upper arm and trunk: " + str(max(ut_points)))
                 print("Maximum angle between trunk and knee: " + str(max(tk_points)))
                 print('\n')
-                """
+                
                 # then do if statements to check if angles above/below threshold
                 angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
                 # erase lists 
                 uf_points, ut_points, tk_points = [], [], []
 
     # Last rep analysis
-    """
+    
     print('Repetition: ' + str(rep_count + 1))
     print("Minimum angle between upper arm and forearm: " + str(min(uf_points)))
     print("Maximum angle between upper arm and trunk: " + str(max(ut_points)))
     print("Maximum angle between trunk and knee: " + str(max(tk_points)))
-    """
+    
     
     angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
     return angles_each_rep
