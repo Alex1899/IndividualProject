@@ -11,6 +11,8 @@ class FramePose:
         # Map each joint to corresponding keypoint (x,y,c)
         for joint_name, points in zipped:
             self.joint_keypoints[joint_name] = points
+           
+        
 
 
 

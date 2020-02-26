@@ -28,7 +28,8 @@ def parse_frames(path_to_jsons):
         torso_values = numpy.append(torso_values,[distance(pose.joint_keypoints['NECK'], pose.joint_keypoints['MIDHIP'])])
 
     for pose in frame_poses:
-        normalise(pose, numpy.mean(torso_values))
+        normalise(pose, numpy.mean(torso_values).item())
+    
         
     return frame_poses
 

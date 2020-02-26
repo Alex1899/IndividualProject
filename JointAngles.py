@@ -24,6 +24,9 @@ class JointAngles:
                              posture.joint_keypoints['LWRIST'], posture.joint_keypoints['LHIP'],
                              posture.joint_keypoints['LKNEE'], posture.joint_keypoints['NECK'],
                              posture.joint_keypoints['MIDHIP']]
+                
+               
+                # need to filter keypoints
 
                 forearm_vect = get_forearm_vectors(parts)
                 self.forearm_vects.append(forearm_vect)
@@ -41,8 +44,6 @@ class JointAngles:
 
         elif string == 'shoulder press':
             self.side = 'front'
-            print('Detected arm: ' + self.side)
-
             self.left_upArm_vects, self.right_upArm_vects = [], []
             self.left_forearm_vects, self.right_forearm_vects = [], []
             self.left_forearm_vects, self.right_forearm_vects = [], []

@@ -10,6 +10,9 @@ def detect_side(frame_poses):
     
     lside_joints = [pose.joint_keypoints['LSHOULDER'] + pose.joint_keypoints['LELBOW'] +  pose.joint_keypoints['LWRIST'] + pose.joint_keypoints['LHIP'] + pose.joint_keypoints['LKNEE'] for pose in frame_poses 
                     if pose.joint_keypoints['LSHOULDER'][2]!=0 and pose.joint_keypoints['LELBOW'][2]!=0 and pose.joint_keypoints['LWRIST'][2]!=0 and pose.joint_keypoints['LHIP'][2]!=0 and pose.joint_keypoints['LKNEE'][2]!=0]
+    print('Right side: '+str(len(rside_joints)))
+    print('Left  side: '+str(len(lside_joints)))
+      
     
     # think about the case when they are equal
     if len(rside_joints) > len(lside_joints): 
@@ -93,7 +96,7 @@ def analyse_each_rep(angles1, angles2, angles3, maximas):
                 print('Repetition: ' + str(rep_count))
                 print("Minimum angle between upper arm and forearm: " + str(min(uf_points)))
                 print("Maximum angle between upper arm and trunk: " + str(max(ut_points)))
-                print("Maximum angle between trunk and knee: " + str(max(tk_points)))
+                print("Minimum angle between trunk and knee: " + str(min(tk_points)))
                 print('\n')
                 
                 # then do if statements to check if angles above/below threshold
@@ -106,7 +109,7 @@ def analyse_each_rep(angles1, angles2, angles3, maximas):
     print('Repetition: ' + str(rep_count + 1))
     print("Minimum angle between upper arm and forearm: " + str(min(uf_points)))
     print("Maximum angle between upper arm and trunk: " + str(max(ut_points)))
-    print("Maximum angle between trunk and knee: " + str(max(tk_points)))
+    print("Minimum angle between trunk and knee: " + str(min(tk_points)))
     
     
     angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
