@@ -69,6 +69,10 @@ Videos:
 bicep_correct_5,6,7 -  person in the background, points are not clear
 all points are with num_people_max 1
 
+--------------------------------------------------------------------
+Dataset:
+Some nan values present in dataset due to obscured keypoints(probably)
+replaced them with 0s
 
 
 
