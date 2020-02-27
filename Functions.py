@@ -5,17 +5,27 @@ import math
 # Detecting sides (left or right) on videos
 # can use this method for other exercises
 def detect_side(frame_poses):
-    rside_joints = [pose.joint_keypoints['RSHOULDER'] + pose.joint_keypoints['RELBOW'] + pose.joint_keypoints['RWRIST'] + pose.joint_keypoints['RHIP'] + pose.joint_keypoints['RKNEE'] for pose in frame_poses 
-                    if pose.joint_keypoints['RSHOULDER'][2]!=0 and pose.joint_keypoints['RELBOW'][2]!=0 and pose.joint_keypoints['RWRIST'][2]!=0 and pose.joint_keypoints['RHIP'][2]!=0 and pose.joint_keypoints['RKNEE'][2]!=0]
+    rside_joints = [1 for pose in frame_poses if pose.joint_keypoints['RSHOULDER'][2]!=0 and \
+                         pose.joint_keypoints['RELBOW'][2]!=0 and \
+                         pose.joint_keypoints['RWRIST'][2]!=0 and \
+                         pose.joint_keypoints['RHIP'][2]!=0 and \
+                         pose.joint_keypoints['RKNEE'][2]!=0]
+                      
+                      
     
-    lside_joints = [pose.joint_keypoints['LSHOULDER'] + pose.joint_keypoints['LELBOW'] +  pose.joint_keypoints['LWRIST'] + pose.joint_keypoints['LHIP'] + pose.joint_keypoints['LKNEE'] for pose in frame_poses 
-                    if pose.joint_keypoints['LSHOULDER'][2]!=0 and pose.joint_keypoints['LELBOW'][2]!=0 and pose.joint_keypoints['LWRIST'][2]!=0 and pose.joint_keypoints['LHIP'][2]!=0 and pose.joint_keypoints['LKNEE'][2]!=0]
-    print('Right side: '+str(len(rside_joints)))
-    print('Left  side: '+str(len(lside_joints)))
+    lside_joints = [1 for pose in frame_poses if pose.joint_keypoints['LSHOULDER'][2]!=0 and \
+                         pose.joint_keypoints['LELBOW'][2]!=0 and \
+                         pose.joint_keypoints['LWRIST'][2]!=0 and \
+                         pose.joint_keypoints['LHIP'][2]!=0 and \
+                         pose.joint_keypoints['LKNEE'][2]!=0]
+                      
+    
+    print('Right side: '+str(sum(rside_joints)))
+    print('Left  side: '+str(sum(lside_joints)))
       
     
     # think about the case when they are equal
-    if len(rside_joints) > len(lside_joints): 
+    if sum(rside_joints) > sum(lside_joints): 
         side = 'right'
     else: 
         side = 'left'

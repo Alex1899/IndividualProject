@@ -74,6 +74,10 @@ Dataset:
 Some nan values present in dataset due to obscured keypoints(probably)
 replaced them with 0s
 
+---------------------------------------------------------------------------------------------
+
+Keypoints:
+Some keypoint folder names are messed up 
 
 
 

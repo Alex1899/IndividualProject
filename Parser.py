@@ -21,16 +21,15 @@ def parse_frames(path_to_jsons):
             file_json = json.load(obj)
             keypoints = numpy.array(file_json['people'][0]['pose_keypoints_2d'])
             pose = FramePose(keypoints.reshape((25, 3)))
+            # add only frames in which points are present for required joints
             frame_poses.append(pose)
 
     torso_values = numpy.array([])
-    for pose in frame_poses:
-        torso_values = numpy.append(torso_values,[distance(pose.joint_keypoints['NECK'], pose.joint_keypoints['MIDHIP'])])
-
-    for pose in frame_poses:
-        normalise(pose, numpy.mean(torso_values).item())
+    torso_values = numpy.append(torso_values,[distance(pose.joint_keypoints['NECK'], pose.joint_keypoints['MIDHIP']) for pose in frame_poses])
+    mean_torso_value = numpy.mean(torso_values)
     
-        
+    frame_poses = [normalise(pose, mean_torso_value) for pose in frame_poses]
+          
     return frame_poses
 
 
@@ -52,14 +51,17 @@ def normalise(pose, torso_mean):
     :param pose: a FramePose objects
     :param torso_mean: mean torso value
     """
-    new_joint_keypoints = pose.joint_keypoints
-    for key, value in new_joint_keypoints.items():
+    
+    for key, value in pose.joint_keypoints.items():
         # print("old value x " + key + " " + str(value[0]) + " " + str(value[1]))
         # x value
-        value[0] = value[0] / torso_mean
+        pose.joint_keypoints[key][0] = pose.joint_keypoints[key][0] / torso_mean
         # y value
-        value[1] = value[1] / torso_mean
-        setattr(pose, "new_joint_keypoints", new_joint_keypoints)
+        pose.joint_keypoints[key][1] = pose.joint_keypoints[key][1] / torso_mean
+   
+    return pose
+    
+     
 
 
 """
