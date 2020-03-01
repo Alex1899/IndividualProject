@@ -12,21 +12,16 @@ class JointAngles:
             # filtered keypoints
 
             if self.side == 'right':
-                 parts = [[posture.joint_keypoints['RSHOULDER'], posture.joint_keypoints['RELBOW'],
-                             posture.joint_keypoints['RWRIST'], posture.joint_keypoints['RHIP'],
-                             posture.joint_keypoints['RKNEE'], posture.joint_keypoints['NECK'],
-                             posture.joint_keypoints['MIDHIP']] for posture in frame_poses if posture.joint_keypoints['RSHOULDER'][2]!=0 and \
-                             posture.joint_keypoints['RELBOW'][2]!=0 and posture.joint_keypoints['RWRIST'][2]!=0 and posture.joint_keypoints['RHIP'][2]!=0 and \
-                             posture.joint_keypoints['RKNEE'][2]!=0 and posture.joint_keypoints['MIDHIP'][2]!=0 and posture.joint_keypoints['NECK'][2]!=0]
+                joints = ['RSHOULDER', 'RELBOW', 'RWRIST', 'RHIP', 'RKNEE', 'NECK', 'MIDHIP']
+
+                parts = [[posture.joint_keypoints[joint] for joint in joints] for posture in frame_poses]
+                parts_filtered = [part for part in parts if all(joint_points[2] != 0 for joint_points in part)]
 
             else:
-                parts = [[posture.joint_keypoints['LSHOULDER'], posture.joint_keypoints['LELBOW'],
-                             posture.joint_keypoints['LWRIST'], posture.joint_keypoints['LHIP'],
-                             posture.joint_keypoints['LKNEE'], posture.joint_keypoints['NECK'],
-                             posture.joint_keypoints['MIDHIP']] for posture in frame_poses if posture.joint_keypoints['LSHOULDER'][2]!=0 and \
-                             posture.joint_keypoints['LELBOW'][2]!=0 and posture.joint_keypoints['LWRIST'][2]!=0 and posture.joint_keypoints['LHIP'][2]!=0 and \
-                             posture.joint_keypoints['LKNEE'][2]!=0 and posture.joint_keypoints['MIDHIP'][2]!=0 and posture.joint_keypoints['NECK'][2]!=0]
+                joints = ['LSHOULDER', 'LELBOW', 'LWRIST', 'LHIP', 'LKNEE', 'NECK', 'MIDHIP']
 
+                parts = [[posture.joint_keypoints[joint] for joint in joints] for posture in frame_poses]
+                parts_filtered = [part for part in parts if all(joint_points[2] != 0 for joint_points in part)]
 
             forearm_vects = get_forearm_vectors(parts) 
             print('Size 1: ' + str(len(forearm_vects)))
@@ -52,28 +47,13 @@ class JointAngles:
             joints = ['LSHOULDER', 'RSHOULDER', 'LELBOW', 'RELBOW', 'LWRIST', 'RWRIST',
                       'NECK', 'MIDHIP']
 
-            for joint in joints:
-                parts = [[posture.joint_keypoints[joint]] for posture in frame_poses]
+            parts = [[posture.joint_keypoints[joint] for joint in joints] for posture in frame_poses]
 
-            parts_filtered = [part for part in parts if all(part[2] != 0)]
+            parts_filtered = [part for part in parts if all(joint_points[2] != 0 for joint_points in part)]
 
-
-
-            """
-            parts = [[posture.joint_keypoints['LSHOULDER'], posture.joint_keypoints['RSHOULDER'],
-                      posture.joint_keypoints['LELBOW'], posture.joint_keypoints['RELBOW'],
-                      posture.joint_keypoints['LWRIST'], posture.joint_keypoints['RWRIST'],
-                      posture.joint_keypoints['NECK'], posture.joint_keypoints['MIDHIP']] for posture in frame_poses if posture.joint_keypoints['RSHOULDER'][2] != 0 and
-                      posture.joint_keypoints['RELBOW'][2]!=0 and posture.joint_keypoints['RWRIST'][2]!=0 and posture.joint_keypoints['RHIP'][2]!=0 and \
-                      posture.joint_keypoints['RKNEE'][2]!=0 and posture.joint_keypoints['LSHOULDER'][2]!=0 and posture.joint_keypoints['LELBOW'][2]!=0 and \
-                      posture.joint_keypoints['LWRIST'][2]!=0 and posture.joint_keypoints['LHIP'][2]!=0 and \
-                      posture.joint_keypoints['LKNEE'][2]!=0 and posture.joint_keypoints['MIDHIP'][2]!=0 and posture.joint_keypoints['NECK'][2]!=0]
-            """
-
-            print('Parts size: ' + str(len(parts_filtered)))
             self.left_forearm_vects, self.right_forearm_vects = get_forearm_vectors(parts, view='front')
             self.left_upArm_vects, self.right_upArm_vects = get_upper_arm_vectors(parts, view='front')
-            self.trunk_vects = get_trunk_vectors(parts)
+            self.trunk_vects = get_trunk_vectors(parts, view='front')
 
             self.left_upArm_forearm_angles, self.right_upArm_forearm_angles = get_upper_arm_forearm_angles(self.right_upArm_vects,
                                                                                     self.right_forearm_vects,
@@ -125,10 +105,14 @@ def get_forearm_vectors(parts, view='side'):
 
 
 # Does not need view change
-def get_trunk_vectors(parts):
-    # Neck - MidHip
-    trunk_vects = [[part[5][0] - part[6][0], part[5][1] - part[6][1]] for part in parts]
-    return trunk_vects
+def get_trunk_vectors(parts, view='side'):
+    if view == 'side':
+        # Neck - MidHip
+        trunk_vects = [[part[5][0] - part[6][0], part[5][1] - part[6][1]] for part in parts]
+        return trunk_vects
+    elif view == 'front':
+        trunk_vects = [[part[6][0] - part[7][0], part[6][1] - part[7][1]] for part in parts]
+        return trunk_vects
 
 
 # For now front view not needed (no exercise)
