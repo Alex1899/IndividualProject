@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5b26441-6cca-4d47-a112-54812bf35421" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/iproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/iproject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Bicep-curl-analysis-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Bicep-curl-analysis-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/KNN-DTW-Bicep-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/KNN-DTW-Bicep-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Shoulder-press-analysis-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Shoulder-press-analysis-checkpoint.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Bicep-curl-analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Bicep-curl-analysis.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JointAngles.py" beforeDir="false" afterPath="$PROJECT_DIR$/JointAngles.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KNN-DTW-Bicep.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/KNN-DTW-Bicep.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Shoulder-press-analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Shoulder-press-analysis.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
