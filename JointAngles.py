@@ -42,8 +42,6 @@ class JointAngles:
 
         elif string == 'shoulder press':
             self.side = 'front'
-            print('Frame pose size: ' + str(len(frame_poses)))
-
             joints = ['LSHOULDER', 'RSHOULDER', 'LELBOW', 'RELBOW', 'LWRIST', 'RWRIST',
                       'NECK', 'MIDHIP']
 
@@ -63,7 +61,6 @@ class JointAngles:
             self.left_upArm_trunk_angles, self.right_upArm_trunk_angles = get_upper_arm_trunk_angles(self.trunk_vects,
                                                                                     self.left_upArm_vects,
                                                                                     self.right_upArm_vects)
-            print(len(self.left_upArm_trunk_angles))
         else:
             print("Either typed the exercise name wrong or typed some new exercise")
 

@@ -19,12 +19,9 @@ def parse_frames(path_to_jsons):
     for num in range(num_json_files):
         with open(json_files[num]) as obj:
             file_json = json.load(obj)
-            if file_json['people'] == []:
-                continue
-            else:
+            if len(file_json['people']) > 0:
                 keypoints = numpy.array(file_json['people'][0]['pose_keypoints_2d'])
                 pose = FramePose(keypoints.reshape((25, 3)))
-                # add only frames in which points are present for required joints
                 frame_poses.append(pose)
 
     torso_values = numpy.array([])
