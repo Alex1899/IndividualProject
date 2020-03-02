@@ -19,9 +19,10 @@ def parse_frames(path_to_jsons):
     for num in range(num_json_files):
         with open(json_files[num]) as obj:
             file_json = json.load(obj)
-            keypoints = numpy.array(file_json['people'][0]['pose_keypoints_2d'])
-            pose = FramePose(keypoints.reshape((25, 3)))
-            frame_poses.append(pose)
+            if len(file_json['people']) > 0:
+                keypoints = numpy.array(file_json['people'][0]['pose_keypoints_2d'])
+                pose = FramePose(keypoints.reshape((25, 3)))
+                frame_poses.append(pose)
 
     torso_values = numpy.array([])
     for pose in frame_poses:
