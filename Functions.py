@@ -74,12 +74,10 @@ def _boolrelextrema(data, comparator, axis=0, order=1, mode='clip'):
 
 # Count frames between two extrema points
 def find_frames_between_extremas(extrema1, extrema2, angles_array):
-
     index1 = np.argwhere(angles_array == extrema1)[0][0]
     index2 = np.argwhere(angles_array == extrema2)[0][0]
-    print(index1, index2)
     nums = np.arange(index1 + 1, index2)
-    print(nums)
+    print(index1, index2)
     pm = np.take(angles_array, nums)
     count = pm.size
 
@@ -87,65 +85,66 @@ def find_frames_between_extremas(extrema1, extrema2, angles_array):
 
 
 # filter extrema points
-def filter_extremas(angles_array, extremas_array):
-    count1 = 0
+def filter_extremas(angles_array, extremas_array, maxima=False):
+    if maxima = False:
+        count1 = 0
 
-    # do not count points before first extrema point
-    indexes = np.argwhere(angles_array == extremas_array[0])
-    print('first extrema index: ' + str(indexes[0][0]))
-    angles_array = np.delete(angles_array, np.arange(indexes[0][0]))
+        # do not count points before first extrema point
+        indexes = np.argwhere(angles_array == extremas_array[0])
+        print('first extrema index: ' + str(indexes[0][0]))
+        angles_array = np.delete(angles_array, np.arange(indexes[0][0]))
 
-    extremas = extremas_array
+        extremas = extremas_array
 
-    # calculate the average count value
-    count_list = []
-    for x_point in angles_array:
-        if x_point not in extremas:
-            count1 += 1
-        else:
-            extremas = extremas[1:]
+        # calculate the average count value
 
-            if count1 == 0:
-                continue
+        count_list = []
+        for x_point in angles_array:
+            if x_point not in extremas:
+                count1 += 1
             else:
-                count_list.append(count1)
-                count1 = 0
+                extremas = extremas[1:]
 
-    # use the average count list to filter extrema points
-    print(count_list)
-    average_count = int(sum(count_list) / len(count_list))
-    print('average count: ' + str(average_count))
+                if count1 == 0:
+                    continue
+                else:
+                    count_list.append(count1)
+                    count1 = 0
+        print('Extrema array size: ' + str(extremas_array.size))
+        print('Count list:' + str(count_list))
+        print('length count list: ' + str(len(count_list)))
+        count_diffs = np.absolute(np.diff(np.array(count_list)))
+        threshold = max(count_list) - min(count_diffs) - len(count_list)
+        print('threshold is: ' + str(threshold))
+        ls = [n for n in count_list if n < threshold]
+        print("ls size: " + str(len(ls)))
+        print("ls list: " + str(ls))
+        print(extremas_array)
+        if len(ls) > 0:
+            indxs_to_delete = [count_list.index(n) for n in ls]
+            print('indexes to delete: ' + str(indxs_to_delete))
+            print('size: ' + str(len(indxs_to_delete)))
+            size1 = extremas_array.size
+            extremas_array_copy = extremas_array
 
-    size = extremas_array.size
-    print(size)
-    for i in range(size):
-        while i < size:
-            n = i + 1
-            point1 = extremas_array[i]
-            point2 = extremas_array[n]
-            count2 = find_frames_between_extremas(point1, point2, angles_array)
-            if count2 < average_count:
+            for idx in indxs_to_delete:
+                if idx + 1 < size1:
+                    point1 = extremas_array_copy[idx]
+                    point2 = extremas_array_copy[idx + 1]
+                    start_point = min(point1, point2)
+                    remove_point = max(point1, point2)
+                    b = np.argwhere(extremas_array_copy == remove_point)[0][0]
+                    print('remove point '+str(b))
+                    extremas_array = np.delete(extremas_array, b)
+                    indx = np.argwhere(extremas_array == start_point)[0][0]
+                    print('index ' + str(indx))
+                    count = find_frames_between_extremas(start_point, extremas_array[indx+1], angles_array)
+                    count_list.insert(idx, count)
 
-                extremas_array = np.delete(extremas_array, n)
-                print('size after: ' +str(size))
-        print('exit loop')
-
-
-    # use average degree change to filter extremas
-    # currenlty n is 10
-    average_degree_change = abs(10 * (sum(np.diff(extremas_array)) / len(np.diff(extremas_array))))
-
-    print("diff array: " + str(np.diff(extremas_array)))
-    print('threshold for degree change: ' + str(average_degree_change))
-    # filter by average degree change
-
-    for i in range(size):
-        while i < size:
-            n = i + 1
-            point1 = extremas_array[i]
-            point2 = extremas_array[n]
-            if abs(point1 - point2) > average_degree_change:
-                extremas_array = np.delete(extremas_array, n)
+            length = extremas_array.size
+            print('length new array: ' + str(length))
+            print("new array: " + str(extremas_array))
+''
 
     return extremas_array
 
@@ -278,10 +277,10 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                     right_max_counter += 1
                     right_rep_count += 1
                     right_reps[right_rep_count] = [
-                            'Right upper arm - left forearm -> Minimum Angle:' + str(min(right_uf_points)),
-                            'Right upper arm - left forearm -> Maximum Angle:' + str(max(right_uf_points)),
-                            'Right upper arm - trunk -> Maximum Angle: ' + str(max(right_ut_points)),
-                            'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n']
+                        'Right upper arm - left forearm -> Minimum Angle:' + str(min(right_uf_points)),
+                        'Right upper arm - left forearm -> Maximum Angle:' + str(max(right_uf_points)),
+                        'Right upper arm - trunk -> Maximum Angle: ' + str(max(right_ut_points)),
+                        'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n']
 
                     # then do if statements to check if angles above/below threshold
                     angles_each_rep_right.extend((np.array(right_uf_points), np.array(right_ut_points)))
