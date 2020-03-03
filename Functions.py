@@ -84,67 +84,97 @@ def find_frames_between_extremas(extrema1, extrema2, angles_array):
     return count
 
 
-# filter extrema points
-def filter_extremas(angles_array, extremas_array, maxima=False):
-    if maxima = False:
-        count1 = 0
+def remove_bad_points(indexes_to_delete, threshold, extremas_array, count_list, angles_array, maxima=True):
 
-        # do not count points before first extrema point
-        indexes = np.argwhere(angles_array == extremas_array[0])
-        print('first extrema index: ' + str(indexes[0][0]))
-        angles_array = np.delete(angles_array, np.arange(indexes[0][0]))
 
-        extremas = extremas_array
+        return count_list
 
-        # calculate the average count value
 
-        count_list = []
-        for x_point in angles_array:
-            if x_point not in extremas:
-                count1 += 1
+def count_frames_between_extrema(angles_array, extremas_array):
+    count1 = 0
+    # do not count points before first extrema point
+    indexes = np.argwhere(angles_array == extremas_array[0])
+    print('first extrema index: ' + str(indexes[0][0]))
+    angles_array = np.delete(angles_array, np.arange(indexes[0][0]))
+
+    extremas = extremas_array
+    # calculate the average count value
+
+    count_list = []
+    for x_point in angles_array:
+        if x_point not in extremas:
+            count1 += 1
+        else:
+            extremas = extremas[1:]
+
+            if count1 == 0:
+                continue
             else:
-                extremas = extremas[1:]
+                count_list.append(count1)
+                count1 = 0
 
-                if count1 == 0:
-                    continue
-                else:
-                    count_list.append(count1)
-                    count1 = 0
-        print('Extrema array size: ' + str(extremas_array.size))
-        print('Count list:' + str(count_list))
-        print('length count list: ' + str(len(count_list)))
-        count_diffs = np.absolute(np.diff(np.array(count_list)))
-        threshold = max(count_list) - min(count_diffs) - len(count_list)
-        print('threshold is: ' + str(threshold))
-        ls = [n for n in count_list if n < threshold]
-        print("ls size: " + str(len(ls)))
-        print("ls list: " + str(ls))
-        print(extremas_array)
-        if len(ls) > 0:
-            indxs_to_delete = [count_list.index(n) for n in ls]
-            print('indexes to delete: ' + str(indxs_to_delete))
-            print('size: ' + str(len(indxs_to_delete)))
-            size1 = extremas_array.size
-            extremas_array_copy = extremas_array
+    return count_list
 
-            for idx in indxs_to_delete:
-                if idx + 1 < size1:
-                    point1 = extremas_array_copy[idx]
-                    point2 = extremas_array_copy[idx + 1]
-                    start_point = min(point1, point2)
-                    remove_point = max(point1, point2)
-                    b = np.argwhere(extremas_array_copy == remove_point)[0][0]
-                    print('remove point '+str(b))
-                    extremas_array = np.delete(extremas_array, b)
-                    indx = np.argwhere(extremas_array == start_point)[0][0]
-                    print('index ' + str(indx))
-                    count = find_frames_between_extremas(start_point, extremas_array[indx+1], angles_array)
-                    count_list.insert(idx, count)
 
-            length = extremas_array.size
-            print('length new array: ' + str(length))
-            print("new array: " + str(extremas_array))
-''
+# filter extrema points
+def filter_extremas(angles_array, extremas_array, maxima=True):
+
+    count_list = count_frames_between_extrema(angles_array, extremas_array)
+
+    print('Extrema array size: ' + str(extremas_array.size))
+    print('Count list:' + str(count_list))
+    print('length count list: ' + str(len(count_list)))
+    count_diffs = np.absolute(np.diff(np.array(count_list)))
+    threshold = max(count_list) - (2 * min(count_diffs)) - len(count_list)
+    print('threshold is: ' + str(threshold))
+    ls = [n for n in count_list if n < threshold]
+    print("ls list: " + str(ls))
+    print(extremas_array)
+    if len(ls) > 0:
+        indexes_to_delete = [count_list.index(n) for n in ls]
+        print('indexes to delete: ' + str(indexes_to_delete))
+        print('size: ' + str(len(indexes_to_delete)))
+
+        for idx in indexes_to_delete:
+            if idx == 0:
+                point2 = extremas_array[idx + 1]
+
+            else:
+                if count_list[idx - 1] >= threshold:
+                    if idx + 1 >= extremas_array.size:
+                        point2 = extremas_array[idx - 1]
+                    else:
+                        point2 = extremas_array[idx + 1]
+
+            point1 = extremas_array[idx]
+            min_point = min(point1, point2)
+            max_point = max(point1, point2)
+            if maxima:
+                point_to_remove = min_point
+                start_point = max_point
+            else:
+                point_to_remove = max_point
+                start_point = min_point
+
+            print('point to remove' + str(point_to_remove))
+            b = np.argwhere(extremas_array == point_to_remove)
+            print('point to remove index: ' + str(b))
+            extremas_array = np.delete(extremas_array, b)
+            print("start_points: " + str(start_point))
+            indx = np.argwhere(extremas_array == start_point)
+            print('start point index: ' + str(indx))
+            if indx[0][0] + 1 < extremas_array.size:
+                count = find_frames_between_extremas(start_point, extremas_array[indx[0][0]+1], angles_array)
+                if count >= threshold:
+                    count_list[idx] = count
+                    # after removing the bad point, count the frames between the p-1 and p+1 , if result > threshold,
+                    # add to list, repeat until no bad points left. return updated count list.
+                    # also need to check is the threshold is a good value ....
+        length = extremas_array.size
+
+        print('length new array: ' + str(length))
+        print("new array: " + str(extremas_array))
+        print("new count list: " + str(count_list))
 
     return extremas_array
 
