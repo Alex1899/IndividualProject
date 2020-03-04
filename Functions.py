@@ -110,17 +110,19 @@ def count_angles_between_extremas(angles_array, extremas_array):
     return count_list
 
 
-def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, threshold,  maxima=True):
-    ls = [n for n in count_list if n < threshold]
+def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, threshold,  maxima=True):
     points_to_delete = []
-    indexes_to_remove = []
+    counts_to_remove = []
+    ls_copy = ls
     print('\n')
     print('count list: ' + str(count_list))
     print('averagage count: ' + str(threshold))
+    print('counts less than threshold : ls: ' + str(ls))
     size = len(ls)
     if size > 0:
         while len(ls) != 0:
             for n in ls:
+                print('ls count: ' + str(n))
                 idx = count_list.index(n)
                 point1 = extremas_array[idx]
                 point2 = extremas_array[idx+1]
@@ -133,17 +135,33 @@ def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, thresh
                 else:
                     point_to_remove = max_point
                     start_point = min_point
+
+                # store points and indexes to remove
                 points_to_delete.append(point_to_remove)
-                # remove bad points and counts where it was used
-                indexes_to_remove.extend((idx, idx + 1))
-            for n in indexes_to_remove:
-                if count_list[n] in ls:
-                    ls.remove(count_list[n])
-                count_list.pop(n)
-                #finish tomo
+                point_to_remove_index = np.argwhere(extremas_array == point_to_remove)[0][0]
+
+                print('count: ' + str(count_list[idx]))
+
+                if not set(ls_copy).issubset(set(counts_to_remove)):
+					if point_to_remove_index == idx:
+						counts_to_remove.extend((count_list[idx-1], count_list[idx]))
+					else:
+						if idx == len(count_list) - 1:
+							counts_to_remove.append(count_list[idx])
+						counts_to_remove.extend((count_list[idx], count_list[idx+1]))
+				print(counts_to_remove)
+                ls = ls[1:]
+
+            print('counts_to_remove ' + str(counts_to_remove))
+
+        for n in counts_to_remove:
+            print('count to remove: ' + str(n))
+            count_list.remove(n)
+            print('count list after: ' + str(count_list))
+
         for n in points_to_delete:
-            indx = np.argwhere(extremas_array == n)
-            extremas_array = np.delete(extremas_array, indx)
+            index = np.argwhere(extremas_array == n)
+            extremas_array = np.delete(extremas_array, index)
         print('New extrema array: ' + str(extremas_array))
         print('new count list: ' + str(count_list))
 
@@ -160,6 +178,8 @@ def filter_extremas(angles_array, extremas_array,  maxima=True):
     print('average change threshold: ' + str(average_change))
 
     if average_change > 10:
+        print('\n')
+        print('Filtering by average angle change....')
         for point1, point2 in itertools.combinations(extremas_array, 2):
             max_angle = max(point1, point2)
             min_angle = min(point1, point2)
@@ -176,11 +196,18 @@ def filter_extremas(angles_array, extremas_array,  maxima=True):
         return extremas_array
 
     else:
+        print('\n')
+        print(' Testing to filter by number of angles inbetween....')
         count_list = count_angles_between_extremas(angles_array, extremas_array)
         avr_count = int(sum(count_list) / len(count_list))
-        extremas_array = filter_extrema_by_angles_number_inbetween(extremas_array, count_list, avr_count, maxima)
-
-    return extremas_array
+        print('count_list: ' + str(count_list))
+        ls = [n for n in count_list if n < avr_count]
+        if avr_count - min(ls) > 25:
+            print('Filtering by number of angles inbetween....')
+            extremas_array = filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, avr_count, maxima)
+            return extremas_array
+        else:
+            return extremas_array
 
 
 # Could modify this function to use across other exercise classes
