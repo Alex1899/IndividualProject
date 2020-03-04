@@ -74,9 +74,116 @@ Some nan values present in dataset due to obscured keypoints(probably)
 replaced them with 0s
 
 ---------------------------------------------------------------------------------------------
+Filtering extrema points:
 
-Keypoints:
-Some keypoint folder names are messed up 
+filter by number of angles between extremas -> NOT OPTIMAL
+count frames between extrema points;
+get the average frame change between each extrema point;
+find two points where frame change is less than average change;
+add minimum/maximum point of these two points to points_to_remove list;
+remove the counts from count list where this point was used; 
+check if there are counts less than threshold
+repeat if there are;
+else remove points_to_remove from extrema array;
+return the count_list, extrema_array
+---------------------------------------------------------------------------------------
+    count_list = count_frames_between_extrema(angles_array, extremas_array)
+    print('\n')
+    print('Extrema array size: ' + str(extremas_array.size))
+    print(extremas_array)
+    print('Count list:' + str(count_list))
+    # print('length count list: ' + str(len(count_list)))
+    count_diffs = np.absolute(np.diff(np.array(count_list)))
+    threshold = max(count_list) - (2 * min(count_diffs)) - len(count_list)
+    print('threshold is: ' + str(threshold))
+    ls = [n for n in count_list if n < threshold]
+    print("ls list: " + str(ls))
+    if len(ls) > 0:
+        indexes_to_delete = [count_list.index(n) for n in ls]
+        print('indexes to delete: ' + str(indexes_to_delete))
+
+        for idx in indexes_to_delete:
+            if idx == 0:
+                point2 = extremas_array[idx + 1]
+
+            else:
+                if count_list[idx - 1] >= threshold:
+                    if idx + 1 >= extremas_array.size:
+                        point2 = extremas_array[idx - 1]
+                    else:
+                        point2 = extremas_array[idx + 1]
+
+            point1 = extremas_array[idx]
+            min_point = min(point1, point2)
+            max_point = max(point1, point2)
+            if maxima:
+                point_to_remove = min_point
+                start_point = max_point
+            else:
+                point_to_remove = max_point
+                start_point = min_point
+
+            print('point to remove ' + str(point_to_remove))
+            b = np.argwhere(extremas_array == point_to_remove)
+            print('point to remove index: ' + str(b))
+            extremas_array = np.delete(extremas_array, b)
+            print("start_point: " + str(start_point))
+            indx = np.argwhere(extremas_array == start_point)
+            print('start point index: ' + str(indx))
+            if indx[0][0] + 1 < extremas_array.size:
+                count = find_frames_between_extremas(start_point, extremas_array[indx[0][0]+1], angles_array)
+                if count >= threshold:
+                    count_list[idx] = count
+                    print('new count for index: ' + str(idx) + ': ' + str(count))
+                    print('updated count list: ' + str(count_list))
+
+                    # after removing the bad point, count the frames between the p-1 and p+1 , if result > threshold,
+                    # add to list, repeat until no bad points left. return updated count list.
+                    # also need to check is the threshold is a good value ....
+        length = extremas_array.size
+
+        print('length new array: ' + str(length))
+        print("new array: " + str(extremas_array))
+        print("new count list: " + str(count_list))
+--------------------------------------------------------------------------------------------
+
+
+--------------------------------------------------
+NEW IDEA:
+average angle change is the tempo of the rep;
+could use it to check how fast reps are performed;
+--------------------------------------------------
+
+
+filter by average angle change;
+get the difference of each extrema point in array
+get the average difference; 
+in a for loop check if difference of each point is more than average difference
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
