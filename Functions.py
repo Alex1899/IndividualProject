@@ -73,11 +73,10 @@ def _boolrelextrema(data, comparator, axis=0, order=1, mode='clip'):
 
 
 # Count frames between two extrema points
-def count_angles_between_two_extremas(extrema1, extrema2, angles_array):
+def count_angles_between_two_points(extrema1, extrema2, angles_array):
     index1 = np.argwhere(angles_array == extrema1)[0][0]
     index2 = np.argwhere(angles_array == extrema2)[0][0]
     nums = np.arange(index1 + 1, index2)
-    print(index1, index2)
     pm = np.take(angles_array, nums)
     count = pm.size
 
@@ -115,7 +114,8 @@ def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, th
     counts_to_remove = []
     ls_copy = ls
     print('\n')
-    print('count list: ' + str(count_list))
+    print('extrema array size: ' + str(extremas_array.size))
+    print('\n')
     print('averagage count: ' + str(threshold))
     print('counts less than threshold : ls: ' + str(ls))
     size = len(ls)
@@ -124,6 +124,8 @@ def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, th
             for n in ls:
                 print('ls count: ' + str(n))
                 idx = count_list.index(n)
+                print('point1 idx: ' + str(idx))
+                print('point2 idx: ' + str(idx+1))
                 point1 = extremas_array[idx]
                 point2 = extremas_array[idx+1]
                 min_point = min(point1, point2)
@@ -137,33 +139,39 @@ def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, th
                     start_point = min_point
 
                 # store points and indexes to remove
+                print('\n')
+                print('p1: ' + str(point1) + ' - p2: ' + str(point2))
                 points_to_delete.append(point_to_remove)
+                print('delete: ' + str(point_to_remove))
+                print('points to delete: ' + str(points_to_delete))
                 point_to_remove_index = np.argwhere(extremas_array == point_to_remove)[0][0]
 
                 print('count: ' + str(count_list[idx]))
 
                 if not set(ls_copy).issubset(set(counts_to_remove)):
-					if point_to_remove_index == idx:
-						counts_to_remove.extend((count_list[idx-1], count_list[idx]))
-					else:
-						if idx == len(count_list) - 1:
-							counts_to_remove.append(count_list[idx])
-						counts_to_remove.extend((count_list[idx], count_list[idx+1]))
-				print(counts_to_remove)
+                    if point_to_remove_index == idx:
+                        counts_to_remove.extend((count_list[idx-1], count_list[idx]))
+                    else:
+                        if idx == len(count_list) - 1:
+                            counts_to_remove.append(count_list[idx])
+                        else:
+                            counts_to_remove.extend((count_list[idx], count_list[idx+1]))
+                    print(counts_to_remove)
                 ls = ls[1:]
+                # count_list.remove(n)
 
             print('counts_to_remove ' + str(counts_to_remove))
 
         for n in counts_to_remove:
             print('count to remove: ' + str(n))
-            count_list.remove(n)
-            print('count list after: ' + str(count_list))
-
-        for n in points_to_delete:
-            index = np.argwhere(extremas_array == n)
-            extremas_array = np.delete(extremas_array, index)
+            if n in count_list:
+                count_list.remove(n)
+        print('count list after: ' + str(count_list))
+        print('\npoints to delete: ' + str(points_to_delete))
+        index_list = [np.argwhere(extremas_array == n)[0][0] for n in points_to_delete]
+        extremas_array = np.delete(extremas_array, index_list)
         print('New extrema array: ' + str(extremas_array))
-        print('new count list: ' + str(count_list))
+        print('size: ' + str(extremas_array.size))
 
     return extremas_array
 
@@ -180,34 +188,51 @@ def filter_extremas(angles_array, extremas_array,  maxima=True):
     if average_change > 10:
         print('\n')
         print('Filtering by average angle change....')
-        for point1, point2 in itertools.combinations(extremas_array, 2):
+        to_be_removed = []
+        size = extremas_array.size
+        for n in range(size):
+            if n + 1 == size:
+                break
+
+            point1 = extremas_array[n]
+            point2 = extremas_array[n+1]
             max_angle = max(point1, point2)
             min_angle = min(point1, point2)
+
             if maxima:
                 point_to_remove = min_angle
+
             else:
                 point_to_remove = max_angle
 
             if float(max_angle - min_angle) > average_change:
-                indx = np.argwhere(extremas_array == point_to_remove)
-                extremas_array = np.delete(extremas_array, indx)
+                to_be_removed.append(np.argwhere(extremas_array == point_to_remove)[0][0])
+
+        removed_by_angle_change = [extremas_array[n] for n in to_be_removed]
+        print('angles removed: '+str(removed_by_angle_change))
+        extremas_array = np.delete(extremas_array, to_be_removed)
         print('New extrema array: ' + str(extremas_array))
         print('\n')
-        return extremas_array
 
-    else:
-        print('\n')
-        print(' Testing to filter by number of angles inbetween....')
-        count_list = count_angles_between_extremas(angles_array, extremas_array)
-        avr_count = int(sum(count_list) / len(count_list))
-        print('count_list: ' + str(count_list))
-        ls = [n for n in count_list if n < avr_count]
+    print('\n')
+    print(' Testing to filter by number of angles inbetween....')
+    count_list = count_angles_between_extremas(angles_array, extremas_array)
+    avr_count = int(sum(count_list) / len(count_list))
+    threshold = avr_count / 2
+    print('count_list: ' + str(count_list))
+
+    ls = [n for n in count_list if n < threshold]
+    if len(ls) > 0:
         if avr_count - min(ls) > 25:
             print('Filtering by number of angles inbetween....')
-            extremas_array = filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, avr_count, maxima)
+            extremas_array = filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, threshold, maxima)
+            print('array filtered..')
+
             return extremas_array
-        else:
-            return extremas_array
+
+    print('No filtering required..')
+
+    return extremas_array
 
 
 # Could modify this function to use across other exercise classes
@@ -263,21 +288,20 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                     # erase lists
                     uf_points, ut_points, tk_points = [], [], []
 
-        print('Loop exited\n\n')
-        print('Extrema size' + str(extremas1.size))
-        print('Reps:' + str(rep_count))
+        if count_angles_between_two_points(extremas1[-1:], uf_angles1a[-1:], uf_angles1a) > 50:
+            # Last rep analysis
+            rep_count += 1
+            all_reps[rep_count] = [
+                "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
+                "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
+                "Minimum angle between trunk and knee: " + str(min(tk_points))]
 
-        # Last rep analysis
-        rep_count += 1
-        all_reps[rep_count] = [
-            "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
-            "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
-            "Minimum angle between trunk and knee: " + str(min(tk_points))]
+            angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
 
-        angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
         if string == 'dataset':
             return angles_each_rep
         elif string == 'analysis':
+            print('Number of reps performed: ' + str(rep_count))
             for k, v in all_reps.items():
                 print('\n' + 'Repetition: ' + str(k) + '\n')
                 for s in v:
@@ -348,43 +372,51 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                     # erase lists
                     right_uf_points, right_ut_points = [], []
 
-        # Last rep analysis
-        left_rep_count += 1
-        left_reps[left_rep_count] = [
-            'Left upper arm - left forearm -> Minimum Angle:' + str(min(left_uf_points)),
-            'Left upper arm - left forearm -> Maximum Angle:' + str(max(left_uf_points)),
-            'Left upper arm - trunk -> Maximum Angle: ' + str(max(left_ut_points)),
-            'Left upper arm - trunk -> Minimum Angle: ' + str(min(left_ut_points)) + '\n']
+        count_left = count_angles_between_two_points(extremas1[-1:], uf_angles1a[-1:], uf_angles1a)
+        count_right = count_angles_between_two_points(extremas2[-1:], uf_angles1b[-1:], uf_angles1b)
+        print('angles between left last extrema and angle: ' + str(count_left))
+        print('angles between right last extrema and angle: ' + str(count_right))
 
-        # then do if statements to check if angles above/below threshold
-        angles_each_rep_left.extend((np.array(left_uf_points), np.array(left_ut_points)))
+        if count_left > 20:
+            # Last rep analysis
+            left_rep_count += 1
+            left_reps[left_rep_count] = [
+                'Left upper arm - left forearm -> Minimum Angle:' + str(min(left_uf_points)),
+                'Left upper arm - left forearm -> Maximum Angle:' + str(max(left_uf_points)),
+                'Left upper arm - trunk -> Maximum Angle: ' + str(max(left_ut_points)),
+                'Left upper arm - trunk -> Minimum Angle: ' + str(min(left_ut_points)) + '\n']
 
-        right_rep_count += 1
-        right_reps[right_rep_count] = [
-            'Right upper arm - left forearm -> Minimum Angle:' + str(min(right_uf_points)),
-            'Right upper arm - left forearm -> Maximum Angle:' + str(max(right_uf_points)),
-            'Right upper arm - trunk -> Maximum Angle: ' + str(max(right_ut_points)),
-            'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n']
+            # then do if statements to check if angles above/below threshold
+            angles_each_rep_left.extend((np.array(left_uf_points), np.array(left_ut_points)))
 
-        # then do if statements to check if angles above/below threshold
-        angles_each_rep_right.extend((np.array(right_uf_points), np.array(right_ut_points)))
+        if count_right > 20:
+            right_rep_count += 1
+            right_reps[right_rep_count] = [
+                'Right upper arm - left forearm -> Minimum Angle:' + str(min(right_uf_points)),
+                'Right upper arm - left forearm -> Maximum Angle:' + str(max(right_uf_points)),
+                'Right upper arm - trunk -> Maximum Angle: ' + str(max(right_ut_points)),
+                'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n']
+
+            # then do if statements to check if angles above/below threshold
+            angles_each_rep_right.extend((np.array(right_uf_points), np.array(right_ut_points)))
 
         all_reps = {}
+        print('lef rep count: ' + str(left_rep_count))
+        print('right rep count: ' + str(right_rep_count))
         # Combine dicts for all reps
         if left_rep_count == right_rep_count:
             ds = [left_reps, right_reps]
             for key in left_reps.keys():
                 all_reps[key] = tuple(d[key] for d in ds)
-        else:
-            print(left_rep_count)
-            print(right_rep_count)
-            print("Rep counts for left and right are not equal")
 
-        if string == 'dataset':
-            return angles_each_rep_left, angles_each_rep_right
-        elif string == 'analysis':
-            for k, v in all_reps.items():
-                print('\n' + 'Repetition: ' + str(k) + '\n')
-                for s in v:
-                    for m in s:
-                        print(str(m))
+            if string == 'dataset':
+                return angles_each_rep_left, angles_each_rep_right
+            elif string == 'analysis':
+                print('Number of reps performed: ' + str(left_rep_count))
+                for k, v in all_reps.items():
+                    print('\n' + 'Repetition: ' + str(k) + '\n')
+                    for s in v:
+                        for m in s:
+                            print(str(m))
+        else:
+            print("Error: Rep counts for left and right arms are not equal")
