@@ -4,9 +4,11 @@
     <list default="true" id="e5b26441-6cca-4d47-a112-54812bf35421" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Shoulder-press-analysis-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Shoulder-press-analysis-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Triceps-pushdown-analysis-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Triceps-pushdown-analysis-checkpoint.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JointAngles.py" beforeDir="false" afterPath="$PROJECT_DIR$/JointAngles.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Shoulder-press-analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Shoulder-press-analysis.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Triceps-pushdown-analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Triceps-pushdown-analysis.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,10 +160,10 @@
       <screen x="0" y="0" width="3840" height="1560" />
     </state>
     <state x="2335" y="799" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3840.1560@0.0.3840.1560" timestamp="1580051718114" />
-    <state x="1188" y="418" width="672" height="452" key="search.everywhere.popup" timestamp="1582496676428">
+    <state x="1188" y="418" width="672" height="452" key="search.everywhere.popup" timestamp="1583384473378">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1188" y="418" width="672" height="452" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1582496676428" />
+    <state x="1188" y="418" width="672" height="452" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1583384473378" />
     <state x="2376" y="627" width="672" height="678" key="search.everywhere.popup/0.0.3840.1560@0.0.3840.1560" timestamp="1581525225121" />
     <state x="1215" y="450" width="672" height="458" key="search.everywhere.popup/70.27.1850.1053@70.27.1850.1053" timestamp="1580313307383" />
   </component>

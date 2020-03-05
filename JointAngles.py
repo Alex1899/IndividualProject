@@ -24,19 +24,15 @@ class JointAngles:
                 parts_filtered = [part for part in parts if all(joint_points[2] != 0 for joint_points in part)]
 
             forearm_vects = get_forearm_vectors(parts_filtered)
-            print('Size 1: ' + str(len(forearm_vects)))
+
             # self.forearm_vects.append(forearm_vect)
             upArm_vects = get_upper_arm_vectors(parts_filtered)
-            print('Size 2: ' + str(len(upArm_vects)))
             # self.upArm_vects.append(upArm_vect)
             self.upArm_forearm_angles = get_upper_arm_forearm_angles(upArm_vects, forearm_vects)
-
             trunk_vects = get_trunk_vectors(parts_filtered)
-            print('Size 1: ' + str(len(trunk_vects)))
             # self.trunk_vects.append(trunk_vect)
             self.upArm_trunk_angles = get_upper_arm_trunk_angles(upArm_vects, trunk_vects) 
             knee_vects = get_knee_vects(parts_filtered)
-            print('Size 2: ' + str(len(knee_vects)))
             # self.knee_vects.append(knee_vect)
             self.trunk_knee_angles = get_trunk_knee_angles(trunk_vects, knee_vects)
 
