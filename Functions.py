@@ -1,28 +1,24 @@
 import numpy as np
-import math
-import itertools
 
 
 # Detecting sides (left or right) on videos
 # can use this method for other exercises
 def detect_side(frame_poses):
-    rside_joints = [1 for pose in frame_poses if pose.joint_keypoints['RSHOULDER'][2] != 0 and
-                    pose.joint_keypoints['RELBOW'][2] != 0 and
-                    pose.joint_keypoints['RWRIST'][2] != 0 and
-                    pose.joint_keypoints['RHIP'][2] != 0 and
-                    pose.joint_keypoints['RKNEE'][2] != 0]
+    right_joints = ['RSHOULDER', 'RELBOW', 'RWRIST', 'RHIP', 'RKNEE', 'REYE', 'REAR']
+    right_parts = [[posture.joint_keypoints[joint] for joint in right_joints] for posture in frame_poses]
+    right_parts_filtered = [1 for part in right_parts if all(joint_points[2] != 0 for joint_points in part)]
 
-    lside_joints = [1 for pose in frame_poses if pose.joint_keypoints['LSHOULDER'][2] != 0 and
-                    pose.joint_keypoints['LELBOW'][2] != 0 and
-                    pose.joint_keypoints['LWRIST'][2] != 0 and
-                    pose.joint_keypoints['LHIP'][2] != 0 and
-                    pose.joint_keypoints['LKNEE'][2] != 0]
+    left_joints = ['LSHOULDER', 'LELBOW', 'LWRIST', 'LHIP', 'LKNEE', 'LEYE', 'LEAR']
+    left_parts = [[posture.joint_keypoints[joint] for joint in left_joints] for posture in frame_poses]
+    left_parts_filtered = [1 for part in left_parts if all(joint_points[2] != 0 for joint_points in part)]
 
-    print('Right side: ' + str(sum(rside_joints)))
-    print('Left  side: ' + str(sum(lside_joints)))
+    right_sum = sum(right_parts_filtered)
+    left_sum = sum(left_parts_filtered)
+    print('Right side: ' + str(right_sum))
+    print('Left  side: ' + str(left_sum))
 
     # think about the case when they are equal
-    if sum(rside_joints) > sum(lside_joints):
+    if right_sum > left_sum:
         side = 'right'
     else:
         side = 'left'
@@ -220,24 +216,24 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
 
     if len(ls) > 0:
         # old threshold - 25
-        #if avr_count - min(ls) >= 20:
-        print('Testing Finished')
-        print('Filtering by number of angles inbetween:')
-        print('count_list: ' + str(count_list))
-        print('threshold: ' + str(threshold))
-        extremas_array = filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, threshold,
-                                                                       maxima)
+        if avr_count - min(ls) >= 20:
+            print('Testing Finished')
+            print('Filtering by number of angles inbetween:')
+            print('count_list: ' + str(count_list))
+            print('threshold: ' + str(threshold))
+            extremas_array = filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, threshold,
+                                                                           maxima)
 
-        # recursion
-        # test if array needs to be filtered again
-        count_list2 = count_angles_between_extremas(angles_array, extremas_array)
-        avr_count2 = int(sum(count_list2) / len(count_list2))
-        threshold2 = int(avr_count2 / 2) + len(count_list2)
-        ls2 = [n for n in count_list2 if n < threshold2]
-        if len(ls2) > 0:
-            if avr_count2 - min(ls2) > 25:
-                print('\nStarting another stage of filtering...\n')
-                extremas_array = filter_extremas(angles_array, extremas_array, maxima, recursion=True)
+            # recursion
+            # test if array needs to be filtered again
+            count_list2 = count_angles_between_extremas(angles_array, extremas_array)
+            avr_count2 = int(sum(count_list2) / len(count_list2))
+            threshold2 = int(avr_count2 / 2) + len(count_list2)
+            ls2 = [n for n in count_list2 if n < threshold2]
+            if len(ls2) > 0:
+                if avr_count2 - min(ls2) > 25:
+                    print('\nStarting another stage of filtering...\n')
+                    extremas_array = filter_extremas(angles_array, extremas_array, maxima, recursion=True)
 
     if not recursion:
         print('Array filtering: Done')
@@ -247,24 +243,27 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
 
 # Could modify this function to use across other exercise classes
 # local minima points are minimum angles in each rep, no need to calc again
-def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=None, extremas2=None, uf_angles1b=None,
-                     ut_angles2b=None):
-    if extremas1.size == 0:
+def analyse_each_rep(string, extremas, angle_arrays):
+    if len(extremas) == 0:
         return None
-    if extremas2 is not None:
-        if extremas2.size == 0:
+
+    for n in extremas:
+        if len(n) == 0:
             return None
 
-    if tk_angles3a is not None:
-        list_maxes, uf_points, ut_points, tk_points = [], [], [], []
+    # if one side exercise analysis
+    if len(extremas) < 2:
+        uf_points, ut_points, tk_points = [], [], []
+        uf_angles, ut_angles, tk_angles = angle_arrays
         angles_each_rep = []
         rep_count = 0
         max_counter = 0
         all_reps = {}
-        num = extremas1.size
-        extremas = extremas1
-        for (uf_p, ut_p, tk_p) in zip(uf_angles1a, ut_angles2a, tk_angles3a):
-            if uf_p not in extremas1:
+        extremas1 = extremas[0]
+        num = extremas[0].size
+
+        for (uf_p, ut_p, tk_p) in zip(uf_angles, ut_angles, tk_angles):
+            if uf_p not in extremas[0]:
                 uf_points.append(uf_p)
                 ut_points.append(ut_p)
                 tk_points.append(tk_p)
@@ -274,8 +273,8 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                     ut_points.append(ut_p)
                     tk_points.append(tk_p)
                 else:
-                    index = np.where(extremas1 == uf_p)
-                    extremas1 = np.delete(extremas1, index[0][0])
+                    index = np.where(extremas[0] == uf_p)
+                    extremas[0] = np.delete(extremas[0], index[0][0])
                     uf_points.append(uf_p)
                     rep_count += 1
                     max_counter += 1
@@ -289,7 +288,7 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                     # erase lists
                     uf_points, ut_points, tk_points = [], [], []
 
-        count_angles = count_angles_between_two_points(extremas[-1:], uf_angles1a[-1:], uf_angles1a)
+        count_angles = count_angles_between_two_points(extremas1[-1:][0], uf_angles[-1:], uf_angles)
         if count_angles > 20:
             # Last rep analysis
             rep_count += 1
@@ -309,23 +308,24 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                 for s in v:
                     print(s)
 
-    else:
-        list_maxes_left, list_maxes_right, left_uf_points, right_uf_points, left_ut_points, right_ut_points = [], [], [], [], [], []
+    elif len(extremas) == 2:
+        left_uf_points, right_uf_points, left_ut_points, right_ut_points = [], [], [], []
+        uf_angles1a, uf_angles1b, ut_angles2a, ut_angles2b = angle_arrays
         angles_each_rep_left, angles_each_rep_right = [], []
         left_rep_count, right_rep_count = 0, 0
         left_max_counter, right_max_counter = 0, 0
 
         left_reps, right_reps = {}, {}
-        left_extremas = extremas1
-        right_extremas = extremas2
-        num1 = extremas1.size
-        num2 = extremas2.size
+        left_extremas = extremas[0]
+        right_extremas = extremas[1]
+        num1 = extremas[0].size
+        num2 = extremas[1].size
 
         if num1 != num2:
-            print("Left and Right maxima points not equal")
+            print("Left and Right extrema points not equal")
 
         for (left_uf_p, right_uf_p, left_ut_p, right_ut_p) in zip(uf_angles1a, uf_angles1b, ut_angles2a, ut_angles2b):
-            if left_ut_p not in left_extremas:
+            if left_ut_p not in extremas[0]:
                 left_uf_points.append(left_uf_p)
                 left_ut_points.append(left_ut_p)
             else:
@@ -335,7 +335,7 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                 else:
                     # fix for duplicates
                     index = np.where(left_extremas == left_ut_p)
-                    left_extremas = np.delete(left_extremas, index[0][0])
+                    extremas[0] = np.delete(extremas[0], index[0][0])
                     left_uf_points.append(left_uf_p)
                     left_rep_count += 1
                     left_max_counter += 1
@@ -350,7 +350,7 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                     # erase lists
                     left_uf_points, left_ut_points = [], []
 
-            if right_ut_p not in right_extremas:
+            if right_ut_p not in extremas[1]:
                 right_uf_points.append(right_uf_p)
                 right_ut_points.append(right_ut_p)
             else:
@@ -359,7 +359,7 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                     right_ut_points.append(right_ut_p)
                 else:
                     index = np.where(right_extremas == right_ut_p)
-                    right_extremas = np.delete(right_extremas, index[0][0])
+                    extremas[1] = np.delete(extremas[1], index[0][0])
                     right_uf_points.append(right_uf_p)
                     right_max_counter += 1
                     right_rep_count += 1
@@ -374,8 +374,8 @@ def analyse_each_rep(string, extremas1, uf_angles1a, ut_angles2a, tk_angles3a=No
                     # erase lists
                     right_uf_points, right_ut_points = [], []
 
-        count_left = count_angles_between_two_points(extremas1[-1:], ut_angles2a[-1:], ut_angles2a)
-        count_right = count_angles_between_two_points(extremas2[-1:], ut_angles2b[-1:], ut_angles2b)
+        count_left = count_angles_between_two_points(left_extremas[-1:][0], ut_angles2a[-1:], ut_angles2a)
+        count_right = count_angles_between_two_points(right_extremas[-1:][0], ut_angles2b[-1:], ut_angles2b)
         print('angles between left last extrema and angle: ' + str(count_left))
         print('angles between right last extrema and angle: ' + str(count_right))
 

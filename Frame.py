@@ -2,8 +2,9 @@ class FramePose:
     def __init__(self, keypoints):
         self.keypoints = keypoints
         list_joints = ['NOSE', 'NECK', 'RSHOULDER', 'RELBOW', 'RWRIST', 'LSHOULDER', 'LELBOW', 'LWRIST', 'MIDHIP',
-                  'RHIP', 'RKNEE', 'LHIP', 'LKNEE', 'LANKLE', 'REYE', 'REAR', 'LEAR', 'LBIGTOE', 'LSMALLTOE',
-                  'LHEEL', 'RBIGTOE', 'RSMALLTOE', 'RHEEL']
+                       'RHIP', 'RKNEE', 'RANKLE', 'LHIP', 'LKNEE', 'LANKLE', 'REYE', 'LEYE', 'REAR', 'LEAR', 'LBIGTOE', 'LSMALLTOE',
+                       'LHEEL', 'RBIGTOE', 'RSMALLTOE', 'RHEEL']
+
         zipped = zip(list_joints, keypoints)
 
         # list of tuples (joint_name, exists ?, [x,y,c])
