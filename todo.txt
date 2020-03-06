@@ -177,22 +177,56 @@ min trunk knee: 165 (160)
 Triceps pushdown:
 
 min upper arm forearm: 63
-max upper arm forearm: 160
-max upper arm trunk: 16
+max upper arm forearm: 179
+max upper arm trunk: 19
 min trunk knee: 150
+max trunk knee: 180
 
 shoulder press:
 
 min upper arm forearm: 55
-max upper arm forearm: 130
-max upper arm trunk: 140
-min upper arm trunk: 65
+max upper arm forearm: 130 (171) 
+max upper arm trunk: 140 (173) 
+min upper arm trunk: 63
 
 front raise
-min upper arm forearm: 
-max upper arm forearm: 
-max upper arm trunk: 
-min trunk knee: 
+min upper arm forearm: 148 
+max upper arm forearm: 179
+max upper arm trunk: 121
+min trunk knee: 154
+max trunk knee: 180
+
+
+---------------------------------------------------------
+Feedback
+
+   if exercise == 'bicep curl' and string == 'evaluation':
+                            #upper arm forearm
+                            if min(uf_points) <= 63:
+                                feedback1 = 'Feedback: Weight was curled high enough. Good form\n'
+                            else:
+                                # not curling high enough
+                                if rep_count < 4:
+                                    feedback1 = 'Feedback: The weight has not been curled high enough. This could be because the ' \
+                                                'weight is too heavy.\nFix: Consider lowering the weight to properly target your biceps and avoid the risk of injury.\n'
+                                else:
+                                    feedback1 = 'Feedback: The weight has not been curled high enough.\nFix: Focus on bringing the ' \
+                                                'weight higher in order to get maximum biceps contraction.\n'
+
+                            # trunk knee
+                            if min(tk_points) > 165:
+                                feedback2 = 'Feedback: Repetition performed with a good form.\n'
+                            else:
+                                # leaning forward
+                                feedback2 = 'Feedback: Leaning forward significantly.\nFix: Focus on keeping your back straight throughout the movement.\n'
+
+                            if max(tk_points) <= 180:
+                                feedback3 = 'Feedback: Repetition performed with a good form.\n'
+                            else:
+                                if rep_count < 4:
+                                    feedback3 = 'Feedback: Leaning backwards significantly. This could be because the ' \
+                                                'weight is too heavy. This puts a lot of pressure on the lower back.\nFix: Consider lowering the weight. Keep your back straight and focus the effort on the biceps only.'
+
 
 
 
