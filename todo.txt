@@ -163,6 +163,37 @@ in a for loop check if difference of each point is more than average difference
 
 
 
+--------------------------------------------------------------------------------------
+
+EVALUTATION
+
+Bicep curl:
+
+min upper arm forearm: 60 (55?) 
+max upper arm forearm: 160
+max upper arm trunk: 20  (25) 
+min trunk knee: 165 (160) 
+
+Triceps pushdown:
+
+min upper arm forearm: 63
+max upper arm forearm: 160
+max upper arm trunk: 16
+min trunk knee: 150
+
+shoulder press:
+
+min upper arm forearm: 55
+max upper arm forearm: 130
+max upper arm trunk: 140
+min upper arm trunk: 65
+
+front raise
+min upper arm forearm: 
+max upper arm forearm: 
+max upper arm trunk: 
+min trunk knee: 
+
 
 
 

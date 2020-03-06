@@ -243,57 +243,89 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
 
 # Could modify this function to use across other exercise classes
 # local minima points are minimum angles in each rep, no need to calc again
-def analyse_each_rep(string, extremas, angle_arrays):
-    if len(extremas) == 0:
+def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_angles1=None, extremas2=None, uf_angles2=None, ut_angles2=None, tk_angles2=None):
+    if len(extremas1) == 0:
         return None
 
-    for n in extremas:
-        if len(n) == 0:
-            return None
-
     # if one side exercise analysis
-    if len(extremas) < 2:
+    if extremas2 is None:
         uf_points, ut_points, tk_points = [], [], []
-        uf_angles, ut_angles, tk_angles = angle_arrays
         angles_each_rep = []
         rep_count = 0
         max_counter = 0
+        count_angles = 0
         all_reps = {}
-        extremas1 = extremas[0]
-        num = extremas[0].size
+        extremas_copy = extremas1
+        num = extremas1.size
 
-        for (uf_p, ut_p, tk_p) in zip(uf_angles, ut_angles, tk_angles):
-            if uf_p not in extremas[0]:
-                uf_points.append(uf_p)
-                ut_points.append(ut_p)
-                tk_points.append(tk_p)
-            else:
-                if max_counter == num:
+        if exercise == 'bicep curl' or exercise == 'triceps pushdown':
+            for (uf_p, ut_p, tk_p) in zip(uf_angles1, ut_angles1, tk_angles1):
+                if uf_p not in extremas1:
                     uf_points.append(uf_p)
                     ut_points.append(ut_p)
                     tk_points.append(tk_p)
                 else:
-                    index = np.where(extremas[0] == uf_p)
-                    extremas[0] = np.delete(extremas[0], index[0][0])
+                    if max_counter == num:
+                        uf_points.append(uf_p)
+                        ut_points.append(ut_p)
+                        tk_points.append(tk_p)
+                    else:
+                        index = np.where(extremas1 == uf_p)
+                        extremas1 = np.delete(extremas1, index[0][0])
+                        uf_points.append(uf_p)
+
+                        rep_count += 1
+                        max_counter += 1
+                        all_reps[rep_count] = [
+                            "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
+                            "Maximum angle between upper arm and forearm: " + str(max(uf_points)),
+                            "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
+                            "Minimum angle between trunk and knee: " + str(min(tk_points))]
+
+                        # then do if statements to check if angles above/below threshold
+                        angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
+                        # erase lists
+                        uf_points, ut_points, tk_points = [], [], []
+
+            count_angles = count_angles_between_two_points(extremas_copy[-1:][0], uf_angles1[-1:], uf_angles1)
+
+        elif exercise == 'front raise':
+            for (uf_p, ut_p, tk_p) in zip(uf_angles1, ut_angles1, tk_angles1):
+                if ut_p not in extremas1:
                     uf_points.append(uf_p)
-                    rep_count += 1
-                    max_counter += 1
-                    all_reps[rep_count] = [
-                        "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
-                        "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
-                        "Minimum angle between trunk and knee: " + str(min(tk_points))]
+                    ut_points.append(ut_p)
+                    tk_points.append(tk_p)
+                else:
+                    if max_counter == num:
+                        uf_points.append(uf_p)
+                        ut_points.append(ut_p)
+                        tk_points.append(tk_p)
+                    else:
+                        index = np.where(extremas1 == ut_p)
+                        extremas1 = np.delete(extremas1, index[0][0])
+                        ut_points.append(ut_p)
 
-                    # then do if statements to check if angles above/below threshold
-                    angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
-                    # erase lists
-                    uf_points, ut_points, tk_points = [], [], []
+                        rep_count += 1
+                        max_counter += 1
+                        all_reps[rep_count] = [
+                            "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
+                            "Maximum angle between upper arm and forearm: " + str(max(uf_points)),
+                            "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
+                            "Minimum angle between trunk and knee: " + str(min(tk_points))]
 
-        count_angles = count_angles_between_two_points(extremas1[-1:][0], uf_angles[-1:], uf_angles)
+                        # then do if statements to check if angles above/below threshold
+                        angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
+                        # erase lists
+                        uf_points, ut_points, tk_points = [], [], []
+
+            count_angles = count_angles_between_two_points(extremas_copy[-1:][0], ut_angles1[-1:], ut_angles1)
+
         if count_angles > 20:
             # Last rep analysis
             rep_count += 1
             all_reps[rep_count] = [
                 "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
+                "Maximum angle between upper arm and forearm: " + str(max(uf_points)),
                 "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
                 "Minimum angle between trunk and knee: " + str(min(tk_points))]
 
@@ -308,76 +340,76 @@ def analyse_each_rep(string, extremas, angle_arrays):
                 for s in v:
                     print(s)
 
-    elif len(extremas) == 2:
+    elif extremas2 is not None:
         left_uf_points, right_uf_points, left_ut_points, right_ut_points = [], [], [], []
-        uf_angles1a, uf_angles1b, ut_angles2a, ut_angles2b = angle_arrays
         angles_each_rep_left, angles_each_rep_right = [], []
         left_rep_count, right_rep_count = 0, 0
         left_max_counter, right_max_counter = 0, 0
+        count_left, count_right = 0, 0
 
         left_reps, right_reps = {}, {}
-        left_extremas = extremas[0]
-        right_extremas = extremas[1]
-        num1 = extremas[0].size
-        num2 = extremas[1].size
+        left_extremas = extremas1
+        right_extremas = extremas2
+        num1 = extremas1.size
+        num2 = extremas2.size
 
-        if num1 != num2:
+        if abs(num1 - num2) > 1:
             print("Left and Right extrema points not equal")
-
-        for (left_uf_p, right_uf_p, left_ut_p, right_ut_p) in zip(uf_angles1a, uf_angles1b, ut_angles2a, ut_angles2b):
-            if left_ut_p not in extremas[0]:
-                left_uf_points.append(left_uf_p)
-                left_ut_points.append(left_ut_p)
-            else:
-                if left_max_counter == num1:
+        if exercise == 'shoulder press':
+            for (left_uf_p, right_uf_p, left_ut_p, right_ut_p) in zip(uf_angles1, uf_angles2, ut_angles1, ut_angles2):
+                if left_ut_p not in extremas1:
                     left_uf_points.append(left_uf_p)
                     left_ut_points.append(left_ut_p)
                 else:
-                    # fix for duplicates
-                    index = np.where(left_extremas == left_ut_p)
-                    extremas[0] = np.delete(extremas[0], index[0][0])
-                    left_uf_points.append(left_uf_p)
-                    left_rep_count += 1
-                    left_max_counter += 1
-                    left_reps[left_rep_count] = [
-                        'Left upper arm - left forearm -> Minimum Angle:' + str(min(left_uf_points)),
-                        'Left upper arm - left forearm -> Maximum Angle:' + str(max(left_uf_points)),
-                        'Left upper arm - trunk -> Maximum Angle: ' + str(max(left_ut_points)),
-                        'Left upper arm - trunk -> Minimum Angle: ' + str(min(left_ut_points)) + '\n']
+                    if left_max_counter == num1:
+                        left_uf_points.append(left_uf_p)
+                        left_ut_points.append(left_ut_p)
+                    else:
+                        # fix for duplicates
+                        index = np.where(extremas1 == left_ut_p)
+                        extremas1 = np.delete(extremas1, index[0][0])
+                        left_uf_points.append(left_uf_p)
+                        left_rep_count += 1
+                        left_max_counter += 1
+                        left_reps[left_rep_count] = [
+                            'Left upper arm - left forearm -> Minimum Angle:' + str(min(left_uf_points)),
+                            'Left upper arm - left forearm -> Maximum Angle:' + str(max(left_uf_points)),
+                            'Left upper arm - trunk -> Maximum Angle: ' + str(max(left_ut_points)),
+                            'Left upper arm - trunk -> Minimum Angle: ' + str(min(left_ut_points)) + '\n']
 
-                    # then do if statements to check if angles above/below threshold
-                    angles_each_rep_left.extend((np.array(left_uf_points), np.array(left_ut_points)))
-                    # erase lists
-                    left_uf_points, left_ut_points = [], []
+                        # then do if statements to check if angles above/below threshold
+                        angles_each_rep_left.extend((np.array(left_uf_points), np.array(left_ut_points)))
+                        # erase lists
+                        left_uf_points, left_ut_points = [], []
 
-            if right_ut_p not in extremas[1]:
-                right_uf_points.append(right_uf_p)
-                right_ut_points.append(right_ut_p)
-            else:
-                if right_max_counter == num2:
+                if right_ut_p not in extremas2:
                     right_uf_points.append(right_uf_p)
                     right_ut_points.append(right_ut_p)
                 else:
-                    index = np.where(right_extremas == right_ut_p)
-                    extremas[1] = np.delete(extremas[1], index[0][0])
-                    right_uf_points.append(right_uf_p)
-                    right_max_counter += 1
-                    right_rep_count += 1
-                    right_reps[right_rep_count] = [
-                        'Right upper arm - left forearm -> Minimum Angle:' + str(min(right_uf_points)),
-                        'Right upper arm - left forearm -> Maximum Angle:' + str(max(right_uf_points)),
-                        'Right upper arm - trunk -> Maximum Angle: ' + str(max(right_ut_points)),
-                        'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n']
+                    if right_max_counter == num2:
+                        right_uf_points.append(right_uf_p)
+                        right_ut_points.append(right_ut_p)
+                    else:
+                        index = np.where(extremas2 == right_ut_p)
+                        extremas2 = np.delete(extremas2, index[0][0])
+                        right_uf_points.append(right_uf_p)
+                        right_max_counter += 1
+                        right_rep_count += 1
+                        right_reps[right_rep_count] = [
+                            'Right upper arm - left forearm -> Minimum Angle:' + str(min(right_uf_points)),
+                            'Right upper arm - left forearm -> Maximum Angle:' + str(max(right_uf_points)),
+                            'Right upper arm - trunk -> Maximum Angle: ' + str(max(right_ut_points)),
+                            'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n']
 
-                    # then do if statements to check if angles above/below threshold
-                    angles_each_rep_right.extend((np.array(right_uf_points), np.array(right_ut_points)))
-                    # erase lists
-                    right_uf_points, right_ut_points = [], []
+                        # then do if statements to check if angles above/below threshold
+                        angles_each_rep_right.extend((np.array(right_uf_points), np.array(right_ut_points)))
+                        # erase lists
+                        right_uf_points, right_ut_points = [], []
 
-        count_left = count_angles_between_two_points(left_extremas[-1:][0], ut_angles2a[-1:], ut_angles2a)
-        count_right = count_angles_between_two_points(right_extremas[-1:][0], ut_angles2b[-1:], ut_angles2b)
-        print('angles between left last extrema and angle: ' + str(count_left))
-        print('angles between right last extrema and angle: ' + str(count_right))
+            count_left = count_angles_between_two_points(left_extremas[-1:][0], ut_angles1[-1:], ut_angles1)
+            count_right = count_angles_between_two_points(right_extremas[-1:][0], ut_angles2[-1:], ut_angles2)
+            print('angles between left last extrema and angle: ' + str(count_left))
+            print('angles between right last extrema and angle: ' + str(count_right))
 
         if count_left > 20:
             # Last rep analysis
