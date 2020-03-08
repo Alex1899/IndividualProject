@@ -1,21 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="e5b26441-6cca-4d47-a112-54812bf35421" name="Default Changelist" comment="" />
+=======
+    <list default="true" id="38f33b14-1e4e-46e0-a2e4-ea8f4537f9c3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Front-raise-analysis-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Front-raise-analysis-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front-raise-analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Front-raise-analysis.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shoulder-press-analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Shoulder-press-analysis.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Triceps-pushdown-analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Triceps-pushdown-analysis.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Untitled.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+>>>>>>> e40fff445f0a6f7445b4c8063bd726a5d1193d58
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-483534010">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="11783" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="11783" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Evaluation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="203">
+              <caret line="399" lean-forward="true" selection-start-line="399" selection-end-line="399" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+                <marker date="1583709407975" expanded="true" signature="22107:26640" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Parser.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/JointAngles.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="33" lean-forward="true" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Functions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="64">
+              <caret line="365" column="41" lean-forward="true" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
+              <folding>
+                <marker date="1583708029371" expanded="true" signature="27251:29012" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Functions.py" />
+        <option value="$PROJECT_DIR$/Evaluation.py" />
+      </list>
+    </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -23,145 +122,155 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectId" id="1WwBhmULVJjVyJU31SzysHZGlZk" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="2237" />
+    <option name="y" value="117" />
+    <option name="width" value="1503" />
+    <option name="height" value="1011" />
   </component>
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
-    <option name="showLibraryContents" value="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="IndividualProject" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IndividualProject" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1583620201369" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1583709476057" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="SDKs" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.pathVariables" />
   </component>
-  <component name="PyConsoleOptionsProvider">
-    <option name="myPythonConsoleState">
-      <console-settings module-name="iproject" is-module-sdk="true">
-        <option name="myUseModuleSdk" value="true" />
-        <option name="myModuleName" value="iproject" />
-      </console-settings>
-    </option>
-  </component>
-  <component name="RunManager">
-    <configuration name="script" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="iproject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
+  <component name="RunDashboard">
+    <option name="ruleStates">
       <list>
-        <item itemvalue="Python.script" />
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
       </list>
-    </recent_temporary>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e5b26441-6cca-4d47-a112-54812bf35421" name="Default Changelist" comment="" />
-      <created>1580050897705</created>
+      <changelist id="38f33b14-1e4e-46e0-a2e4-ea8f4537f9c3" name="Default Changelist" comment="" />
+      <created>1583676999742</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1580050897705</updated>
-      <workItem from="1583250720977" duration="275000" />
-      <workItem from="1583251032387" duration="117000" />
-      <workItem from="1583517838826" duration="16174000" />
-      <workItem from="1583609656362" duration="603000" />
-      <workItem from="1583610347094" duration="8334000" />
+      <updated>1583676999742</updated>
+      <workItem from="1583677001054" duration="31957000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25503000" />
+    <option name="totallyTimeSpent" value="31957000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="2237" y="117" width="1503" height="1011" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="UI Designer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15661816" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Maven Projects" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="1032" y="255" key="#Parser" timestamp="1582500449620">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="1032" y="255" key="#Parser/0.0.1920.1040@0.0.1920.1040" timestamp="1582500449620" />
-    <state x="2064" y="383" key="#Parser/0.0.3840.1560@0.0.3840.1560" timestamp="1581525423443" />
-    <state x="1949" y="531" width="1092" height="707" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580053665807">
-      <screen x="0" y="0" width="3840" height="1560" />
-    </state>
-    <state x="1949" y="531" width="1092" height="707" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.3840.1560@0.0.3840.1560" timestamp="1580053665807" />
-    <state x="1987" y="708" width="424" height="480" key="FileChooserDialogImpl" timestamp="1581525384680">
-      <screen x="0" y="0" width="3840" height="1560" />
-    </state>
-    <state x="1987" y="708" key="FileChooserDialogImpl/0.0.3840.1560@0.0.3840.1560" timestamp="1581525384680" />
-    <state x="1027" y="505" width="424" height="480" key="FileChooserDialogImpl/70.27.1850.1053@70.27.1850.1053" timestamp="1580313280535" />
-    <state width="902" height="279" key="GridCell.Tab.0.bottom" timestamp="1580318970337">
-      <screen x="70" y="27" width="1850" height="1053" />
-    </state>
-    <state width="1441" height="235" key="GridCell.Tab.0.bottom/0.0.3840.1560@0.0.3840.1560" timestamp="1580225510066" />
-    <state width="902" height="279" key="GridCell.Tab.0.bottom/70.27.1850.1053@70.27.1850.1053" timestamp="1580318970337" />
-    <state width="902" height="279" key="GridCell.Tab.0.center" timestamp="1580318970337">
-      <screen x="70" y="27" width="1850" height="1053" />
-    </state>
-    <state width="1441" height="235" key="GridCell.Tab.0.center/0.0.3840.1560@0.0.3840.1560" timestamp="1580225510066" />
-    <state width="902" height="279" key="GridCell.Tab.0.center/70.27.1850.1053@70.27.1850.1053" timestamp="1580318970337" />
-    <state width="902" height="279" key="GridCell.Tab.0.left" timestamp="1580318970337">
-      <screen x="70" y="27" width="1850" height="1053" />
-    </state>
-    <state width="1441" height="235" key="GridCell.Tab.0.left/0.0.3840.1560@0.0.3840.1560" timestamp="1580225510066" />
-    <state width="902" height="279" key="GridCell.Tab.0.left/70.27.1850.1053@70.27.1850.1053" timestamp="1580318970337" />
-    <state width="902" height="279" key="GridCell.Tab.0.right" timestamp="1580318970337">
-      <screen x="70" y="27" width="1850" height="1053" />
-    </state>
-    <state width="1441" height="235" key="GridCell.Tab.0.right/0.0.3840.1560@0.0.3840.1560" timestamp="1580225510066" />
-    <state width="902" height="279" key="GridCell.Tab.0.right/70.27.1850.1053@70.27.1850.1053" timestamp="1580318970337" />
-    <state x="667" y="223" width="916" height="708" key="SettingsEditor" timestamp="1583623376304">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="667" y="223" width="916" height="708" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1583623376304" />
-    <state x="1918" y="472" width="998" height="713" key="SettingsEditor/0.0.3840.1560@0.0.3840.1560" timestamp="1581525386216" />
-    <state x="619" y="230" width="900" height="726" key="SettingsEditor/70.27.1850.1053@70.27.1850.1053" timestamp="1580313352613" />
-    <state x="1009" y="450" key="com.intellij.ide.util.TipDialog" timestamp="1583623339388">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="1009" y="450" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583623339388" />
-    <state x="2018" y="676" key="com.intellij.ide.util.TipDialog/0.0.3840.1560@0.0.3840.1560" timestamp="1581525207980" />
-    <state x="1042" y="483" key="com.intellij.ide.util.TipDialog/70.27.1850.1053@70.27.1850.1053" timestamp="1581985249186" />
-    <state x="2335" y="799" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580051718114">
-      <screen x="0" y="0" width="3840" height="1560" />
-    </state>
-    <state x="2335" y="799" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3840.1560@0.0.3840.1560" timestamp="1580051718114" />
-    <state x="1188" y="418" width="672" height="452" key="search.everywhere.popup" timestamp="1583453881181">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="1188" y="418" width="672" height="452" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1583453881181" />
-    <state x="2376" y="627" width="672" height="678" key="search.everywhere.popup/0.0.3840.1560@0.0.3840.1560" timestamp="1581525225121" />
-    <state x="1215" y="450" width="672" height="458" key="search.everywhere.popup/70.27.1850.1053@70.27.1850.1053" timestamp="1580313307383" />
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Evaluation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="399" lean-forward="true" selection-start-line="399" selection-end-line="399" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+            <marker date="1583709407975" expanded="true" signature="22107:26640" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="365" column="41" lean-forward="true" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
+          <folding>
+            <marker date="1583708029371" expanded="true" signature="27251:29012" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JointAngles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="33" lean-forward="true" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
@@ -215,7 +324,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>iproject</last-edited>
+          <last-edited>IndividualProject</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
