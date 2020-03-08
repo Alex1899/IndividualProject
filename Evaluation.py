@@ -127,17 +127,6 @@ def bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose):
               'what you did wrong.')
 
 
-        """
-        #allow cheating ? 
-        if rep_count > 4:
-            if len(final_feedback['Bad']) < 3:
-                if all(rep >= int(rep_count*(8/10)) for rep in final_feedback['Bad']):
-                    print('Decision: Good Form! Last two repetitions were performed with a bad form, but as  ')
-        """
-
-
-
-
 
 
 
