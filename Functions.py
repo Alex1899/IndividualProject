@@ -302,11 +302,12 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                  'min trunk knee': min(tk_points),
                                                  'max trunk knee': max(tk_points)}
 
+
                         angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
                         # erase lists
                         uf_points, ut_points, tk_points = [], [], []
 
-            count_angles = count_angles_between_two_points(extremas_copy[-1:][0], uf_angles1[-1:], uf_angles1)
+            count_angles = count_angles_between_two_points(extremas_copy[-1:], uf_angles1[-1:], uf_angles1)
 
         elif exercise == 'front raise':
             for (uf_p, ut_p, tk_p) in zip(uf_angles1, ut_angles1, tk_angles1):
@@ -350,7 +351,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                         # erase lists
                         uf_points, ut_points, tk_points = [], [], []
 
-            count_angles = count_angles_between_two_points(extremas_copy[-1:][0], ut_angles1[-1:], ut_angles1)
+            count_angles = count_angles_between_two_points(extremas_copy[-1:], ut_angles1[-1:], ut_angles1)
 
         if count_angles > 20:
             # Last rep analysis
@@ -386,6 +387,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                 for s in v:
                     print(s)
         elif string == 'evaluation':
+
             return evaluation
         elif string == 'thresholds':
             return min_upper_arm_forearm, max_upper_arm_forearm, max_upper_arm_trunk, min_trunk_knee, max_trunk_knee
@@ -486,8 +488,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                         # erase lists
                         right_uf_points, right_ut_points = [], []
 
-            count_left = count_angles_between_two_points(left_extremas[-1:][0], ut_angles1[-1:], ut_angles1)
-            count_right = count_angles_between_two_points(right_extremas[-1:][0], ut_angles2[-1:], ut_angles2)
+            count_left = count_angles_between_two_points(left_extremas[-1:], ut_angles1[-1:], ut_angles1)
+            count_right = count_angles_between_two_points(right_extremas[-1:], ut_angles2[-1:], ut_angles2)
             print('angles between left last extrema and angle: ' + str(count_left))
             print('angles between right last extrema and angle: ' + str(count_right))
 

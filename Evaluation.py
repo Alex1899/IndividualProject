@@ -6,8 +6,7 @@ from Functions import find_extremas, filter_extremas, analyse_each_rep
 
 def evaluate_form(frame_pose, exercise):
     if exercise == 'bicep curl' or exercise == 'triceps pushdown':
-        return bicep_curl_and_triceps_pushdown_evaluation(frame_pose)
-
+        return bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose)
 
 
 def bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose):
@@ -17,10 +16,11 @@ def bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose):
     # possibly check tempo of the rep (not yet)
 
     text1 = 'The weight has not been curled high enough.'
-    text2 = '\nFix: Try to keep your back still and straight throughout the movement.'
+    text2 = '\nFix: Try to keep your back still and straight throughout the movement.\n'
     text3 = 'This could be because the weight is too heavy. This puts a lot of pressure on the lower back.' \
-            '\nFix: Consider lowering the weight. Keep your back straight and focus the effort on the biceps only.'
+            '\nFix: Consider lowering the weight. Keep your back straight and focus the effort on the biceps only.\n'
     fb1_text = 'up high'
+    fb1_text2 = 'biceps'
 
     min_uf_threshold = 60
     max_uf_threshold = 160
@@ -29,7 +29,7 @@ def bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose):
     final_feedback = {'Good': [], 'Bad': []}
     extrema = np.array([])
 
-    jointAngles = JointAngles('bicep curl', frame_pose)
+    jointAngles = JointAngles(exercise, frame_pose)
     print('Starting Bicep Curl Analysis...')
     print('Detected arm: ' + jointAngles.side)
 
@@ -44,21 +44,22 @@ def bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose):
 
     # Find joint maximass
     if exercise == 'bicep curl':
-        extrema = filter_extremas(find_extremas(upArm_forearm_angles_filtered))
+        extrema = filter_extremas(upArm_forearm_angles_filtered, find_extremas(upArm_forearm_angles_filtered))
 
     elif exercise == 'triceps pushdown':
-        extrema = filter_extremas(find_extremas(upArm_trunk_angles_filtered), maxima=False)
+        extrema = filter_extremas(upArm_forearm_angles_filtered, find_extremas(upArm_forearm_angles_filtered, maxima=False), maxima=False)
         text1 = 'The weight has not been pushed down enough.'
         text2 = 'This could be because the weight is too heavy. This puts a lot of pressure on the lower back.' \
-                '\nFix: Try to not lean forward excessively throughout the movement.'
-        text3 = '\nFix: Try to keep your back still and straight throughout the movement.'
+                '\nFix: Try to not lean forward excessively and keep your back still throughout the movement.\n'
+        text3 = '\nFix: Try to keep your back still and straight throughout the movement.\n'
         fb1_text = 'down low'
+        fb1_text2 = 'triceps'
 
         min_uf_threshold = 63
-        max_uf_threshold = 175
+        max_uf_threshold = 150
         tk_threshold = 150
 
-    reps_analysis_dict = analyse_each_rep(exercise='bicep curl', string='evaluation', extremas1=extrema,
+    reps_analysis_dict = analyse_each_rep(exercise=exercise, string='evaluation', extremas1=extrema,
                                           uf_angles1=upArm_forearm_angles_filtered, ut_angles1=upArm_trunk_angles_filtered,
                                           tk_angles1=trunk_knee_angles_filtered)
 
@@ -66,15 +67,15 @@ def bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose):
 
     for key, value in reps_analysis_dict.items():
         # upper arm forearm
-        if value['min upper arm forearm'] <= min_uf_threshold:
+        if value['min upper arm forearm'] >= min_uf_threshold:
             feedback1 = 'Good Form: The weight was brought ' + fb1_text + ' enough for a good contraction.\n'
 
         else:
             # not curling high enough
-            if key < int(rep_count*(2/5)): #40% of the rep
+            if key < int(rep_count*(2/5)):  # 40% of the rep
                 feedback1 = 'Bad Form: ' + text1 + 'This could be because the ' \
-                            'weight is too heavy.\nFix: Consider lowering the weight to properly target your ' \
-                            'biceps and avoid the risk of injury.\n'
+                            'weight is too heavy.\nFix: Consider lowering the weight to properly target your ' +\
+                            fb1_text2 + ' and avoid the risk of injury.\n'
             else:
                 feedback1 = 'Bad Form:' + text1 + '\nFix: Focus on bringing the ' \
                             'weight higher in order to get maximum biceps contraction.\n'
@@ -83,14 +84,14 @@ def bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose):
             feedback2 = 'Good Form: The weight was lowered and correct starting position was achieved.\n'
         else:
             feedback2 = 'Bad Form: The weight was lowered half way.\nFix: Lower the weight until you achieve a ' \
-                        'correct starting position.'
+                        'correct starting position.\n'
 
         # upper arm trunk
         if value['max upper arm trunk'] <= 20:
             feedback3 = 'Good Form: Elbows did not move significantly during the movement.\n'
         else:
             feedback3 = 'Bad Form: Elbows have been shifted forward significantly.\nFix: Try to keep your elbows ' \
-                        'closer to your body.'
+                        'closer to your body.\n'
 
         # trunk knee
         if value['min trunk knee'] >= tk_threshold:
@@ -107,7 +108,10 @@ def bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose):
         feedback.append(((feedback1, feedback2, feedback3, feedback4, feedback5), key))
 
     for fs in feedback:
-        print('Repetition ' + str(fs[1]) + '\n')
+        print('\n')
+        print('-'*100)
+        print('Repetition ' + str(fs[1]))
+        print('-' * 100)
         for fb in fs[0]:
             print(fb)
 
@@ -119,12 +123,19 @@ def bicep_curl_and_triceps_pushdown_evaluation(exercise, frame_pose):
             print('\nRepetition could be improved.')
             final_feedback['Bad'].append(fs[1])
 
+    print('\n')
+    print('-' * 100)
     if len(final_feedback['Good']) == rep_count:
-        print('\nDecision: Correct Form! Exercise was performed with a correct technique.')
+        print('Decision: Correct Form! Exercise was performed with a correct technique.')
 
     else:
-        print('\nDecision: Incorrect Form! Your technique can be improved. Take a look at the feedback above to see '
+        print('Decision: Incorrect Form! Your technique can be improved. Take a look at the feedback above to see '
               'what you did wrong.')
+<<<<<<< HEAD
+=======
+    print('-' * 100)
+
+>>>>>>> 63d3ae74969f7ee616466aa456f6e6a4a1815b98
 
 
 
