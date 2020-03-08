@@ -186,7 +186,7 @@ shoulder press:
 
 min upper arm forearm: 55
 max upper arm forearm: 130 (171) 
-max upper arm trunk: 140 (173) 
+max upper arm trunk: 135 (173) 
 min upper arm trunk: 63
 
 front raise

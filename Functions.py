@@ -14,8 +14,8 @@ def detect_side(frame_poses):
 
     right_sum = sum(right_parts_filtered)
     left_sum = sum(left_parts_filtered)
-    print('Right side: ' + str(right_sum))
-    print('Left  side: ' + str(left_sum))
+    #print('Right side: ' + str(right_sum))
+    #print('Left  side: ' + str(left_sum))
 
     # think about the case when they are equal
     if right_sum > left_sum:
@@ -109,7 +109,7 @@ def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, th
     counts_to_remove = []
     ls_copy = ls
     size = len(ls)
-    print('counts less than threshold: ' + str(ls))
+    #print('counts less than threshold: ' + str(ls))
     if size > 0:
         while len(ls) != 0:
             for n in ls:
@@ -167,16 +167,16 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
     if not recursion:
         angle_diffs = np.absolute(np.diff(extremas_array))
         # print('\n')
-        print('extremas: ' + str(extremas_array))
+        #print('extremas: ' + str(extremas_array))
         average_change = float(sum(angle_diffs) / len(angle_diffs))
         # not sure if this is a good threshold
         # 10 is low, 15 ?
         angle_threshold = average_change + 20
-        print('angle change threshold: ' + str(angle_threshold))
+        #print('angle change threshold: ' + str(angle_threshold))
 
         # if average_change > 15:
-        print('\n')
-        print('Testing to filter by average angle change....')
+        #print('\n')
+        #print('Testing to filter by average angle change....')
         to_be_removed = []
         size = extremas_array.size
         for n in range(size):
@@ -198,17 +198,17 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
         removed_by_angle_change = [extremas_array[n] for n in to_be_removed]
         removed_by_angle_change = list(dict.fromkeys(removed_by_angle_change))
         if len(removed_by_angle_change) > 0:
-            print('Testing Finished')
-            print('Filtering by average angle change...')
-            print('extrema array size: ' + str(size))
-            print('angles removed: ' + str(removed_by_angle_change))
+            # print('Testing Finished')
+            # print('Filtering by average angle change...')
+            # print('extrema array size: ' + str(size))
+            # print('angles removed: ' + str(removed_by_angle_change))
             extremas_array = np.delete(extremas_array, to_be_removed)
-            print('\nNew extrema array: ' + str(extremas_array))
-            print('new size: ' + str(extremas_array.size))
-        else:
-            print('Filter by angle change N/A')
+            # print('\nNew extrema array: ' + str(extremas_array))
+            # print('new size: ' + str(extremas_array.size))
+        #else:
+            #print('Filter by angle change N/A')
 
-    print('\nTesting to filter by number of angles inbetween....')
+    #print('\nTesting to filter by number of angles inbetween....')
     count_list = count_angles_between_extremas(angles_array, extremas_array)
     avr_count = int(sum(count_list) / len(count_list))
     threshold = int(avr_count / 2) + len(count_list)
@@ -217,10 +217,10 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
     if len(ls) > 0:
         # old threshold - 25
         if avr_count - min(ls) >= 20:
-            print('Testing Finished')
-            print('Filtering by number of angles inbetween:')
-            print('count_list: ' + str(count_list))
-            print('threshold: ' + str(threshold))
+            #print('Testing Finished')
+            #print('Filtering by number of angles inbetween:')
+            #print('count_list: ' + str(count_list))
+            #print('threshold: ' + str(threshold))
             extremas_array = filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, threshold,
                                                                            maxima)
 
@@ -232,11 +232,11 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
             ls2 = [n for n in count_list2 if n < threshold2]
             if len(ls2) > 0:
                 if avr_count2 - min(ls2) > 25:
-                    print('\nStarting another stage of filtering...\n')
+                    #print('\nStarting another stage of filtering...\n')
                     extremas_array = filter_extremas(angles_array, extremas_array, maxima, recursion=True)
 
-    if not recursion:
-        print('Array filtering: Done')
+    #if not recursion:
+        #print('Array filtering: Done')
 
     return extremas_array
 
@@ -249,6 +249,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
     min_upper_arm_forearm = []
     max_upper_arm_forearm = []
+    min_upper_arm_trunk = []
     max_upper_arm_trunk = []
     min_trunk_knee = []
     max_trunk_knee = []
@@ -285,6 +286,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                         max_counter += 1
                         min_upper_arm_forearm.append(min(uf_points))
                         max_upper_arm_forearm.append(max(uf_points))
+                        min_upper_arm_trunk.append(min(ut_points))
                         max_upper_arm_trunk.append(max(ut_points))
                         min_trunk_knee.append(min(tk_points))
                         max_trunk_knee.append(max(tk_points))
@@ -301,7 +303,6 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                  'max upper arm trunk': max(ut_points),
                                                  'min trunk knee': min(tk_points),
                                                  'max trunk knee': max(tk_points)}
-
 
                         angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
                         # erase lists
@@ -330,6 +331,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
                         min_upper_arm_forearm.append(min(uf_points))
                         max_upper_arm_forearm.append(max(uf_points))
+                        min_upper_arm_trunk.append(min(ut_points))
                         max_upper_arm_trunk.append(max(ut_points))
                         min_trunk_knee.append(min(tk_points))
                         max_trunk_knee.append(max(tk_points))
@@ -337,6 +339,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                         all_reps[rep_count] = [
                             "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
                             "Maximum angle between upper arm and forearm: " + str(max(uf_points)),
+                            "Minimum angle between upper arm and trunk: " + str(min(ut_points)),
                             "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
                             "Minimum angle between trunk and knee: " + str(min(tk_points))]
 
@@ -359,6 +362,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
             min_upper_arm_forearm.append(min(uf_points))
             max_upper_arm_forearm.append(max(uf_points))
+            min_upper_arm_trunk.append(min(ut_points))
             max_upper_arm_trunk.append(max(ut_points))
             min_trunk_knee.append(min(tk_points))
             max_trunk_knee.append(max(tk_points))
@@ -366,6 +370,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
             all_reps[rep_count] = [
                 "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
                 "Maximum angle between upper arm and forearm: " + str(max(uf_points)),
+                "Minimum angle between upper arm and trunk: " + str(min(ut_points)),
                 "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
                 "Minimum angle between trunk and knee: " + str(min(tk_points))]
 
@@ -389,8 +394,9 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
         elif string == 'evaluation':
 
             return evaluation
+
         elif string == 'thresholds':
-            return min_upper_arm_forearm, max_upper_arm_forearm, max_upper_arm_trunk, min_trunk_knee, max_trunk_knee
+            return min_upper_arm_forearm, max_upper_arm_forearm, min_upper_arm_trunk, max_upper_arm_trunk, min_trunk_knee, max_trunk_knee
         else:
             print('Error: Wrong function mode')
 
@@ -447,8 +453,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
                         evaluation_left[left_rep_count] = {'min left upper arm forearm': min(left_uf_points),
                                                            'max left upper arm forearm': max(left_uf_points),
-                                                           'min left trunk knee': min(left_ut_points),
-                                                           'max left trunk knee': max(left_ut_points)}
+                                                           'min left upper arm trunk': min(left_ut_points),
+                                                           'max left upper arm trunk': max(left_ut_points)}
 
                         angles_each_rep_left.extend((np.array(left_uf_points), np.array(left_ut_points)))
                         # erase lists
@@ -481,8 +487,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
                         evaluation_right[right_rep_count] = {'min right upper arm forearm': min(right_uf_points),
                                                              'max right upper arm forearm': max(right_uf_points),
-                                                             'min right trunk knee': min(right_ut_points),
-                                                             'max right trunk knee': max(right_ut_points)}
+                                                             'min right upper arm trunk': min(right_ut_points),
+                                                             'max right upper arm trunk': max(right_ut_points)}
 
                         angles_each_rep_right.extend((np.array(right_uf_points), np.array(right_ut_points)))
                         # erase lists
@@ -490,8 +496,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
             count_left = count_angles_between_two_points(left_extremas[-1:], ut_angles1[-1:], ut_angles1)
             count_right = count_angles_between_two_points(right_extremas[-1:], ut_angles2[-1:], ut_angles2)
-            print('angles between left last extrema and angle: ' + str(count_left))
-            print('angles between right last extrema and angle: ' + str(count_right))
+            # print('angles between left last extrema and angle: ' + str(count_left))
+            # print('angles between right last extrema and angle: ' + str(count_right))
 
         if count_left > 20:
             # Last rep analysis
@@ -510,8 +516,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
             evaluation_left[left_rep_count] = {'min left upper arm forearm': min(left_uf_points),
                                                'max left upper arm forearm': max(left_uf_points),
-                                               'min left trunk knee': min(left_ut_points),
-                                               'max left trunk knee': max(left_ut_points)}
+                                               'min left upper arm trunk': min(left_ut_points),
+                                               'max left upper arm trunk': max(left_ut_points)}
 
             # then do if statements to check if angles above/below threshold
             angles_each_rep_left.extend((np.array(left_uf_points), np.array(left_ut_points)))
@@ -532,15 +538,15 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
             evaluation_right[right_rep_count] = {'min right upper arm forearm': min(right_uf_points),
                                                  'max right upper arm forearm': max(right_uf_points),
-                                                 'min right trunk knee': min(right_ut_points),
-                                                 'max right trunk knee': max(right_ut_points)}
+                                                 'min right upper arm trunk': min(right_ut_points),
+                                                 'max right upper arm trunk': max(right_ut_points)}
 
             angles_each_rep_right.extend((np.array(right_uf_points), np.array(right_ut_points)))
 
         all_reps = {}
         evaluation_both_arms = {}
-        print('left rep count: ' + str(left_rep_count))
-        print('right rep count: ' + str(right_rep_count))
+        #print('left rep count: ' + str(left_rep_count))
+        #print('right rep count: ' + str(right_rep_count))
         # Combine dicts for all reps
         if left_rep_count == right_rep_count:
             # combine two dictionaries
@@ -572,3 +578,54 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
             print('Error: Wrong function mode')
 
 
+def get_evaluation_decision(feedback, rep_count, display=True):
+    final_feedback = {'Good': [], 'Bad': []}
+
+    if display:
+        print('\nAnalysing each repetition below: ')
+
+        for fs in feedback:
+            print('\n')
+            print('-'*100)
+            print('Repetition ' + str(fs[1]))
+            print('-' * 100)
+            for fb in fs[0]:
+                print(fb)
+
+            if all('Good' in fbs for fbs in fs[0]):
+                rep_feedback = '\nRepetition was performed with a good form.'
+                print(rep_feedback)
+                final_feedback['Good'].append(fs[1])
+            else:
+                print('\nRepetition form could be improved.')
+                final_feedback['Bad'].append(fs[1])
+
+        print('\n')
+        print('-' * 100)
+        if len(final_feedback['Good']) == rep_count:
+            decision = 'Decision: Correct Form! Exercise was performed with a correct technique.'
+
+        else:
+            if len(final_feedback['Bad']) < int(rep_count*(8/10)):  # 80% of the total rep count
+                decision = 'Decision: Overall the exercise was performed with a good form. However, your technique during '\
+                           'the following reps: ' + str(final_feedback['Bad']) + ' could be improved. Look at the feedback '\
+                           'for the following reps to see what you did wrong.'
+
+            else:
+                decision = 'Decision: Incorrect Form! Your technique can be improved. Take a look at the feedback above to see '
+                'what you did wrong.'
+
+        print(decision)
+        print('-' * 100)
+
+    else:
+        for fs in feedback:
+            if all('Good' in fbs for fbs in fs[0]):
+                final_feedback['Good'].append(fs[1])
+            else:
+                final_feedback['Bad'].append(fs[1])
+
+        if len(final_feedback['Good']) == rep_count:
+            return 0
+        else:
+            return 1
