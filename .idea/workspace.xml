@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e5b26441-6cca-4d47-a112-54812bf35421" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/iproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/iproject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Triceps-pushdown-analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Triceps-pushdown-analysis.ipynb" afterDir="false" />
-    </list>
+    <list default="true" id="e5b26441-6cca-4d47-a112-54812bf35421" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
