@@ -166,7 +166,7 @@ def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, th
 def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
     if not recursion:
         angle_diffs = np.absolute(np.diff(extremas_array))
-        # print('\n')
+        #print('\n')
         #print('extremas: ' + str(extremas_array))
         average_change = float(sum(angle_diffs) / len(angle_diffs))
         # not sure if this is a good threshold
@@ -198,25 +198,29 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
         removed_by_angle_change = [extremas_array[n] for n in to_be_removed]
         removed_by_angle_change = list(dict.fromkeys(removed_by_angle_change))
         if len(removed_by_angle_change) > 0:
-            # print('Testing Finished')
-            # print('Filtering by average angle change...')
-            # print('extrema array size: ' + str(size))
-            # print('angles removed: ' + str(removed_by_angle_change))
+            #print('Testing Finished')
+            #print('Filtering by average angle change...')
+            #print('extrema array size: ' + str(size))
+            #print('angles removed: ' + str(removed_by_angle_change))
             extremas_array = np.delete(extremas_array, to_be_removed)
-            # print('\nNew extrema array: ' + str(extremas_array))
-            # print('new size: ' + str(extremas_array.size))
+            #print('\nNew extrema array: ' + str(extremas_array))
+            #print('new size: ' + str(extremas_array.size))
         #else:
             #print('Filter by angle change N/A')
 
     #print('\nTesting to filter by number of angles inbetween....')
     count_list = count_angles_between_extremas(angles_array, extremas_array)
+    #print('count list: ' + str(count_list))
     avr_count = int(sum(count_list) / len(count_list))
     threshold = int(avr_count / 2) + len(count_list)
+    #print('threshold: ' + str(threshold))
+    #print('average count: ' + str(avr_count))
     ls = [n for n in count_list if n < threshold]
+    #print(ls)
 
     if len(ls) > 0:
         # old threshold - 25
-        if avr_count - min(ls) >= 20:
+        if avr_count - min(ls) > 15:
             #print('Testing Finished')
             #print('Filtering by number of angles inbetween:')
             #print('count_list: ' + str(count_list))
@@ -606,7 +610,7 @@ def get_evaluation_decision(feedback, rep_count, display=True):
             decision = 'Decision: Correct Form! Exercise was performed with a correct technique.'
 
         else:
-            if len(final_feedback['Bad']) < int(rep_count*(8/10)):  # 80% of the total rep count
+            if len(final_feedback['Bad']) <= rep_count - int(rep_count*(8/10)):  # 80% of the total rep count
                 decision = 'Decision: Overall the exercise was performed with a good form. However, your technique during '\
                            'the following reps: ' + str(final_feedback['Bad']) + ' could be improved. Look at the feedback '\
                            'for the following reps to see what you did wrong.'

@@ -235,6 +235,15 @@ Feedback
 
 
 
+                if value[0]['min left upper arm trunk'] == max_angle:
+                    feedback2 = 'Bad Form: Your right arm is moved towards your right shoulder significantly.\nFix: Focus on having ' \
+                                'your forearms at equal distances from your shoulders in order to avoid muscular imbalances.\n'
+                else:
+                    feedback2 = 'Bad Form: Your left arm is moved towards yourleft shoulder significantly.\nFix: Focus on having ' \
+                                'your forearms at equal distances from your shoulders in order to avoid muscular imbalances.\n'
+          
+
+
 
 
 

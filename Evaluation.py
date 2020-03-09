@@ -222,7 +222,18 @@ def shoulder_press_evaluation(frame_pose, display):
     for key, value in reps_analysis_dict.items():
         # min forearms and upper arms
         if 87 >= value[0]['min left upper arm forearm'] >= 55 and 87 >= value[1]['min right upper arm forearm'] >= 55:
-            feedback1 = 'Good Form: Your forearms are almost perpendicular to your upper arms.\n'
+            if max(value[0]['min left upper arm forearm'], value[1]['min right upper arm forearm']) - min(value[0]['min left upper arm forearm'], value[1]['min right upper arm forearm']) > 18:
+                # detect which one is at max angle
+                max_angle = max(value[0]['min left upper arm forearm'], value[1]['min right upper arm forearm'])
+
+                if value[0]['min left upper arm forearm'] == max_angle:
+                    feedback1 = 'Bad Form: Your right forearm is moved towards your right shoulder significantly.\nFix: Focus on having ' \
+                                'your forearms at equal distances from your shoulders in order to avoid muscular imbalances.\n'
+                else:
+                    feedback1 = 'Bad Form: Your left forearm is moved towards yourleft shoulder significantly.\nFix: Focus on having ' \
+                                'your forearms at equal distances from your shoulders in order to avoid muscular imbalances.\n'
+            else:
+                feedback1 = 'Good Form: Your forearms are almost perpendicular to your upper arms.\n'
 
         else:
             if value[0]['min left upper arm forearm'] < 55 and value[1]['min right upper arm forearm'] < 55:
@@ -255,17 +266,17 @@ def shoulder_press_evaluation(frame_pose, display):
                 feedback1 = 'Error'
 
         # min upper arms and trunk
-        if 62 <= value[0]['min left upper arm trunk'] <= 94 and 62 <= value[1]['min right upper arm trunk'] <= 94:
-            if max(value[0]['min left upper arm trunk'], value[1]['min right upper arm trunk']) - min(value[0]['min left upper arm trunk'], value[1]['min right upper arm trunk']) > 3:
+        if 62 <= value[0]['min left upper arm trunk'] <= 99 and 62 <= value[1]['min right upper arm trunk'] <= 99:
+            if max(value[0]['min left upper arm trunk'], value[1]['min right upper arm trunk']) - min(value[0]['min left upper arm trunk'], value[1]['min right upper arm trunk']) > 15:
                 # detect which one is at max angle
                 max_angle = max(value[0]['min left upper arm trunk'], value[1]['min right upper arm trunk'])
 
                 if value[0]['min left upper arm trunk'] == max_angle:
-                    feedback2 = 'Bad Form: Your right arm is moved towards your right shoulder significantly.\nFix: Focus on having ' \
-                                'your forearms at equal distances from your shoulders in order to avoid muscular imbalances.\n'
+                    feedback2 = 'Bad Form: Your right elbow is moved moved down significantly compared to your left.\nFix: Focus on having ' \
+                                'your elbows at equal angles to your torso in order to avoid muscular imbalances.\n'
                 else:
-                    feedback2 = 'Bad Form: Your left arm is moved towards yourleft shoulder significantly.\nFix: Focus on having ' \
-                                'your forearms at equal distances from your shoulders in order to avoid muscular imbalances.\n'
+                    feedback2 = 'Bad Form: Your left elbow is moved down significantly compared to your right.\nFix: Focus on having ' \
+                                'your elbows at equal angles to your torso in order to avoid muscular imbalances.\n'
             else:
                 feedback2 = 'Good Form: Your upper arms are almost perpendicular to the torso. Correct starting position achieved.\n'
 
@@ -282,16 +293,16 @@ def shoulder_press_evaluation(frame_pose, display):
                 feedback2 = 'Bad Form: Incorrect starting position. Your right elbow was at incorrect andle to your torso.\nFix: Focus on having' \
                             ' your right elbow almost perpendicular to your torso.\n'
 
-            elif value[0]['min left upper arm trunk'] > 94 and value[1]['min right upper arm trunk'] > 94:
-                feedback2 = 'Bad Form: You upper arms are at incorrect angles to your torso.\nFix: Try to have your upper arms' \
+            elif value[0]['min left upper arm trunk'] > 99 and value[1]['min right upper arm trunk'] > 99:
+                feedback2 = 'Bad Form: Your upper arms are at incorrect angles to your torso.\nFix: Try to have your upper arms' \
                             ' almost perpendicular to your torso.\n'
 
-            elif value[0]['min left upper arm trunk'] > 94:
-                feedback2 = 'Bad Form: You left upper arm is at the incorrect angle to your torso.\nFix: Try to have your left upper arm' \
+            elif value[0]['min left upper arm trunk'] > 99:
+                feedback2 = 'Bad Form: Your left upper arm is at the incorrect angle to your torso.\nFix: Try to have your left upper arm' \
                             ' almost perpendicular to your torso.\n'
 
-            elif value[1]['min right upper arm trunk'] > 94:
-                feedback2 = 'Bad Form: You right upper arm is at the incorrect angle to your torso.\nFix: Try to have your right upper arm' \
+            elif value[1]['min right upper arm trunk'] > 99:
+                feedback2 = 'Bad Form: Your right upper arm is at the incorrect angle to your torso.\nFix: Try to have your right upper arm' \
                             ' almost perpendicular to your torso.\n'
             else:
                 feedback2 = 'Error'
@@ -331,7 +342,7 @@ def shoulder_press_evaluation(frame_pose, display):
         # all parts
         if 131 <= value[0]['max left upper arm forearm'] <= 172 and 131 <= value[1]['max right upper arm forearm'] <= 172\
                 and 136 <= value[0]['max left upper arm trunk'] <= 174 and 136 <= value[1]['max right upper arm trunk'] <= 174:
-            if max(value[0]['max left upper arm forearm'], value[1]['max right upper arm forearm']) - min(value[0]['max left upper arm forearm'], value[1]['max right upper arm forearm']) > 3:
+            if max(value[0]['max left upper arm forearm'], value[1]['max right upper arm forearm']) - min(value[0]['max left upper arm forearm'], value[1]['max right upper arm forearm']) > 15:
                 # detect which one is at max angle
                 max_angle = max(value[0]['max left upper arm forearm'], value[1]['max right upper arm forearm'])
 
