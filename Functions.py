@@ -406,7 +406,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
     elif extremas2 is not None:
         left_uf_points, right_uf_points, left_ut_points, right_ut_points = [], [], [], []
-        angles_each_rep_left, angles_each_rep_right = [], []
+        both_arms_angles = []
+        each_rep_angles = []
         left_rep_count, right_rep_count = 0, 0
         left_max_counter, right_max_counter = 0, 0
         count_left, count_right = 0, 0
@@ -460,7 +461,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                            'min left upper arm trunk': min(left_ut_points),
                                                            'max left upper arm trunk': max(left_ut_points)}
 
-                        angles_each_rep_left.extend((np.array(left_uf_points), np.array(left_ut_points)))
+                        both_arms_angles.extend((left_uf_points, left_ut_points))
                         # erase lists
                         left_uf_points, left_ut_points = [], []
 
@@ -494,9 +495,16 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                              'min right upper arm trunk': min(right_ut_points),
                                                              'max right upper arm trunk': max(right_ut_points)}
 
-                        angles_each_rep_right.extend((np.array(right_uf_points), np.array(right_ut_points)))
+                        both_arms_angles[0] = both_arms_angles[0] + right_uf_points
+                        both_arms_angles[1] = both_arms_angles[1] + right_ut_points
+                        
+                        for l in both_arms_angles:
+                            each_rep_angles.append(np.array(l))
+   
                         # erase lists
+                        both_arms_angles = []
                         right_uf_points, right_ut_points = [], []
+        
 
             count_left = count_angles_between_two_points(left_extremas[-1:], ut_angles1[-1:], ut_angles1)
             count_right = count_angles_between_two_points(right_extremas[-1:], ut_angles2[-1:], ut_angles2)
@@ -524,7 +532,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                'max left upper arm trunk': max(left_ut_points)}
 
             # then do if statements to check if angles above/below threshold
-            angles_each_rep_left.extend((np.array(left_uf_points), np.array(left_ut_points)))
+            both_arms_angles.extend((left_uf_points, left_ut_points))
 
         if count_right > 20:
             right_rep_count += 1
@@ -545,7 +553,12 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                  'min right upper arm trunk': min(right_ut_points),
                                                  'max right upper arm trunk': max(right_ut_points)}
 
-            angles_each_rep_right.extend((np.array(right_uf_points), np.array(right_ut_points)))
+            both_arms_angles[0] = both_arms_angles[0] + right_uf_points
+            both_arms_angles[1] = both_arms_angles[1] + right_ut_points
+            
+            for l in both_arms_angles:
+                each_rep_angles.append(np.array(l))
+   
 
         all_reps = {}
         evaluation_both_arms = {}
@@ -562,10 +575,10 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
             for key in evaluation_left.keys():
                 evaluation_both_arms[key] = tuple(d[key] for d in eval_dicts)
         else:
-            print("Error: Rep counts for left and right arms are not equal")
+            return "Error: Rep counts for left and right arms are not equal"
 
         if string == 'dataset':
-                return angles_each_rep_left, angles_each_rep_right
+                return each_rep_angles
         elif string == 'analysis':
             print('Number of reps performed: ' + str(left_rep_count))
             for k, v in all_reps.items():
