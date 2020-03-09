@@ -406,7 +406,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
     elif extremas2 is not None:
         left_uf_points, right_uf_points, left_ut_points, right_ut_points = [], [], [], []
-        both_arms_angles = []
+        left_side_angles, right_side_angles = [], []
         each_rep_angles = []
         left_rep_count, right_rep_count = 0, 0
         left_max_counter, right_max_counter = 0, 0
@@ -461,7 +461,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                            'min left upper arm trunk': min(left_ut_points),
                                                            'max left upper arm trunk': max(left_ut_points)}
 
-                        both_arms_angles.extend((left_uf_points, left_ut_points))
+                        left_side_angles.extend((left_uf_points, left_ut_points))
                         # erase lists
                         left_uf_points, left_ut_points = [], []
 
@@ -495,14 +495,9 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                              'min right upper arm trunk': min(right_ut_points),
                                                              'max right upper arm trunk': max(right_ut_points)}
 
-                        both_arms_angles[0] = both_arms_angles[0] + right_uf_points
-                        both_arms_angles[1] = both_arms_angles[1] + right_ut_points
-                        
-                        for l in both_arms_angles:
-                            each_rep_angles.append(np.array(l))
-   
+                        right_side_angles.extend((right_uf_points, right_ut_points))
+                   
                         # erase lists
-                        both_arms_angles = []
                         right_uf_points, right_ut_points = [], []
         
 
@@ -532,7 +527,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                'max left upper arm trunk': max(left_ut_points)}
 
             # then do if statements to check if angles above/below threshold
-            both_arms_angles.extend((left_uf_points, left_ut_points))
+            left_side_angles.extend((left_uf_points, left_ut_points))
 
         if count_right > 20:
             right_rep_count += 1
@@ -553,12 +548,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                  'min right upper arm trunk': min(right_ut_points),
                                                  'max right upper arm trunk': max(right_ut_points)}
 
-            both_arms_angles[0] = both_arms_angles[0] + right_uf_points
-            both_arms_angles[1] = both_arms_angles[1] + right_ut_points
-            
-            for l in both_arms_angles:
-                each_rep_angles.append(np.array(l))
-   
+            right_side_angles.extend((right_uf_points, right_ut_points))
 
         all_reps = {}
         evaluation_both_arms = {}
@@ -578,7 +568,12 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
             return "Error: Rep counts for left and right arms are not equal"
 
         if string == 'dataset':
-                return each_rep_angles
+            if len(left_side_angles) == len(right_side_angles):
+
+                return left_side_angles + right_side_angles
+            else:
+                print('Left and Right side anlges are not equal!')
+
         elif string == 'analysis':
             print('Number of reps performed: ' + str(left_rep_count))
             for k, v in all_reps.items():
@@ -646,3 +641,37 @@ def get_evaluation_decision(feedback, rep_count, display=True):
             return 0
         else:
             return 1
+
+
+# Fill na values
+def numpy_fillna(data):
+    # Get lengths of each row of data
+    lens = np.array([len(i) for i in data])
+
+    # Mask of valid places in each row
+    mask = np.arange(lens.max()) < lens[:,None]
+
+    # Setup output array and put elements from data into masked positions
+    out = np.zeros(mask.shape, dtype=data.dtype)
+    out[mask] = np.concatenate(data)
+    return out
+
+
+#dtw version 2
+# Dynamic Time Warp Distance
+# http://alexminnaar.com/time-series-classification-and-clustering-with-python.html
+def DTWDistance(s1, s2):
+    DTW = {}
+
+    for i in range(len(s1)):
+        DTW[(i, -1)] = float('inf')
+    for i in range(len(s2)):
+        DTW[(-1, i)] = float('inf')
+    DTW[(-1, -1)] = 0
+
+    for i in range(len(s1)):
+        for j in range(len(s2)):
+            dist= (s1[i]-s2[j])**2
+            DTW[(i, j)] = dist + min(DTW[(i-1, j)],DTW[(i, j-1)], DTW[(i-1, j-1)])
+
+    return np.sqrt(DTW[len(s1)-1, len(s2)-1])
