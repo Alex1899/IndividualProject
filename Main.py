@@ -11,22 +11,28 @@ def main():
     parser.add_argument('--mode', type=str, default='evaluation')
     parser.add_argument('--exercise', type=str, help='name of the exercise to evaluate ex. "bicep curl"')
     parser.add_argument('--video_path', type=str, help='path to video to evaluate')
-    parser.add_argument('--videos_folder', type=str, default='openpose/videos', help='folder where all exercise videos are stored')
-    parser.add_argument('--keypoints_folder', type=str, default='IndividualProject/keypoints_for_all', help='all keypoints folder')
-    parser.add_argument('--output_videos_folder', type=str, default='openpose/output_videos', help='output video folder in .avi')
+    parser.add_argument('--videos_folder', type=str, default='videos', help='folder where all exercise videos are stored')
+    parser.add_argument('--keypoints_folder', type=str, default='keypoints_for_all', help='all keypoints folder')
+    parser.add_argument('--output_videos_folder', type=str, default='output_videos', help='output video folder in .avi')
 
     arguments = parser.parse_args()
-    os.chdir('../openpose')
 
     # extract keypoints from all videos in videos folder and store in keypoints_for_all folder.
     if arguments.mode == 'keypoints_extraction':
-        if arguments.exercise:
-            video_folders = glob.glob(arguments.videos_folder + '/' + arguments.exercise)
-        else:
-            video_folders = glob.glob(arguments.videos_folder + '/*')
+        os.chdir('../openpose')
+        print(os.getcwd())
 
+        if arguments.exercise:
+            video_folders = glob.glob(os.path.join(os.getcwd(), arguments.videos_folder, arguments.exercise))
+        else:
+            video_folders = glob.glob(os.path.join(os.getcwd(), arguments.videos_folder + '/*'))
+        print(video_folders)
+
+        os.chdir('../IndividualProject')
+        print(os.getcwd())
         for vid_folder in video_folders:
             exercise_videos = glob.glob(vid_folder + '/*')
+            #print(exercise_videos)
 
             for video in exercise_videos:
                 video_name = os.path.basename(video)
@@ -37,10 +43,16 @@ def main():
                 if not os.path.exists(output_points_folder):
                     os.makedirs(output_points_folder)
 
-                output_videos_folder = os.path.join(arguments.output_videos_folder, vid_folder)
+                os.chdir('../openpose')
+                print(os.getcwd())
+                print(arguments.output_videos_folder)
+                print(vid_folder)
+                output_videos_folder = os.path.join(os.getcwd(), arguments.output_videos_folder) + '/' + vid_folder
+                print(output_points_folder)
                 if not os.path.exists(output_videos_folder):
                     os.makedirs(output_videos_folder)
-                print(output_videos_folder)
+                #print(output_videos_folder)
+                break
                 output_video = output_points_folder + '/' + points_folder_name + '.avi'
                 openpose_demo = os.path.join('bin', 'OpenPoseDemo.exe')
                 """
@@ -58,6 +70,7 @@ def main():
             if not os.path.exists(output_points_folder):
                 os.makedirs(output_points_folder)
 
+            os.chdir('../openpose')
             output_videos_folder = os.path.join(arguments.output_videos_folder, arguments.exercise)
             if not os.path.exists(output_videos_folder):
                 os.makedirs(output_videos_folder)
