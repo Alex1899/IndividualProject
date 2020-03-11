@@ -461,7 +461,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                            'min left upper arm trunk': min(left_ut_points),
                                                            'max left upper arm trunk': max(left_ut_points)}
 
-                        left_side_angles.extend((left_uf_points, left_ut_points))
+                        left_side_angles.extend((np.array(left_uf_points), np.array(left_ut_points)))
                         # erase lists
                         left_uf_points, left_ut_points = [], []
 
@@ -495,7 +495,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                              'min right upper arm trunk': min(right_ut_points),
                                                              'max right upper arm trunk': max(right_ut_points)}
 
-                        right_side_angles.extend((right_uf_points, right_ut_points))
+                        right_side_angles.extend((np.array(right_uf_points), np.array(right_ut_points)))
                    
                         # erase lists
                         right_uf_points, right_ut_points = [], []
@@ -527,7 +527,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                'max left upper arm trunk': max(left_ut_points)}
 
             # then do if statements to check if angles above/below threshold
-            left_side_angles.extend((left_uf_points, left_ut_points))
+            left_side_angles.extend((np.array(left_uf_points), np.array(left_ut_points)))
 
         if count_right > 20:
             right_rep_count += 1
@@ -548,7 +548,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                  'min right upper arm trunk': min(right_ut_points),
                                                  'max right upper arm trunk': max(right_ut_points)}
 
-            right_side_angles.extend((right_uf_points, right_ut_points))
+            right_side_angles.extend((np.array(right_uf_points), np.array(right_ut_points)))
 
         all_reps = {}
         evaluation_both_arms = {}

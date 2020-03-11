@@ -20,50 +20,54 @@ def main():
     # extract keypoints from all videos in videos folder and store in keypoints_for_all folder.
     if arguments.mode == 'keypoints_extraction':
         os.chdir('../openpose')
-        print(os.getcwd())
+        #print(os.getcwd())
 
         if arguments.exercise:
-            video_folders = glob.glob(os.path.join(os.getcwd(), arguments.videos_folder, arguments.exercise))
+            video_folders = glob.glob(os.path.join(arguments.videos_folder, arguments.exercise))
         else:
-            video_folders = glob.glob(os.path.join(os.getcwd(), arguments.videos_folder + '/*'))
-        print(video_folders)
+            video_folders = glob.glob(os.path.join(arguments.videos_folder, '/*'))
+        #print(video_folders)
 
-        os.chdir('../IndividualProject')
-        print(os.getcwd())
+        #print(os.getcwd())
         for vid_folder in video_folders:
             exercise_videos = glob.glob(vid_folder + '/*')
             #print(exercise_videos)
 
             for video in exercise_videos:
+                os.chdir('../IndividualProject')
                 video_name = os.path.basename(video)
                 points_folder_name = str(video_name.split('.', 1)[0])
-                output_points_folder = os.path.join(arguments.keypoints_folder, vid_folder, str(points_folder_name))
-                print(output_points_folder)
+                output_points_folder = os.path.join(os.getcwd(), arguments.keypoints_folder, os.path.basename(vid_folder), points_folder_name)
+                #print(output_points_folder)
 
                 if not os.path.exists(output_points_folder):
                     os.makedirs(output_points_folder)
 
                 os.chdir('../openpose')
-                print(os.getcwd())
-                print(arguments.output_videos_folder)
-                print(vid_folder)
-                output_videos_folder = os.path.join(os.getcwd(), arguments.output_videos_folder) + '/' + vid_folder
-                print(output_points_folder)
+                #print(os.getcwd())
+                #print(arguments.output_videos_folder)
+                #print(vid_folder)
+                output_videos_folder = os.path.join(os.getcwd(), arguments.output_videos_folder, os.path.basename(vid_folder))
+                #print(output_videos_folder)
                 if not os.path.exists(output_videos_folder):
                     os.makedirs(output_videos_folder)
                 #print(output_videos_folder)
-                break
-                output_video = output_points_folder + '/' + points_folder_name + '.avi'
+
+                output_video = os.path.join(output_videos_folder, points_folder_name + '.avi')
                 openpose_demo = os.path.join('bin', 'OpenPoseDemo.exe')
-                """
+                #print(output_video)
+
                 subprocess.call([openpose_demo, '--video', video, '--write_json', output_points_folder, '--write_video',
-                                    output_video, '--number_people_max', '1'])
-                """
+                                output_video, '--number_people_max', '1'])
+
+            #os.chdir('../IndividualProject')
 
     # if a specific video path is specified, evaluate that video and save keypoints/output video in the folder
     elif arguments.mode == 'evaluation':
         if arguments.video_path and arguments.exercise:
+            os.chdir('../IndividualProject')
             video_name = str(os.path.basename(arguments.video_path).split('.', 1)[0])
+
             output_points_folder = os.path.join(arguments.keypoints_folder, arguments.exercise, video_name)
             print(output_points_folder)
 
@@ -71,12 +75,12 @@ def main():
                 os.makedirs(output_points_folder)
 
             os.chdir('../openpose')
-            output_videos_folder = os.path.join(arguments.output_videos_folder, arguments.exercise)
+            output_videos_folder = os.path.join(arguments.output_videos_folder, arguments.exercise, )
             if not os.path.exists(output_videos_folder):
                 os.makedirs(output_videos_folder)
 
             print(output_videos_folder)
-            output_video = output_points_folder + '/' + video_name + '.avi'
+            output_video = os.path.join(output_videos_folder, video_name + '.avi')
             openpose_demo = os.path.join('bin', 'OpenPoseDemo.exe')
             """
             subprocess.call([openpose_demo, '--video', arguments.video_path, '--write_json', output_points_folder, '--write_video',

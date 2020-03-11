@@ -6,7 +6,7 @@ from Functions import detect_side
 
 class JointAngles:
     def __init__(self, string, frame_poses):
-        if string == 'bicep curl' or string == 'front raise' or string == 'triceps pushdown':
+        if string == 'bicep_curl' or string == 'front_raise' or string == 'triceps_pushdown':
             self.side = detect_side(frame_poses)
 
             # filtered keypoints
@@ -36,7 +36,7 @@ class JointAngles:
             # self.knee_vects.append(knee_vect)
             self.trunk_knee_angles = get_trunk_knee_angles(trunk_vects, knee_vects)
 
-        elif string == 'shoulder press':
+        elif string == 'shoulder_press':
             self.side = 'front'
             joints = ['LSHOULDER', 'RSHOULDER', 'LELBOW', 'RELBOW', 'LWRIST', 'RWRIST',
                       'NECK', 'MIDHIP']
