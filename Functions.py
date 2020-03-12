@@ -269,8 +269,9 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
         all_reps = {}
         extremas_copy = extremas1
         num = extremas1.size
+        uf_count, ut_count, tk_count = 0, 0, 0
 
-        if exercise == 'bicep curl' or exercise == 'triceps pushdown':
+        if exercise == 'bicep_curl' or exercise == 'triceps_pushdown':
             for (uf_p, ut_p, tk_p) in zip(uf_angles1, ut_angles1, tk_angles1):
                 if uf_p not in extremas1:
                     uf_points.append(uf_p)
@@ -314,7 +315,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
             count_angles = count_angles_between_two_points(extremas_copy[-1:], uf_angles1[-1:], uf_angles1)
 
-        elif exercise == 'front raise':
+        elif exercise == 'front_raise':
             for (uf_p, ut_p, tk_p) in zip(uf_angles1, ut_angles1, tk_angles1):
                 if ut_p not in extremas1:
                     uf_points.append(uf_p)
@@ -425,10 +426,12 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
         right_extremas = extremas2
         num1 = extremas1.size
         num2 = extremas2.size
+        l_uf_count, l_ut_count = 0, 0
+        r_uf_count, r_ut_count = 0, 0
 
         if abs(num1 - num2) > 1:
             print("Left and Right extrema points not equal")
-        if exercise == 'shoulder press':
+        if exercise == 'shoulder_press':
             for (left_uf_p, right_uf_p, left_ut_p, right_ut_p) in zip(uf_angles1, uf_angles2, ut_angles1, ut_angles2):
                 if left_ut_p not in extremas1:
                     left_uf_points.append(left_uf_p)
@@ -462,6 +465,9 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                            'max left upper arm trunk': max(left_ut_points)}
 
                         left_side_angles.extend((np.array(left_uf_points), np.array(left_ut_points)))
+                        l_uf_count += 1
+                        l_ut_count += 1
+
                         # erase lists
                         left_uf_points, left_ut_points = [], []
 
@@ -496,7 +502,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                              'max right upper arm trunk': max(right_ut_points)}
 
                         right_side_angles.extend((np.array(right_uf_points), np.array(right_ut_points)))
-                   
+                        r_uf_count += 1
+                        r_ut_count += 1
                         # erase lists
                         right_uf_points, right_ut_points = [], []
         
@@ -528,6 +535,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
             # then do if statements to check if angles above/below threshold
             left_side_angles.extend((np.array(left_uf_points), np.array(left_ut_points)))
+            l_uf_count += 1
+            l_ut_count += 1
 
         if count_right > 20:
             right_rep_count += 1
@@ -549,6 +558,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                  'max right upper arm trunk': max(right_ut_points)}
 
             right_side_angles.extend((np.array(right_uf_points), np.array(right_ut_points)))
+            r_uf_count += 1
+            r_ut_count += 1
 
         all_reps = {}
         evaluation_both_arms = {}
@@ -570,7 +581,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
         if string == 'dataset':
             if len(left_side_angles) == len(right_side_angles):
 
-                return left_side_angles + right_side_angles
+                return left_side_angles + right_side_angles, (l_uf_count + l_ut_count, r_uf_count + r_ut_count)
             else:
                 print('Left and Right side anlges are not equal!')
 
@@ -652,7 +663,7 @@ def numpy_fillna(data):
     mask = np.arange(lens.max()) < lens[:,None]
 
     # Setup output array and put elements from data into masked positions
-    out = np.zeros(mask.shape, dtype=data.dtype)
+    out = np.zeros(mask.shape, dtype=np.float)
     out[mask] = np.concatenate(data)
     return out
 
