@@ -1,6 +1,12 @@
-import numpy as np
+import subprocess
+import sys
+
+try:
+    import numpy as np
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "numpy", "--user"])
+
 import math
-from scipy.signal import medfilt
 from Functions import detect_side
 
 

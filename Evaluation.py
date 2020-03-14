@@ -1,17 +1,28 @@
-import numpy as np
-from scipy.signal import medfilt
+import subprocess
+import sys
+
+try:
+    import numpy as np
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "numpy", "--user"])
+
+try:
+    from scipy.signal import medfilt
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "scipy", "--user"])
+
 from JointAngles import JointAngles
 from Functions import find_extremas, filter_extremas, analyse_each_rep, get_evaluation_decision
 
 
 def evaluate_form(frame_pose, exercise, display):
-    if exercise == 'bicep curl':
+    if exercise == 'bicep_curl':
         return bicep_curl_evaluation(frame_pose, display)
-    elif exercise == 'triceps pushdown':
+    elif exercise == 'triceps_pushdown':
         return triceps_pushdown_evaluation(frame_pose, display)
-    elif exercise == 'front raise':
+    elif exercise == 'front_raise':
         return front_raise_evaluation(frame_pose, display)
-    elif exercise == 'shoulder press':
+    elif exercise == 'shoulder_press':
         return shoulder_press_evaluation(frame_pose, display)
     else:
         print('Error: Wrong exercise.')
@@ -23,7 +34,7 @@ def bicep_curl_evaluation(frame_pose, display):
     # check trunk knee vector
     # possibly check tempo of the rep (not yet)
     feedback = []
-    jointAngles = JointAngles('bicep curl', frame_pose)
+    jointAngles = JointAngles('bicep_curl', frame_pose)
 
     if display is True:
         print('Starting Bicep Curl Analysis...')
@@ -42,7 +53,7 @@ def bicep_curl_evaluation(frame_pose, display):
     # Find joint maximass
     extrema = filter_extremas(upArm_forearm_angles_filtered, find_extremas(upArm_forearm_angles_filtered))
 
-    reps_analysis_dict = analyse_each_rep(exercise='bicep curl', string='evaluation', extremas1=extrema,
+    reps_analysis_dict = analyse_each_rep(exercise='bicep_curl', string='evaluation', extremas1=extrema,
                                           uf_angles1=upArm_forearm_angles_filtered, ut_angles1=upArm_trunk_angles_filtered,
                                           tk_angles1=trunk_knee_angles_filtered)
 
@@ -50,7 +61,7 @@ def bicep_curl_evaluation(frame_pose, display):
 
     for key, value in reps_analysis_dict.items():
         # upper arm forearm
-        if value['min upper arm forearm'] <= 60:
+        if value['min upper arm forearm'] <= 65:
             feedback1 = 'Good Form: The weight was brought up high enough for a good contraction.\n'
 
         else:
@@ -63,7 +74,7 @@ def bicep_curl_evaluation(frame_pose, display):
                 feedback1 = 'Bad Form:  The weight has not been curled high enough.\nFix: Focus on bringing the ' \
                             'weight higher in order to get maximum biceps contraction.\n'
 
-        if value['max upper arm forearm'] >= 160: # edit threshold
+        if value['max upper arm forearm'] >= 140: # edit threshold
             feedback2 = 'Good Form: The weight was lowered and correct starting position was achieved.\n'
         else:
             feedback2 = 'Bad Form: The weight was lowered half way.\nFix: Lower the weight until you achieve a ' \
@@ -123,7 +134,7 @@ def triceps_pushdown_evaluation(frame_pose, display):
     # Find joint maximass
     extrema = filter_extremas(upArm_forearm_angles_filtered, find_extremas(upArm_forearm_angles_filtered, maxima=False), maxima=False)
 
-    reps_analysis_dict = analyse_each_rep(exercise='triceps pushdown', string='evaluation', extremas1=extrema,
+    reps_analysis_dict = analyse_each_rep(exercise='triceps_pushdown', string='evaluation', extremas1=extrema,
                                           uf_angles1=upArm_forearm_angles_filtered, ut_angles1=upArm_trunk_angles_filtered,
                                           tk_angles1=trunk_knee_angles_filtered)
 
@@ -212,7 +223,7 @@ def shoulder_press_evaluation(frame_pose, display):
     right_upArm_trunk_minimas = find_extremas(right_upArm_trunk_angles_filtered, maxima=False)
     right_upArm_trunk_minimas = filter_extremas(right_upArm_trunk_angles_filtered, right_upArm_trunk_minimas, False)
 
-    reps_analysis_dict = analyse_each_rep(exercise='shoulder press', string='evaluation',
+    reps_analysis_dict = analyse_each_rep(exercise='shoulder_press', string='evaluation',
                                           extremas1=left_upArm_trunk_minimas, uf_angles1=left_upArm_forearm_angles_filtered,
                                           ut_angles1=left_upArm_trunk_angles_filtered, extremas2=right_upArm_trunk_minimas,
                                           uf_angles2=right_upArm_forearm_angles_filtered, ut_angles2=right_upArm_trunk_angles_filtered)
@@ -405,7 +416,7 @@ def front_raise_evaluation(frame_pose, display):
     upArm_trunk_minimas = find_extremas(upArm_trunk_angles_filtered, maxima=False)
     upArm_trunk_minimas = filter_extremas(upArm_trunk_angles_filtered, upArm_trunk_minimas, maxima=False)
 
-    reps_analysis_dict = analyse_each_rep(exercise='front raise', string='evaluation', extremas1=upArm_trunk_minimas,
+    reps_analysis_dict = analyse_each_rep(exercise='front_raise', string='evaluation', extremas1=upArm_trunk_minimas,
                                           uf_angles1=upArm_forearm_angles_filtered, ut_angles1=upArm_trunk_angles_filtered,
                                           tk_angles1=trunk_knee_angles_filtered)
 

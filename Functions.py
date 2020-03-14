@@ -625,6 +625,8 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
 
 def get_evaluation_decision(feedback, rep_count, display=True):
     final_feedback = {'Good': [], 'Bad': []}
+    if not feedback:
+        return 'No Feedback: Error happened during analysis.'
 
     if display:
         print('\nAnalysing each repetition below: ')
@@ -657,8 +659,8 @@ def get_evaluation_decision(feedback, rep_count, display=True):
                            'for the following reps to see what you did wrong.'
 
             else:
-                decision = 'Decision: Incorrect Form! Your technique can be improved. Take a look at the feedback above to see '
-                'what you did wrong.'
+                decision = 'Decision: Incorrect Form! Your technique can be improved. Take a look at the feedback ' \
+                           'above to see what you did wrong.'
 
         print(decision)
         print('-' * 100)
@@ -688,23 +690,3 @@ def numpy_fillna(data):
     out = np.zeros(mask.shape, dtype=np.float)
     out[mask] = np.concatenate(data)
     return out
-
-
-#dtw version 2
-# Dynamic Time Warp Distance
-# http://alexminnaar.com/time-series-classification-and-clustering-with-python.html
-def DTWDistance(s1, s2):
-    DTW = {}
-
-    for i in range(len(s1)):
-        DTW[(i, -1)] = float('inf')
-    for i in range(len(s2)):
-        DTW[(-1, i)] = float('inf')
-    DTW[(-1, -1)] = 0
-
-    for i in range(len(s1)):
-        for j in range(len(s2)):
-            dist= (s1[i]-s2[j])**2
-            DTW[(i, j)] = dist + min(DTW[(i-1, j)],DTW[(i, j-1)], DTW[(i-1, j-1)])
-
-    return np.sqrt(DTW[len(s1)-1, len(s2)-1])

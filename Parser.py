@@ -1,9 +1,14 @@
 import glob
 import json
 import os
-import numpy
+import subprocess
+import sys
 from Frame import FramePose
-from JointAngles import JointAngles
+
+try:
+    import numpy
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "numpy", "--user"])
 
 
 def parse_frames(path_to_jsons):

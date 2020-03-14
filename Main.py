@@ -11,7 +11,7 @@ def main():
     parser.add_argument('--mode', type=str, default='evaluation')
     parser.add_argument('--exercise', type=str, help='name of the exercise to evaluate ex. "bicep curl"')
     parser.add_argument('--video_path', type=str, help='path to video to evaluate')
-    parser.add_argument('--videos_folder', type=str, default='videos', help='folder where all exercise videos are stored')
+    parser.add_argument('--videos_folder', type=str, help='folder where all exercise videos are stored')
     parser.add_argument('--keypoints_folder', type=str, default='keypoints_for_all', help='all keypoints folder')
     parser.add_argument('--output_videos_folder', type=str, default='output_videos', help='output video folder in .avi')
 
@@ -68,24 +68,26 @@ def main():
             os.chdir('../IndividualProject')
             video_name = str(os.path.basename(arguments.video_path).split('.', 1)[0])
 
-            output_points_folder = os.path.join(arguments.keypoints_folder, arguments.exercise, video_name)
-            print(output_points_folder)
+            output_points_folder = os.path.join(os.getcwd(), arguments.keypoints_folder, arguments.exercise, video_name)
+            #print(output_points_folder)
 
             if not os.path.exists(output_points_folder):
                 os.makedirs(output_points_folder)
 
             os.chdir('../openpose')
-            output_videos_folder = os.path.join(arguments.output_videos_folder, arguments.exercise, )
+
+            output_videos_folder = os.path.join(os.getcwd(), arguments.output_videos_folder, arguments.exercise)
+            #print(output_videos_folder)
             if not os.path.exists(output_videos_folder):
                 os.makedirs(output_videos_folder)
+            #print(output_videos_folder)
 
-            print(output_videos_folder)
             output_video = os.path.join(output_videos_folder, video_name + '.avi')
             openpose_demo = os.path.join('bin', 'OpenPoseDemo.exe')
-            """
+            #print(output_video)
+
             subprocess.call([openpose_demo, '--video', arguments.video_path, '--write_json', output_points_folder, '--write_video',
                              output_video, '--number_people_max', '1'])
-            """
 
             frame_pose = parse_frames(output_points_folder)
             evaluate_form(frame_pose, arguments.exercise, True)
