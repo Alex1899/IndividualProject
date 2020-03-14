@@ -360,7 +360,10 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                  'min trunk knee': min(tk_points),
                                                  'max trunk knee': max(tk_points)}
 
-                        angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
+                        uf_df.append(np.array(uf_points))
+                        ut_df.append(np.array(ut_points))
+                        tk_df.append(np.array(tk_points))
+                        #angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
                         # erase lists
                         uf_points, ut_points, tk_points = [], [], []
 
@@ -476,7 +479,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                            'max left upper arm trunk': max(left_ut_points)}
                         
                         both_uf_angles.append(np.array(left_uf_points))
-                        both_ut_points.append(np.array(left_ut_points))
+                        both_ut_angles.append(np.array(left_ut_points))
 
                         #left_side_angles.extend((np.array(left_uf_points), np.array(left_ut_points)))
                         l_uf_count += 1
@@ -516,7 +519,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                              'max right upper arm trunk': max(right_ut_points)}
 
                         both_uf_angles.append(np.array(right_uf_points))
-                        both_ut_points.append(np.array(right_ut_points))
+                        both_ut_angles.append(np.array(right_ut_points))
                         #right_side_angles.extend((np.array(right_uf_points), np.array(right_ut_points)))
                         r_uf_count += 1
                         r_ut_count += 1
@@ -550,7 +553,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                'max left upper arm trunk': max(left_ut_points)}
 
             both_uf_angles.append(np.array(left_uf_points))
-            both_ut_points.append(np.array(left_ut_points))
+            both_ut_angles.append(np.array(left_ut_points))
             #left_side_angles.extend((np.array(left_uf_points), np.array(left_ut_points)))
             l_uf_count += 1
             l_ut_count += 1
@@ -575,7 +578,7 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
                                                  'max right upper arm trunk': max(right_ut_points)}
 
             both_uf_angles.append(np.array(right_uf_points))
-            both_ut_points.append(np.array(right_ut_points))
+            both_ut_angles.append(np.array(right_ut_points))
             #right_side_angles.extend((np.array(right_uf_points), np.array(right_ut_points)))
             r_uf_count += 1
             r_ut_count += 1
