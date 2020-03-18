@@ -2,12 +2,13 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Python" name="Python">
-      <configuration sdkName="" />
+      <configuration sdkName="Python 3.6 (IndividualProject)" />
     </facet>
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.7 (indiv-project)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.6 (IndividualProject)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Python 3.6 (IndividualProject) interpreter library" level="application" />
   </component>
 </module>

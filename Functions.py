@@ -1,3 +1,11 @@
+import sys
+import subprocess
+"""
+try:
+    import numpy as np
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "numpy", "--user"])
+"""
 import numpy as np
 
 
@@ -299,17 +307,32 @@ def analyse_each_rep(exercise, mode, extremas1, uf_angles1, ut_angles1, tk_angle
                         max_trunk_knee.append(max(tk_points))
 
                         all_reps[rep_count] = [
-                            "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
-                            "Maximum angle between upper arm and forearm: " + str(max(uf_points)),
-                            "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
-                            "Minimum angle between trunk and knee: " + str(min(tk_points))]
+                                "Starting position upper arm forearm angle:" + str(uf_angles1[:1]),
+                                "Starting position upper arm trunk angle:" + str(ut_angles1[:1]),
+                                "Starting position trunk knee angle:" + str(tk_angles1[:1]),
+                                "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
+                                "Maximum angle between upper arm and forearm: " + str(max(uf_points)),
+                                "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
+                                "Minimum angle between trunk and knee: " + str(min(tk_points)),
+                                "Finishing position upper arm forearm angle:" + str(uf_angles1[-1:]),
+                                "Finishing  position upper arm trunk angle:" + str(ut_angles1[-1:]),
+                                "Finishing  position trunk knee angle:" + str(tk_angles1[-1:])
+                        ]
 
-                        evaluation[rep_count] = {'min upper arm forearm': min(uf_points),
-                                                 'max upper arm forearm': max(uf_points),
-                                                 'min upper arm trunk': min(ut_points),
-                                                 'max upper arm trunk': max(ut_points),
-                                                 'min trunk knee': min(tk_points),
-                                                 'max trunk knee': max(tk_points)}
+                        evaluation[rep_count] = {
+                                "Start upper arm forearm angle": uf_angles1[:1][0],
+                                "Start upper arm trunk angle": ut_angles1[:1][0],
+                                "Start trunk knee angle": tk_angles1[:1][0],
+                                'min upper arm forearm': min(uf_points),
+                                'max upper arm forearm': max(uf_points),
+                                'min upper arm trunk': min(ut_points),
+                                'max upper arm trunk': max(ut_points),
+                                'min trunk knee': min(tk_points),
+                                'max trunk knee': max(tk_points),
+                                'Finishing position upper arm forearm angle': uf_angles1[-1:][0],
+                                'Finishing  position upper arm trunk angle': ut_angles1[-1:][0],
+                                'Finishing  position trunk knee angle': tk_angles1[-1:][0]
+                        }
 
                         uf_df.append(np.array(uf_points))
                         ut_df.append(np.array(ut_points))
@@ -347,18 +370,32 @@ def analyse_each_rep(exercise, mode, extremas1, uf_angles1, ut_angles1, tk_angle
                         max_trunk_knee.append(max(tk_points))
 
                         all_reps[rep_count] = [
+                            "Starting position upper arm forearm angle:" + str(uf_angles1[:1]),
+                            "Starting position upper arm trunk angle:" + str(ut_angles1[:1]),
+                            "Starting position trunk knee angle:" + str(tk_angles1[:1]),
                             "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
                             "Maximum angle between upper arm and forearm: " + str(max(uf_points)),
-                            "Minimum angle between upper arm and trunk: " + str(min(ut_points)),
                             "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
-                            "Minimum angle between trunk and knee: " + str(min(tk_points))]
+                            "Minimum angle between trunk and knee: " + str(min(tk_points)),
+                            "Finishing position upper arm forearm angle:" + str(uf_angles1[-1:]),
+                            "Finishing  position upper arm trunk angle:" + str(ut_angles1[-1:]),
+                            "Finishing  position trunk knee angle:" + str(tk_angles1[-1:])
+                        ]
 
-                        evaluation[rep_count] = {'min upper arm forearm': min(uf_points),
-                                                 'max upper arm forearm': max(uf_points),
-                                                 'min upper arm trunk': min(ut_points),
-                                                 'max upper arm trunk': max(ut_points),
-                                                 'min trunk knee': min(tk_points),
-                                                 'max trunk knee': max(tk_points)}
+                        evaluation[rep_count] = {
+                            "Start upper arm forearm angle": uf_angles1[:1][0],
+                            "Start upper arm trunk angle": ut_angles1[:1][0],
+                            "Start trunk knee angle": tk_angles1[:1][0],
+                            'min upper arm forearm': min(uf_points),
+                            'max upper arm forearm': max(uf_points),
+                            'min upper arm trunk': min(ut_points),
+                            'max upper arm trunk': max(ut_points),
+                            'min trunk knee': min(tk_points),
+                            'max trunk knee': max(tk_points),
+                            'Finishing position upper arm forearm angle': uf_angles1[-1:][0],
+                            'Finishing  position upper arm trunk angle': ut_angles1[-1:][0],
+                            'Finishing  position trunk knee angle': tk_angles1[-1:][0]
+                        }
 
                         uf_df.append(np.array(uf_points))
                         ut_df.append(np.array(ut_points))
@@ -381,18 +418,32 @@ def analyse_each_rep(exercise, mode, extremas1, uf_angles1, ut_angles1, tk_angle
             max_trunk_knee.append(max(tk_points))
 
             all_reps[rep_count] = [
+                "Starting position upper arm forearm angle:" + str(uf_angles1[:1]),
+                "Starting position upper arm trunk angle:" + str(ut_angles1[:1]),
+                "Starting position trunk knee angle:" + str(tk_angles1[:1]),
                 "Minimum angle between upper arm and forearm: " + str(min(uf_points)),
                 "Maximum angle between upper arm and forearm: " + str(max(uf_points)),
-                "Minimum angle between upper arm and trunk: " + str(min(ut_points)),
                 "Maximum angle between upper arm and trunk: " + str(max(ut_points)),
-                "Minimum angle between trunk and knee: " + str(min(tk_points))]
+                "Minimum angle between trunk and knee: " + str(min(tk_points)),
+                "Finishing position upper arm forearm angle:" + str(uf_angles1[-1:]),
+                "Finishing  position upper arm trunk angle:" + str(ut_angles1[-1:]),
+                "Finishing  position trunk knee angle:" + str(tk_angles1[-1:])
+            ]
 
-            evaluation[rep_count] = {'min upper arm forearm': min(uf_points),
-                                     'max upper arm forearm': max(uf_points),
-                                     'min upper arm trunk': min(ut_points),
-                                     'max upper arm trunk': max(ut_points),
-                                     'min trunk knee': min(tk_points),
-                                     'max trunk knee': max(tk_points)}
+            evaluation[rep_count] = {
+                "Start upper arm forearm angle": uf_angles1[:1][0],
+                "Start upper arm trunk angle": ut_angles1[:1][0],
+                "Start trunk knee angle": tk_angles1[:1][0],
+                'min upper arm forearm': min(uf_points),
+                'max upper arm forearm': max(uf_points),
+                'min upper arm trunk': min(ut_points),
+                'max upper arm trunk': max(ut_points),
+                'min trunk knee': min(tk_points),
+                'max trunk knee': max(tk_points),
+                'Finishing position upper arm forearm angle': uf_angles1[-1:][0],
+                'Finishing  position upper arm trunk angle': ut_angles1[-1:][0],
+                'Finishing  position trunk knee angle': tk_angles1[-1:][0]
+            }
 
             uf_df.append(np.array(uf_points))
             ut_df.append(np.array(ut_points))
@@ -468,15 +519,26 @@ def analyse_each_rep(exercise, mode, extremas1, uf_angles1, ut_angles1, tk_angle
                         min_upper_arm_trunk.append(min(left_ut_points))
 
                         left_reps[left_rep_count] = [
+                            'Starting position left upper arm - left forearm angle:' + str(left_uf_points[:1][0]),
+                            'Starting position left upper arm - trunk angle:' + str(left_ut_points[:1][0]),
                             'Left upper arm - left forearm -> Minimum Angle:' + str(min(left_uf_points)),
                             'Left upper arm - left forearm -> Maximum Angle:' + str(max(left_uf_points)),
                             'Left upper arm - trunk -> Maximum Angle: ' + str(max(left_ut_points)),
-                            'Left upper arm - trunk -> Minimum Angle: ' + str(min(left_ut_points)) + '\n']
+                            'Left upper arm - trunk -> Minimum Angle: ' + str(min(left_ut_points)) + '\n',
+                            'Finishing position left upper arm - left forearm angle:' + str(left_uf_points[-1:][0]),
+                            'Finishing position left upper arm - trunk angle:' + str(left_ut_points[-1:][0])
+                            ]
 
-                        evaluation_left[left_rep_count] = {'min left upper arm forearm': min(left_uf_points),
-                                                           'max left upper arm forearm': max(left_uf_points),
-                                                           'min left upper arm trunk': min(left_ut_points),
-                                                           'max left upper arm trunk': max(left_ut_points)}
+                        evaluation_left[left_rep_count] = {
+                            'start left upper arm forearm': left_uf_points[:1][0],
+                            'start left upper arm trunk': left_ut_points[:1][0],
+                            'min left upper arm forearm': min(left_uf_points),
+                            'max left upper arm forearm': max(left_uf_points),
+                            'min left upper arm trunk': min(left_ut_points),
+                            'max left upper arm trunk': max(left_ut_points),
+                            'finish left upper arm forearm': left_uf_points[-1:][0],
+                            'finish left upper arm trunk': left_ut_points[-1:][0]
+                        }
                         
                         both_uf_angles.append(np.array(left_uf_points))
                         both_ut_angles.append(np.array(left_ut_points))
@@ -508,15 +570,27 @@ def analyse_each_rep(exercise, mode, extremas1, uf_angles1, ut_angles1, tk_angle
                         min_upper_arm_trunk.append(min(right_ut_points))
 
                         right_reps[right_rep_count] = [
-                            'Right upper arm - left forearm -> Minimum Angle:' + str(min(right_uf_points)),
-                            'Right upper arm - left forearm -> Maximum Angle:' + str(max(right_uf_points)),
+                            'Starting position right upper arm - right forearm angle:' + str(right_uf_points[:1][0]),
+                            'Starting position right upper arm - trunk angle:' + str(right_ut_points[:1][0]),
+                            'Right upper arm - right forearm -> Minimum Angle:' + str(min(right_uf_points)),
+                            'Right upper arm - right forearm -> Maximum Angle:' + str(max(right_uf_points)),
                             'Right upper arm - trunk -> Maximum Angle: ' + str(max(right_ut_points)),
-                            'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n']
+                            'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n',
+                            'Finishing position right upper arm - right forearm angle:' + str(right_uf_points[-1:][0]),
+                            'Finishing position right upper arm - trunk angle:' + str(right_ut_points[-1:][0])
 
-                        evaluation_right[right_rep_count] = {'min right upper arm forearm': min(right_uf_points),
-                                                             'max right upper arm forearm': max(right_uf_points),
-                                                             'min right upper arm trunk': min(right_ut_points),
-                                                             'max right upper arm trunk': max(right_ut_points)}
+                        ]
+
+                        evaluation_right[right_rep_count] = {
+                            'start right upper arm forearm': right_uf_points[:1][0],
+                            'start right upper arm trunk': right_ut_points[:1][0],
+                            'min right upper arm forearm': min(right_uf_points),
+                            'max right upper arm forearm': max(right_uf_points),
+                            'min right upper arm trunk': min(right_ut_points),
+                            'max right upper arm trunk': max(right_ut_points),
+                            'finish right upper arm forearm': right_uf_points[-1:][0],
+                            'finish right upper arm trunk': right_ut_points[-1:][0]
+                        }
 
                         both_uf_angles.append(np.array(right_uf_points))
                         both_ut_angles.append(np.array(right_ut_points))
@@ -542,15 +616,26 @@ def analyse_each_rep(exercise, mode, extremas1, uf_angles1, ut_angles1, tk_angle
             min_upper_arm_trunk.append(min(left_ut_points))
 
             left_reps[left_rep_count] = [
+                'Starting position left upper arm - left forearm angle:' + str(left_uf_points[:1][0]),
+                'Starting position left upper arm - trunk angle:' + str(left_ut_points[:1][0]),
                 'Left upper arm - left forearm -> Minimum Angle:' + str(min(left_uf_points)),
                 'Left upper arm - left forearm -> Maximum Angle:' + str(max(left_uf_points)),
                 'Left upper arm - trunk -> Maximum Angle: ' + str(max(left_ut_points)),
-                'Left upper arm - trunk -> Minimum Angle: ' + str(min(left_ut_points)) + '\n']
+                'Left upper arm - trunk -> Minimum Angle: ' + str(min(left_ut_points)) + '\n',
+                'Finishing position left upper arm - left forearm angle:' + str(left_uf_points[-1:][0]),
+                'Finishing position left upper arm - trunk angle:' + str(left_ut_points[-1:][0])
+            ]
 
-            evaluation_left[left_rep_count] = {'min left upper arm forearm': min(left_uf_points),
-                                               'max left upper arm forearm': max(left_uf_points),
-                                               'min left upper arm trunk': min(left_ut_points),
-                                               'max left upper arm trunk': max(left_ut_points)}
+            evaluation_left[left_rep_count] = {
+                'start left upper arm forearm': left_uf_points[:1][0],
+                'start left upper arm trunk': left_ut_points[:1][0],
+                'min left upper arm forearm': min(left_uf_points),
+                'max left upper arm forearm': max(left_uf_points),
+                'min left upper arm trunk': min(left_ut_points),
+                'max left upper arm trunk': max(left_ut_points),
+                'finish left upper arm forearm': left_uf_points[-1:][0],
+                'finish left upper arm trunk': left_ut_points[-1:][0]
+            }
 
             both_uf_angles.append(np.array(left_uf_points))
             both_ut_angles.append(np.array(left_ut_points))
@@ -567,15 +652,27 @@ def analyse_each_rep(exercise, mode, extremas1, uf_angles1, ut_angles1, tk_angle
             min_upper_arm_trunk.append(min(right_ut_points))
 
             right_reps[right_rep_count] = [
-                'Right upper arm - left forearm -> Minimum Angle:' + str(min(right_uf_points)),
-                'Right upper arm - left forearm -> Maximum Angle:' + str(max(right_uf_points)),
+                'Starting position right upper arm - right forearm angle:' + str(right_uf_points[:1][0]),
+                'Starting position right upper arm - trunk angle:' + str(right_ut_points[:1][0]),
+                'Right upper arm - right forearm -> Minimum Angle:' + str(min(right_uf_points)),
+                'Right upper arm - right forearm -> Maximum Angle:' + str(max(right_uf_points)),
                 'Right upper arm - trunk -> Maximum Angle: ' + str(max(right_ut_points)),
-                'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n']
+                'Right upper arm - trunk -> Minimum Angle: ' + str(min(right_ut_points)) + '\n',
+                'Finishing position right upper arm - right forearm angle:' + str(right_uf_points[-1:][0]),
+                'Finishing position right upper arm - trunk angle:' + str(right_ut_points[-1:][0])
 
-            evaluation_right[right_rep_count] = {'min right upper arm forearm': min(right_uf_points),
-                                                 'max right upper arm forearm': max(right_uf_points),
-                                                 'min right upper arm trunk': min(right_ut_points),
-                                                 'max right upper arm trunk': max(right_ut_points)}
+            ]
+
+            evaluation_right[right_rep_count] = {
+                'start right upper arm forearm': right_uf_points[:1][0],
+                'start right upper arm trunk': right_ut_points[:1][0],
+                'min right upper arm forearm': min(right_uf_points),
+                'max right upper arm forearm': max(right_uf_points),
+                'min right upper arm trunk': min(right_ut_points),
+                'max right upper arm trunk': max(right_ut_points),
+                'finish right upper arm forearm': right_uf_points[-1:][0],
+                'finish right upper arm trunk': right_ut_points[-1:][0]
+            }
 
             both_uf_angles.append(np.array(right_uf_points))
             both_ut_angles.append(np.array(right_ut_points))

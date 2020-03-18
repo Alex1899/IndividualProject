@@ -4,11 +4,14 @@ import os
 import subprocess
 import sys
 from Frame import FramePose
-
+import numpy as np
+"""
 try:
-    import numpy
+   
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "numpy", "--user"])
+    import numpy as np
+"""
 
 
 def parse_frames(path_to_jsons):
@@ -25,13 +28,13 @@ def parse_frames(path_to_jsons):
         with open(json_files[num]) as obj:
             file_json = json.load(obj)
             if len(file_json['people']) > 0:
-                keypoints = numpy.array(file_json['people'][0]['pose_keypoints_2d'])
+                keypoints = np.array(file_json['people'][0]['pose_keypoints_2d'])
                 pose = FramePose(keypoints.reshape((25, 3)))
                 frame_poses.append(pose)
 
-    torso_values = numpy.array([])
-    torso_values = numpy.append(torso_values,[distance(pose.joint_keypoints['NECK'], pose.joint_keypoints['MIDHIP']) for pose in frame_poses])
-    mean_torso_value = numpy.mean(torso_values)
+    torso_values = np.array([])
+    torso_values = np.append(torso_values,[distance(pose.joint_keypoints['NECK'], pose.joint_keypoints['MIDHIP']) for pose in frame_poses])
+    mean_torso_value = np.mean(torso_values)
     
     frame_poses = [normalise(pose, mean_torso_value) for pose in frame_poses]
           
@@ -45,7 +48,7 @@ def distance(joint1, joint2):
     :param joint2: Second joint
     :return: distance between joints
     """
-    dist = numpy.sqrt(numpy.square(joint1[0] - joint2[0]) + numpy.square((joint1[1] - joint2[1])))
+    dist = np.sqrt(np.square(joint1[0] - joint2[0]) + np.square((joint1[1] - joint2[1])))
     return dist
 
 
