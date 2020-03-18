@@ -247,7 +247,7 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion=False):
 
 # Could modify this function to use across other exercise classes
 # local minima points are minimum angles in each rep, no need to calc again
-def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_angles1=None, extremas2=None, uf_angles2=None, ut_angles2=None, tk_angles2=None):
+def analyse_each_rep(exercise, mode, extremas1, uf_angles1, ut_angles1, tk_angles1=None, extremas2=None, uf_angles2=None, ut_angles2=None, tk_angles2=None):
     if len(extremas1) == 0:
         return None
 
@@ -399,20 +399,20 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
             tk_df.append(np.array(tk_points))
             #angles_each_rep.extend((np.array(uf_points), np.array(ut_points), np.array(tk_points)))
 
-        if string == 'dataset':
+        if mode == 'dataset':
             #angles_each_rep
             return uf_df, ut_df, tk_df
-        elif string == 'analysis':
+        elif mode == 'analysis':
             print('Number of reps performed: ' + str(rep_count))
             for k, v in all_reps.items():
                 print('\n' + 'Repetition: ' + str(k) + '\n')
                 for s in v:
                     print(s)
-        elif string == 'evaluation':
+        elif mode == 'evaluation':
 
             return evaluation
 
-        elif string == 'thresholds':
+        elif mode == 'thresholds':
             return min_upper_arm_forearm, max_upper_arm_forearm, min_upper_arm_trunk, max_upper_arm_trunk, min_trunk_knee, max_trunk_knee
         else:
             print('Error: Wrong function mode')
@@ -600,24 +600,24 @@ def analyse_each_rep(exercise, string, extremas1, uf_angles1, ut_angles1, tk_ang
         else:
             return "Error: Rep counts for left and right arms are not equal"
 
-        if string == 'dataset':
+        if mode == 'dataset':
             if len(left_side_angles) == len(right_side_angles):
                 #left_side_angles + right_side_angles, (l_uf_count + l_ut_count, r_uf_count + r_ut_count)
                 return both_uf_angles, both_ut_angles
             else:
                 print('Left and Right side anlges are not equal!')
 
-        elif string == 'analysis':
+        elif mode == 'analysis':
             print('Number of reps performed: ' + str(left_rep_count))
             for k, v in all_reps.items():
                 print('\n' + 'Repetition: ' + str(k) + '\n')
                 for s in v:
                     for m in s:
                         print(str(m))
-        elif string == 'evaluation':
+        elif mode == 'evaluation':
             return evaluation_both_arms
 
-        elif string == 'thresholds':
+        elif mode == 'thresholds':
             return min_upper_arm_forearm, max_upper_arm_forearm, min_upper_arm_trunk, max_upper_arm_trunk
         else:
             print('Error: Wrong function mode')

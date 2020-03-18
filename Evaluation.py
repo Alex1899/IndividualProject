@@ -114,7 +114,7 @@ def bicep_curl_evaluation(frame_pose, display):
     return get_evaluation_decision(feedback, rep_count, display)
 
 
-def triceps_pushdown_evaluation(frame_pose, display):
+def triceps_pushdown_evaluation(frame_pose, display=True):
     feedback = []
     jointAngles = JointAngles('triceps pushdown', frame_pose)
 
