@@ -1,0 +1,17 @@
+Biceps: 
+Without filtering:  0.7164179104477612
+With filtering: 0.9552238805970149
+
+Triceps:
+Without filtering: 0.8017241379310345
+With filtering: 0.9396551724137931
+
+Front raise:
+Without filtering: 0.6231884057971014
+With filtering:  0.9710144927536232
+
+
+Shoulder press:
+Without filtering: 0.9696969696969697
+
+With Filtering: 1.0

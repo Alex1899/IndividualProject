@@ -1,0 +1,1 @@
+update filter extrema to remove start extrema point error

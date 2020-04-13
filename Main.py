@@ -27,25 +27,24 @@ def main():
             video_folders = glob.glob(os.path.join(os.getcwd(), arguments.videos_folder, arguments.exercise))
         else:
             video_folders = glob.glob(os.path.join(os.getcwd(), arguments.videos_folder, '*'))
-        print(video_folders)
-
+      
         #print(os.getcwd())
+        if video_folders == []:
+            print('Videos are not in exercise name folders')
+            
         for vid_folder in video_folders:
             exercise_videos = glob.glob(vid_folder + '/*')
-            #print(exercise_videos)
-
+          
             for video in exercise_videos:
                 os.chdir('../IndividualProject')
                 video_name = os.path.basename(video)
                 points_folder_name = str(video_name.split('.', 1)[0])
-                print(points_folder_name)
                 output_points_folder = os.path.join(os.getcwd(), arguments.keypoints_folder, os.path.basename(vid_folder), points_folder_name)
                 #print(output_points_folder)
 
                 if not os.path.exists(output_points_folder):
                     os.makedirs(output_points_folder)
-                    print(output_points_folder)
-
+                    
                 os.chdir('../openpose')
                 print(os.getcwd())
                 #print(arguments.output_videos_folder)
@@ -56,11 +55,7 @@ def main():
                     os.makedirs(output_videos_folder)
                     #print(output_videos_folder)
 
-
-                #print(output_videos_folder)
-
                 output_video = os.path.join(output_videos_folder, points_folder_name + '.avi')
-                print(output_video)
                 openpose_demo = os.path.join('bin', 'OpenPoseDemo.exe')
                 #print(output_video)
 
