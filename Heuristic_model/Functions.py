@@ -120,11 +120,11 @@ def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, ma
     counts_to_remove = []
     ls_copy = ls
     size = len(ls)
-    # print('counts less than threshold: ' + str(ls))
+    #print('counts less than threshold: ' + str(ls))
     if size > 0:
         while len(ls) != 0:
             for n in ls:
-                # print('count: ' + str(n))
+                #print('count: ' + str(n))
                 idx = count_list.index(n)
                 point1 = extremas_array[idx]
                 point2 = extremas_array[idx + 1]
@@ -138,8 +138,8 @@ def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, ma
                     point_to_remove = max_point
                     start_point = min_point
 
-                # print('point1: ' + str(point1) + ' & point2: ' + str(point2))
-                # print('deleted: ' + str(point_to_remove))
+                #print('point1: ' + str(point1) + ' & point2: ' + str(point2))
+                #print('deleted: ' + str(point_to_remove))
 
                 # store points and indexes to remove
                 points_to_delete.append(point_to_remove)
@@ -153,22 +153,22 @@ def filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, ma
                             counts_to_remove.append(n)
                         else:
                             counts_to_remove.extend((n, count_list[idx + 1]))
-                    # print(counts_to_remove)
+                    #print('counts to remove',counts_to_remove)
                 ls = ls[1:]
                 count_list[idx] = 0
-                # print('count list after: ' + str(count_list))
-        # print('\n')
+                #print('count list after: ' + str(count_list))
+        #print('\n')
 
         for n in counts_to_remove:
             if n in count_list:
                 count_list.remove(n)
         points_to_delete = list(dict.fromkeys(points_to_delete))
-        # print('points to delete: ' + str(points_to_delete))
-        # print('size: ' + str(len(points_to_delete)))
+        #print('points to delete: ' + str(points_to_delete))
+        #print('size: ' + str(len(points_to_delete)))
         index_list = [np.argwhere(extremas_array == n)[0][0] for n in points_to_delete]
         extremas_array = np.delete(extremas_array, index_list)
-        # print('New extrema array: ' + str(extremas_array))
-        # print('size: ' + str(extremas_array.size))
+        #print('New extrema array: ' + str(extremas_array))
+        #print('size: ' + str(extremas_array.size))
 
     return extremas_array
 
@@ -231,21 +231,21 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion1=True, 
     if recursion2:
         # print('\nTesting to filter by number of angles inbetween....')
         count_list = count_angles_between_extremas(angles_array, extremas_array)
-        # print('count list: ' + str(count_list))
+        #print('count list: ' + str(count_list))
         avr_count = int(sum(count_list) / len(count_list))
         threshold = int(avr_count / 2) + len(count_list)
-        # print('threshold: ' + str(threshold))
-        # print('average count: ' + str(avr_count))
+        #print('threshold: ' + str(threshold))
+        #print('average count: ' + str(avr_count))
         ls = [n for n in count_list if n < threshold]
 
         if len(ls) > 0:
-            # print(ls)
+            #print(ls)
             # old threshold - 25
             if avr_count - min(ls) > 15:
-                # print('Testing Finished')
-                # print('Filtering by number of angles inbetween:')
-                # print('count_list: ' + str(count_list))
-                # print('threshold: ' + str(threshold))
+                #print('Testing Finished')
+                #print('Filtering by number of angles inbetween:')
+                #print('count_list: ' + str(count_list))
+                #print('threshold: ' + str(threshold))
                 extremas_array = filter_extrema_by_angles_number_inbetween(extremas_array, count_list, ls, maxima)
 
                 # recursion
@@ -256,10 +256,10 @@ def filter_extremas(angles_array, extremas_array, maxima=True, recursion1=True, 
                 ls2 = [n for n in count_list2 if n < threshold2]
                 if len(ls2) > 0:
                     if avr_count2 - min(ls2) > 25:
-                        # print('\nStarting another stage of filtering...\n')
+                        #print('\nStarting another stage of filtering...\n')
                         extremas_array = filter_extremas(angles_array, extremas_array, maxima, recursion1=False)
-        # else:
-        # print('Filtering by number of angles N/A')
+        #else:
+            #print('Filtering by number of angles N/A')
 
         # if recursion2:
         # print('Array filtering: Done')
