@@ -11,29 +11,17 @@ from Functions import detect_side
 
 
 class JointAngles:
-    def __init__(self, string, frame_poses):
+    def __init__(self, string, frame_pose):
         if string == 'bicep_curl' or string == 'front_raise' or string == 'triceps_pushdown':
-            self.side = detect_side(frame_poses)
-
-            # filtered keypoints
-
-            if self.side == 'right':
-                joints = ['RSHOULDER', 'RELBOW', 'RWRIST', 'RHIP', 'RKNEE', 'NECK', 'MIDHIP']
-
-                parts = [[posture.joint_keypoints[joint] for joint in joints] for posture in frame_poses]
-                parts_filtered = [part for part in parts if all(joint_points[2] != 0 for joint_points in part)]
-
-            else:
-                joints = ['LSHOULDER', 'LELBOW', 'LWRIST', 'LHIP', 'LKNEE', 'NECK', 'MIDHIP']
-
-                parts = [[posture.joint_keypoints[joint] for joint in joints] for posture in frame_poses]
-                parts_filtered = [part for part in parts if all(joint_points[2] != 0 for joint_points in part)]
+            self.side, parts_filtered = detect_side(frame_pose)
 
             forearm_vects = get_forearm_vectors(parts_filtered)
+
 
             # self.forearm_vects.append(forearm_vect)
             upArm_vects = get_upper_arm_vectors(parts_filtered)
             # self.upArm_vects.append(upArm_vect)
+            print(upArm_vects, forearm_vects)
             self.upArm_forearm_angles = get_upper_arm_forearm_angles(upArm_vects, forearm_vects)
             trunk_vects = get_trunk_vectors(parts_filtered)
             # self.trunk_vects.append(trunk_vect)
@@ -47,7 +35,7 @@ class JointAngles:
             joints = ['LSHOULDER', 'RSHOULDER', 'LELBOW', 'RELBOW', 'LWRIST', 'RWRIST',
                       'NECK', 'MIDHIP']
 
-            parts = [[posture.joint_keypoints[joint] for joint in joints] for posture in frame_poses]
+            parts = [frame_pose.joint_keypoints[joint] for joint in joints]
 
             parts_filtered = [part for part in parts if all(joint_points[2] != 0 for joint_points in part)]
 
@@ -101,11 +89,11 @@ def get_upper_arm_vectors(parts, view='side'):
     if view == 'side':
         # [0]- x; [1] - y, [2] - c
         # Shoulder - Elbow
-        upArm_vects = [[part[0][0] - part[1][0], part[0][1] - part[1][1]] for part in parts]
+        upArm_vects = [parts[0][0] - parts[1][0], parts[0][1] - parts[1][1]]
         return upArm_vects
     elif view == 'front':
-        left_upArm_vects = [[part[0][0] - part[2][0], part[0][1] - part[2][1]] for part in parts]
-        right_upArm_vects = [[part[1][0] - part[3][0], part[1][1] - part[3][1]] for part in parts]
+        left_upArm_vects = [parts[0][0] - parts[2][0], parts[0][1] - parts[2][1]]
+        right_upArm_vects = [parts[1][0] - parts[3][0], parts[1][1] - parts[3][1]]
         return left_upArm_vects, right_upArm_vects
 
 
@@ -116,11 +104,11 @@ def get_forearm_vectors(parts, view='side'):
 
     if view == 'side':
         # Wrist - Elbow
-        forearm_vects = [[part[2][0] - part[1][0], part[2][1] - part[1][1]] for part in parts]
+        forearm_vects = [parts[2][0] - parts[1][0], parts[2][1] - parts[1][1]]
         return forearm_vects
     elif view == 'front':
-        left_forearm_vects = [[part[4][0] - part[2][0], part[4][1] - part[2][1]] for part in parts]
-        right_forearm_vects = [[part[5][0] - part[3][0], part[5][1] - part[3][1]] for part in parts]
+        left_forearm_vects = [parts[4][0] - parts[2][0], parts[4][1] - parts[2][1]]
+        right_forearm_vects = [parts[5][0] - parts[3][0], parts[5][1] - parts[3][1]]
         return left_forearm_vects, right_forearm_vects
 
 
@@ -132,10 +120,10 @@ def get_trunk_vectors(parts, view='side'):
 
     if view == 'side':
         # Neck - MidHip
-        trunk_vects = [[part[5][0] - part[6][0], part[5][1] - part[6][1]] for part in parts]
+        trunk_vects = [parts[5][0] - parts[6][0], parts[5][1] - parts[6][1]]
         return trunk_vects
     elif view == 'front':
-        trunk_vects = [[part[6][0] - part[7][0], part[6][1] - part[7][1]] for part in parts]
+        trunk_vects = [parts[6][0] - parts[7][0], parts[6][1] - parts[7][1]]
         return trunk_vects
 
 
@@ -146,29 +134,26 @@ def get_knee_vects(parts):
         return None
 
     # Knee - Hip
-    knee_vects = [[part[4][0] - part[3][0], part[4][1] - part[3][1]] for part in parts]
+    knee_vects = [parts[4][0] - parts[3][0], parts[4][1] - parts[3][1]]
     return knee_vects
 
 
 def get_upper_arm_trunk_angles(trunk_vects, upper_arm_vects1, upper_arm_vects2=None):
-    upArm_trunk_angle1 = [calc_angle(upper_arm_vect, trunk_vect) for upper_arm_vect, trunk_vect in
-                          zip(upper_arm_vects1, trunk_vects)]
+    upArm_trunk_angle1 = [calc_angle(upper_arm_vects1, trunk_vects)]
     if upper_arm_vects2 is None:
         return upArm_trunk_angle1
     else:
-        upArm_trunk_angle2 = [calc_angle(upper_arm_vect, trunk_vect) for upper_arm_vect, trunk_vect in
-                              zip(upper_arm_vects2, trunk_vects)]
+        upArm_trunk_angle2 = [calc_angle(upper_arm_vects2, trunk_vects)]
         return upArm_trunk_angle2, upArm_trunk_angle1
 
 
 def get_upper_arm_forearm_angles(upper_arm_vects1, forearm_vects1, upper_arm_vects2=None, forearm_vects2=None):
-    upArm_forearm_angle1 = [calc_angle(upper_arm_vect, forearm_vect) for upper_arm_vect, forearm_vect in
-                            zip(upper_arm_vects1, forearm_vects1)]
+    upArm_forearm_angle1 = [calc_angle(upper_arm_vects1, forearm_vects1)]
+
     if upper_arm_vects2 is None and forearm_vects2 is None:
         return upArm_forearm_angle1
     elif upper_arm_vects2 is not None and forearm_vects2 is not None:
-        upArm_forearm_angle2 = [calc_angle(upper_arm_vect, forearm_vect) for upper_arm_vect, forearm_vect in
-                                zip(upper_arm_vects2, forearm_vects2)]
+        upArm_forearm_angle2 = [calc_angle(upper_arm_vects2, forearm_vects1)]
         return upArm_forearm_angle2, upArm_forearm_angle1
     else:
         return None
@@ -177,11 +162,9 @@ def get_upper_arm_forearm_angles(upper_arm_vects1, forearm_vects1, upper_arm_vec
 # One side for now
 def get_trunk_knee_angles(trunk_vects, knee_vects, side):
     if side == 'right':
-        trunk_knee_angles = [calc_tk_angle(knee_vect, trunk_vect) for trunk_vect, knee_vect in
-                             zip(trunk_vects, knee_vects)]
+        trunk_knee_angles = [calc_tk_angle(knee_vects, trunk_vects)]
     elif side == 'left':
-        trunk_knee_angles = [calc_tk_angle(trunk_vect, knee_vect) for trunk_vect, knee_vect in
-                             zip(trunk_vects, knee_vects)]
+        trunk_knee_angles = [calc_tk_angle(trunk_vects, knee_vects)]
     else:
         return None
 

@@ -14,7 +14,8 @@ except ImportError:
     from scipy.signal import medfilt
 
 from JointAngles import JointAngles
-from Functions import find_extremas, filter_extremas, analyse_each_rep, get_evaluation_decision
+from Functions import find_extremas, filter_extremas, analyse_each_rep, get_evaluation_decision, get_angles_before_extrema
+import matplotlib.pyplot as plt
 
 
 def evaluate_form(frame_pose, exercise, display):
@@ -30,41 +31,34 @@ def evaluate_form(frame_pose, exercise, display):
         print('Error: Wrong exercise.')
 
 
-def bicep_curl_evaluation(frame_pose, display):
-    # check upper arm forearm angle
-    # check upper arm trunk angle
-    # check trunk knee vector
-    # possibly check tempo of the rep (not yet)
+def bicep_curl_evaluation(extrema, upArm_foream_angles, upArm_trunk_angles, trunk_knee_angles, rep_count, display=True):
+    evaluation = {}
     feedback = []
-    jointAngles = JointAngles('bicep_curl', frame_pose)
+    print(upArm_foream_angles)
 
-    if display is True:
-        print('Starting Bicep Curl Analysis...')
-        print('Detected side: ' + jointAngles.side)
+    index = np.argwhere(upArm_foream_angles == extrema)[0][0]
+    num = np.arange(0, index + 1)
+    uf_points, upArm_foream_angles = get_angles_before_extrema(num, upArm_foream_angles)
+    ut_points, upArm_trunk_angles = get_angles_before_extrema(num, upArm_trunk_angles)
+    tk_points, trunk_knee_angles = get_angles_before_extrema(num, trunk_knee_angles)
 
-    upArm_trunk_angles = np.array(jointAngles.upArm_trunk_angles)
-    upArm_trunk_angles_filtered = medfilt(medfilt(upArm_trunk_angles, 5), 5)
 
-    upArm_forearm_angles = np.array(jointAngles.upArm_forearm_angles)
-    upArm_forearm_angles_filtered = medfilt(medfilt(upArm_forearm_angles, 5), 5)
+    evaluation[rep_count] = {
+        "start upper arm forearm": uf_points[:1][0],
+        "start upper arm trunk": ut_points[:1][0],
+        "start trunk knee": tk_points[:1][0],
+        'max upper arm forearm': max(uf_points),
+        'max upper arm trunk': max(ut_points),
+        'max trunk knee': max(tk_points),
+        'min trunk knee': min(tk_points),
+        'min upper arm trunk': min(ut_points),
+        'min upper arm forearm': min(uf_points),
+        'finish upper arm forearm': uf_points[-1:][0],
+        'finish upper arm trunk': ut_points[-1:][0],
+        'finish trunk knee': tk_points[-1:][0]
+    }
 
-    trunk_knee_angles = np.array(jointAngles.trunk_knee_angles)
-    trunk_knee_angles_filtered = medfilt(medfilt(trunk_knee_angles, 5), 5)
-
-    # Find joint maximass
-    extrema = filter_extremas(upArm_forearm_angles_filtered, find_extremas(upArm_forearm_angles_filtered))
-
-    if extrema.size < 2:
-        print("Only 1 repetition was performed!")
-
-    reps_analysis_dict = analyse_each_rep(exercise='bicep_curl', mode='evaluation', extremas1=extrema,
-                                          uf_angles1=upArm_forearm_angles_filtered,
-                                          ut_angles1=upArm_trunk_angles_filtered,
-                                          tk_angles1=trunk_knee_angles_filtered)
-
-    rep_count = len(reps_analysis_dict.keys())
-
-    for key, value in reps_analysis_dict.items():
+    for key, value in evaluation.items():
         # starting positiong:
         if value['start upper arm trunk'] < 21 and value['start upper arm forearm'] >= 138 \
                 and 195 > value['start trunk knee'] >= 165:
@@ -89,14 +83,8 @@ def bicep_curl_evaluation(frame_pose, display):
             feedback2 = 'Good Form: The weight was brought up high enough for a good contraction.\n'
 
         else:
-            # not curling high enough
-            if key < int(rep_count * (2 / 5)):  # 40% of the rep
-                feedback2 = 'Bad Form: The weight has not been curled high enough. This could be because the ' \
-                            'weight is too heavy.\nFix: Consider lowering the weight to properly target ' \
-                            'your biceps and avoid the risk of injury.\n'
-            else:
-                feedback2 = 'Bad Form:  The weight has not been curled high enough.\nFix: Focus on bringing the ' \
-                            'weight higher in order to get maximum biceps contraction.\n'
+            feedback2 = 'Bad Form:  The weight has not been curled high enough.\nFix: Focus on bringing the ' \
+                        'weight higher in order to get maximum biceps contraction.\n'
         """"
         if value['max upper arm forearm'] >= 140:  # edit threshold
             feedback3 = 'Good Form: The weight was lowered and correct starting position was achieved.\n'
@@ -124,12 +112,7 @@ def bicep_curl_evaluation(frame_pose, display):
             feedback6 = 'Good Form: No leaning backwards excessively.\n'
         else:
             if value['max trunk knee'] > 195:
-                if key < int(rep_count * (2 / 5)):
-                    feedback6 = 'Bad Form: Leaning backwards significantly.This could be because the weight is too heavy.' \
-                                ' This puts a lot of pressure on the lower back.\nFix: Consider lowering the weight.' \
-                                ' Keep your back straight and focus the effort on the biceps only.\n'
-                else:
-                    feedback6 = 'Bad Form: Leaning backwards significantly.\nFix Try to keep your back still and straight' \
+                feedback6 = 'Bad Form: Leaning backwards significantly.\nFix Try to keep your back still and straight' \
                                 ' throughout the movement.\n'
             else:
                 feedback6 = 'Error'
@@ -153,7 +136,9 @@ def bicep_curl_evaluation(frame_pose, display):
 
         feedback.append(((feedback1, feedback2, feedback4, feedback5, feedback6, feedback7), key))
 
-    return get_evaluation_decision(feedback, rep_count, display)
+    get_evaluation_decision(feedback, display)
+
+    return upArm_foream_angles, upArm_trunk_angles, trunk_knee_angles
 
 
 def triceps_pushdown_evaluation(frame_pose, display=True):
