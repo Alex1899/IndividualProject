@@ -30,6 +30,9 @@ def parse_frames(path_to_json):
 
     with open(path_to_json) as obj:
         file_json = json.load(obj)
+
+        if not file_json['people']:
+            return
         keypoints = np.array(file_json['people'][0]['pose_keypoints_2d'])
         pose = FramePose(keypoints.reshape((25, 3)))
 

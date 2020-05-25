@@ -22,16 +22,26 @@ import time
 import json
 import numpy as np
 
-output_points_folder = ''
 exercise = ''
 feedback = []
 json_files_list = []
+upArm_forearm_angles = np.array([])
+upArm_trunk_angles = np.array([])
+trunk_knee_angles = np.array([])
+rep_count = 0
+p = None
 
 
 class JSONHandler(FileSystemEventHandler):
+
     def on_created(self, event):
-        json_files_list.append(event.src_path)
+        #print(event.src_path)
+        global exercise
+
+        # json_files_list.append(event.src_path)
         # print(event.src_path)
+        if exercise == 'bicep_curl':
+            biceps_real_time_analysiss(event.src_path)
 
 
 def main():
@@ -49,6 +59,7 @@ def main():
 
     if arguments.mode == 'evaluation':
         if arguments.exercise:
+            global exercise
             exercise = arguments.exercise
             os.chdir('../IndividualProject')
             dateTime = datetime.now()
@@ -80,17 +91,9 @@ def main():
                 # set observer to use created handler in directory
                 observer.schedule(event_handler, path=output_points_folder)
                 observer.start()
+                global p
                 p = subprocess.Popen([openpose_demo, '--write_json', output_points_folder,
                                       '--number_people_max', '1'] + ls)
-                time.sleep(4)
-                print(json_files_list)
-
-                if exercise == 'bicep_curl':
-
-                    biceps_real_time_analysis(json_files_list)
-
-
-
 
                 # sleep until keyboard interrupt, then stop + rejoin the observer
                 try:
@@ -111,37 +114,45 @@ def main():
         print('Wrong mode. Please use one of the followings: evaluation, keypoints_extraction.')
 
 
-def biceps_real_time_analysis(json_files_list):
-    upArm_forearm_angles = np.array([])
-    upArm_trunk_angles = np.array([])
-    trunk_knee_angles = np.array([])
-    rep_count = 0
-    if json_files_list:
-        for js_file in json_files_list:
-            frame_pose_obj = pr.parse_frames(js_file)
-            jointAngles = JointAngles('bicep_curl', frame_pose_obj)
-            upArm_forearm_angles = np.append(upArm_forearm_angles, jointAngles.upArm_forearm_angles[0])
-            upArm_trunk_angles = np.append(upArm_trunk_angles, jointAngles.upArm_trunk_angles[0])
-            trunk_knee_angles = np.append(trunk_knee_angles, jointAngles.trunk_knee_angles[0])
+def biceps_real_time_analysiss(js_file):
+    global upArm_forearm_angles
+    global upArm_trunk_angles
+    global trunk_knee_angles
+    global rep_count
 
-            extrema = find_extremas(np.array(upArm_forearm_angles))
+    frame_pose_obj = pr.parse_frames(js_file)
+    if frame_pose_obj is None:
+        print('--'*20 + '- ERROR -' + '--'*20)
+        print('Error: Could not detect the pose. Please, make sure your whole body is in the frame.')
+        print('\n')
+        return
 
-            if extrema.size == 0:
-                pass
-            else:
-                rep_count += 1
-                upArm_forearm_angles, upArm_trunk_angles, trunk_knee_angles = eval.bicep_curl_evaluation(extrema,
-                                                                                                         np.array(
-                                                                                                             upArm_forearm_angles),
-                                                                                                         np.array(
-                                                                                                             upArm_trunk_angles),
-                                                                                                         np.array(
-                                                                                                             trunk_knee_angles),
-                                                                                                         rep_count)
+    jointAngles = JointAngles('bicep_curl', frame_pose_obj)
+    if not jointAngles.parts_filtered:
+        print('--' * 20 + '- ERROR -' + '--' * 20)
+        print('Error: Could not detect all body parts. Please, make sure all of your body parts are in the frame.')
+        print('\n')
+        return
 
+    upArm_forearm_angles = np.append(upArm_forearm_angles, jointAngles.upArm_forearm_angles[0])
+    upArm_trunk_angles = np.append(upArm_trunk_angles, jointAngles.upArm_trunk_angles[0])
+    trunk_knee_angles = np.append(trunk_knee_angles, jointAngles.trunk_knee_angles[0])
+
+    extrema = find_extremas(np.array(upArm_forearm_angles))
+
+    if extrema.size == 0:
+        pass
     else:
-        print('json file list is empty, trying again')
-        #biceps_real_time_analysis(json_files_list)
+        rep_count += 1
+        upArm_forearm_angles, upArm_trunk_angles, trunk_knee_angles = eval.bicep_curl_evaluation(extrema,
+                                                                                                 np.array(
+                                                                                                     upArm_forearm_angles),
+                                                                                                 np.array(
+                                                                                                     upArm_trunk_angles),
+                                                                                                 np.array(
+                                                                                                     trunk_knee_angles),
+                                                                                                 rep_count)
+
 
 
 if __name__ == "__main__":

@@ -1,3 +1,1 @@
 1) Need to test the system on a good camera
-2) with laptop camera there is too much noise
-3) Need to find a way to detect change to the josn files list, and then start the function.

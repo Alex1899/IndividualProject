@@ -11,22 +11,25 @@ from Functions import detect_side
 
 
 class JointAngles:
+
     def __init__(self, string, frame_pose):
         if string == 'bicep_curl' or string == 'front_raise' or string == 'triceps_pushdown':
-            self.side, parts_filtered = detect_side(frame_pose)
+            self.side, self.parts_filtered = detect_side(frame_pose)
+            if not self.parts_filtered:
+                return
 
-            forearm_vects = get_forearm_vectors(parts_filtered)
+            forearm_vects = get_forearm_vectors(self.parts_filtered)
 
 
             # self.forearm_vects.append(forearm_vect)
-            upArm_vects = get_upper_arm_vectors(parts_filtered)
+            upArm_vects = get_upper_arm_vectors(self.parts_filtered)
             # self.upArm_vects.append(upArm_vect)
-            print(upArm_vects, forearm_vects)
+
             self.upArm_forearm_angles = get_upper_arm_forearm_angles(upArm_vects, forearm_vects)
-            trunk_vects = get_trunk_vectors(parts_filtered)
+            trunk_vects = get_trunk_vectors(self.parts_filtered)
             # self.trunk_vects.append(trunk_vect)
             self.upArm_trunk_angles = get_upper_arm_trunk_angles(upArm_vects, trunk_vects)
-            knee_vects = get_knee_vects(parts_filtered)
+            knee_vects = get_knee_vects(self.parts_filtered)
             # self.knee_vects.append(knee_vect)
             self.trunk_knee_angles = get_trunk_knee_angles(trunk_vects, knee_vects, self.side)
 
@@ -37,11 +40,11 @@ class JointAngles:
 
             parts = [frame_pose.joint_keypoints[joint] for joint in joints]
 
-            parts_filtered = [part for part in parts if all(joint_points[2] != 0 for joint_points in part)]
+            self.parts_filtered = [part for part in parts if all(joint_points[2] != 0 for joint_points in part)]
 
-            self.left_forearm_vects, self.right_forearm_vects = get_forearm_vectors(parts_filtered, view='front')
-            self.left_upArm_vects, self.right_upArm_vects = get_upper_arm_vectors(parts_filtered, view='front')
-            self.trunk_vects = get_trunk_vectors(parts_filtered, view='front')
+            self.left_forearm_vects, self.right_forearm_vects = get_forearm_vectors(self.parts_filtered, view='front')
+            self.left_upArm_vects, self.right_upArm_vects = get_upper_arm_vectors(self.parts_filtered, view='front')
+            self.trunk_vects = get_trunk_vectors(self.parts_filtered, view='front')
 
             self.left_upArm_forearm_angles, self.right_upArm_forearm_angles = get_upper_arm_forearm_angles(
                 self.right_upArm_vects,
@@ -54,6 +57,9 @@ class JointAngles:
                                                                                                      self.right_upArm_vects)
         else:
             print("Either typed the exercise name wrong or typed some new exercise")
+
+
+
 
 
 # Normalize vectors

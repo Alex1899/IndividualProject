@@ -34,14 +34,12 @@ def evaluate_form(frame_pose, exercise, display):
 def bicep_curl_evaluation(extrema, upArm_foream_angles, upArm_trunk_angles, trunk_knee_angles, rep_count, display=True):
     evaluation = {}
     feedback = []
-    print(upArm_foream_angles)
 
     index = np.argwhere(upArm_foream_angles == extrema)[0][0]
     num = np.arange(0, index + 1)
     uf_points, upArm_foream_angles = get_angles_before_extrema(num, upArm_foream_angles)
     ut_points, upArm_trunk_angles = get_angles_before_extrema(num, upArm_trunk_angles)
     tk_points, trunk_knee_angles = get_angles_before_extrema(num, trunk_knee_angles)
-
 
     evaluation[rep_count] = {
         "start upper arm forearm": uf_points[:1][0],
